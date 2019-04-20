@@ -2,9 +2,9 @@ from app import app
 from flask import Flask, render_template, abort
  
 PRODUCTS = {
-    'iphone': {
+    'coaching': {
         'name': 'Coaching Classes',
-        'category': 'Phones',
+        'category': 'coaching',
         'price':'Starting at 1000',
     },
     'galaxy': {
@@ -35,3 +35,8 @@ def product(key):
     if not product:
         abort(404)
     return render_template('product.html', product=product)
+
+@app.route('/coaching')
+def coaching():
+    return render_template('coaching.html')
+

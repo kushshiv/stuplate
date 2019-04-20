@@ -1,0 +1,92 @@
+{% extends 'base.html' %}
+ 
+{% block container %}
+
+<!-- start of display -->
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+<script src="//code.jquery.com/jquery-latest.min.js"></script>
+<div class="slideshow-container">
+
+<div class="mySlides fade">
+  <div class="numbertext">1 / 2</div>
+  <img src="{{ url_for('static', filename = 'img/school.jpg') }}"  height="400" width="1000">
+  <div class="text">School</div>
+</div>
+
+<div class="mySlides fade">
+  <div class="numbertext">2 / 2</div>
+  <img src="{{ url_for('static', filename = 'img/mess.jpg') }}"  height="400" width="1000">
+  <div class="text">Mess</div>
+</div>
+
+</div>
+<br>
+
+<div style="text-align:center">
+  <span class="dot"></span> 
+  <span class="dot"></span> 
+</div>
+
+<script>
+var slideIndex = 0;
+showSlides();
+
+function showSlides() {
+  var i;
+  var slides = document.getElementsByClassName("mySlides");
+  var dots = document.getElementsByClassName("dot");
+  for (i = 0; i < slides.length; i++) {
+    slides[i].style.display = "none";  
+  }
+  slideIndex++;
+  if (slideIndex > slides.length) {slideIndex = 1}    
+  for (i = 0; i < dots.length; i++) {
+    dots[i].className = dots[i].className.replace(" active", "");
+  }
+  slides[slideIndex-1].style.display = "block";  
+  dots[slideIndex-1].className += " active";
+  setTimeout(showSlides, 2000); // Change image every 2 seconds
+}
+</script>
+<!-- end of display -->
+<br>
+<!--
+  <div class="top-pad">
+    {% for id, product in products.items() %}
+      <div class="well">
+        <h2>
+          <a href="{{ url_for('product', key=id) }}">{{product['name'] }}</a>
+          <small>{{ product['price'] }}</small>
+        </h2>
+      </div>
+    {% endfor %}
+  </div>
+-->
+
+<div class="container"  style="width:100%;">
+<div id="left" style="float:left; width:50%;"> 
+	<span>Latest News</span>
+	<ul>
+		<li><a href="#">iPhone 5</a></li>
+		<li><a href="#">iPad 3</a></li>
+		<li><a href="#">MacBook Air</a></li>
+		<li><a href="#">MacBook Pro</a></li>
+	</ul>
+</div>
+
+<!--
+<div id="container" style="width:100%;">                                   
+-->
+  <div id="right" style="float:right; width:50%;"> 
+    {% for id, product in products.items() %}
+      <div class="well">
+        <h2>
+          <a href="{{ url_for('product', key=id) }}">{{product['name'] }}</a>
+          <small>{{ product['price'] }}</small>
+        </h2>
+      </div>
+    {% endfor %}
+  </div>  
+</div> 
+
+{% endblock %}
