@@ -51,13 +51,13 @@ $(window).load(function() {
 
 <div class="mySlides slide">
   <div class="numbertext">1 / 2</div>
-  <img src="{{ url_for('static', filename = 'img/school.jpg') }}"  height="400" width="1000">
+  <img src="{{ url_for('static', filename = 'img/home/school.jpg') }}"  height="400" width="1000">
   <div class="text">School</div>
 </div>
 
 <div class="mySlides slide">
   <div class="numbertext">2 / 2</div>
-  <img src="{{ url_for('static', filename = 'img/mess.jpg') }}"  height="400" width="1000">
+  <img src="{{ url_for('static', filename = 'img/home/mess.jpg') }}"  height="400" width="1000">
   <div class="text">Mess</div>
 </div>
 
@@ -94,11 +94,11 @@ function showSlides() {
 <br>
 <!--
   <div class="top-pad">
-    {% for id, product in products.items() %}
+    {% for id, item in items.items() %}
       <div class="well">
         <h2>
-          <a href="{{ url_for('product', key=id) }}">{{product['name'] }}</a>
-          <small>{{ product['price'] }}</small> 
+          <a href="{{ url_for('item', key=id) }}">{{item['name'] }}</a>
+          <small>{{ item['price'] }}</small> 
         </h2>
       </div>
     {% endfor %}
@@ -160,10 +160,10 @@ function showSlides() {
 <div id="container" style="width:100%;">                                   
 -->
   <div id="right" style="float:right; width:48%;"> 
-    {% for id, product in products.items() %}
+    {% for id, item in items.items() %}
       <div class="well">
         <h2>
-          <a href="{{ url_for('product', key=id ) }}">{{product['name'] }}</a>
+          <a href="{{ url_for('item', key=id ) }}">{{item['name'] }}</a>
         </h2>
       </div>
     {% endfor %}

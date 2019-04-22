@@ -1,23 +1,23 @@
 from app import app
 from flask import Flask, render_template, abort
  
-PRODUCTS = {
+ITEMS = {
     'coaching': {
         'name': 'Coaching Classes',
         'category': 'coaching',
         'price':'Starting at 1000',
     },
-    'galaxy': {
+    'hostels': {
         'name': 'Hostels',
         'category': 'Phones',
         'price':'Starting at 1500',
     },
-    'ipad-air': {
+    'rooms': {
         'name': 'Individual rooms/flats',
         'category': 'Tablets',
         'price':'Starting at 1500',
     },
-    'ipad-mini': {
+    'examinee': {
         'name': 'Examinee rooms',
         'category': 'Tablets',
         'price':'Starting at 2500'
@@ -27,16 +27,13 @@ PRODUCTS = {
 @app.route('/')
 @app.route('/home')
 def home():
-    return render_template('home.html', products=PRODUCTS)
+    return render_template('home.html', items=ITEMS)
  
-@app.route('/product/<key>')
-def product(key):
-    product = PRODUCTS.get(key)
-    if not product:
+@app.route('/item/<key>')
+def item(key):
+    item = ITEMS.get(key)
+    if not item:
         abort(404)
-    return render_template('product.html', product=product)
-
-@app.route('/coaching')
-def coaching():
-    return render_template('coaching.html')
+    #return render_template('item.html', item=item)
+    return render_template(key + '.html', item=item)
 
