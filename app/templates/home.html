@@ -6,46 +6,43 @@
 <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 <script src="//code.jquery.com/jquery-latest.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
-<script>
+<script type="text/javascript">
 jQuery.fn.liScroll = function(settings) {
-    settings = jQuery.extend({
+	settings = jQuery.extend({
 		travelocity: 0.03
-		}, settings);	
-		
+		}, settings);		
 		return this.each(function(){
-		var $strip = jQuery(this);
-		$strip.addClass("newsticker")
-		var stripHeight = 1;
-		$strip.find("li").each(function(i){
-			stripHeight += jQuery(this, i).outerHeight(true); // thanks to Michael Haszprunar and Fabien Volpi
-		});
-		
-		var $mask = $strip.wrap("<div class='mask'></div>");
-		var $tickercontainer = $strip.parent().wrap("<div class='tickercontainer'></div>");								
-		var containerHeight = $strip.parent().parent().height();	//a.k.a. 'mask' width 	
-		$strip.height(stripHeight);			
-		var totalTravel = stripHeight;
-		var defTiming = totalTravel/settings.travelocity;	// thanks to Scott Waye		
-		function scrollnews(spazio, tempo){
-		$strip.animate({top: '-='+ spazio}, tempo, "linear", function(){$strip.css("top", containerHeight); scrollnews(totalTravel, defTiming);});
-		}
-		
-		scrollnews(totalTravel, defTiming);				
-		$strip.hover(function(){
-		jQuery(this).stop();
-		},
-		function(){
-		var offset = jQuery(this).offset();
-		var residualSpace = offset.top + stripHeight;
-		var residualTime = residualSpace/settings.travelocity;
-		scrollnews(residualSpace, residualTime);
-		});			
+				var $strip = jQuery(this);
+				$strip.addClass("newsticker")
+				var stripHeight = 1;
+				$strip.find("li").each(function(i){
+					stripHeight += jQuery(this, i).outerHeight(true); // thanks to Michael Haszprunar and Fabien Volpi
+				});
+				var $mask = $strip.wrap("<div class='mask'></div>");
+				var $tickercontainer = $strip.parent().wrap("<div class='tickercontainer'></div>");								
+				var containerHeight = $strip.parent().parent().height();	//a.k.a. 'mask' width 	
+				$strip.height(stripHeight);			
+				var totalTravel = stripHeight;
+				var defTiming = totalTravel/settings.travelocity;	// thanks to Scott Waye		
+				function scrollnews(spazio, tempo){
+				$strip.animate({top: '-='+ spazio}, tempo, "linear", function(){$strip.css("top", containerHeight); scrollnews(totalTravel, defTiming);});
+				}
+				scrollnews(totalTravel, defTiming);				
+				$strip.hover(function(){
+				jQuery(this).stop();
+				},
+				function(){
+				var offset = jQuery(this).offset();
+				var residualSpace = offset.top + stripHeight;
+				var residualTime = residualSpace/settings.travelocity;
+				scrollnews(residualSpace, residualTime);
+				});			
 		});	
 };
-$(window).load(function() {
-    $("ul#ticker01").liScroll();
+var jqueryObj = $;
+jqueryObj(function(){
+    jqueryObj("ul#ticker01").liScroll();
 });
-
 </script>
 <div class="slideshow-container">
 
@@ -106,31 +103,33 @@ function showSlides() {
 -->
 
 <div class="container"  style="width:90%;">
-<div id="left" class="holder" style="float:left; width:48%;"> 
+<div id="left" class="holder" style="float:left; width:48%;background-image: linear-gradient(to right, #33E3FF , #33C7FF);"> 
 	<span>Latest News</span>
   <ul id="ticker01">
     	<li><a href="#">1 The first thing that most Javascript programmers</a></li>
-		<li><a href="#">2 End up doing is adding some code</a></li>
-		<li><a href="#">3 The code that you want to run</a></li>
-		<li><a href="#">4 Inside of which is the code that you want to run</a></li>
-		<li><a href="#">5 Right when the page is loaded</a></li>
-		<li><a href="#">6 Problematically, however, the Javascript code</a></li>
-		<li><a href="#">7 The first thing that most Javascript programmers</a></li>
-		<li><a href="#">8 End up doing is adding some code</a></li>
-		<li><a href="#">9 The code that you want to run</a></li>
-		<li><a href="#">10 Inside of which is the code that you want to run</a></li>
+	<li><a href="#">2 End up doing is adding some code</a></li>
+	<li><a href="#">3 The code that you want to run</a></li>
+	<li><a href="#">4 Inside of which is the code that you want to run</a></li>
+	<li><a href="#">5 Right when the page is loaded</a></li>
+	<li><a href="#">6 Problematically, however, the Javascript code</a></li>
+	<li><a href="#">7 The first thing that most Javascript programmers</a></li>
+	<li><a href="#">8 End up doing is adding some code</a></li>
+	<li><a href="#">9 The code that you want to run</a></li>
+	<li><a href="#">10 Inside of which is the code that you want to run</a></li>
   </ul>
 </div>
 
 <style>
 
 .holder { 
-  background-color:#ccc;
+  background-color:#f5f5f5;
   width:300px;
   height:300px;
   overflow:hidden;
   padding:10px;
   font-family:Helvetica;
+  border: 2px solid red;
+  border-radius: 5px;
 }
 .holder .mask {
   position: relative;
@@ -159,11 +158,26 @@ function showSlides() {
 <!--
 <div id="container" style="width:100%;">                                   
 -->
-  <div id="right" style="float:right; width:48%;"> 
+
+<!--
+<div id="right" style="float:right; width:48%;"> 
     {% for id, item in items.items() %}
-      <div class="well">
+      <div class="well" style="border: 2px solid red; border-radius: 5px; height: 200px;text-align: center;background-image: linear-gradient(to right, #33FFD1 , #33FF9C);">
         <h2>
           <a href="{{ url_for('item', key=id ) }}">{{item['name'] }}</a>
+        </h2>
+      </div>
+    {% endfor %}
+  </div>  
+</div> 
+-->
+
+
+<div id="right" style="float:right; width:48%;"> 
+    {% for id, item in items.items() %}
+      <div class="well" style="border: 2px solid red; border-radius: 5px; height: 200px;text-align: center;background-image: linear-gradient(to right, #33FFD1 , #33FF9C);">
+        <h2>
+          <a href="{{ url_for('productList') }}">{{item['name'] }}</a>
         </h2>
       </div>
     {% endfor %}
