@@ -4,7 +4,7 @@
     {% for id, product in productList.items() %}
       <div class="well">
         <h2>
-          <a href="{{ url_for('productList', key=id) }}">{{product['name'] }}</a>
+          <a href="{{ url_for('item', key=id) }}">{{product['name'] }}</a>
           <small>$ {{ product['price'] }}</small>
         </h2>
       </div>

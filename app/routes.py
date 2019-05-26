@@ -70,11 +70,10 @@ def home():
  
 @app.route('/item/<key>')
 def item(key):
-    item = ITEMS.get(key)
+    item = productsList.get(key)
     if not item:
         abort(404)
-    #return render_template('item.html', item=item)
-    return render_template(key + '.html', item=item)
+    return render_template('item.html', item=item)
 
 @app.route('/productList')
 def productList():
