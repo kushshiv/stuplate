@@ -5,7 +5,11 @@
       <div class="well">
         <h2>
           <a href="{{ url_for('item', key=id) }}">{{product['name'] }}</a>
-          <small>$ {{ product['price'] }}</small>
+          <ul><small>
+		<li>{{ product['category'] }}</li>
+          	<li>{{ product['location'] }}</li>
+          	<li>{{ product['price'] }}</li>
+	 </small><ul>
         </h2>
       </div>
     {% endfor %}

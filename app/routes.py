@@ -7,21 +7,21 @@ ITEMS = {
         'category': 'coaching',
         'price':'Starting at 1000',
     },
-    'hostels': {
-        'name': 'Hostels',
-        'category': 'Phones',
-        'price':'Starting at 1500',
-    },
-    'rooms': {
-        'name': 'Individual rooms/flats',
-        'category': 'Tablets',
-        'price':'Starting at 1500',
-    },
-    'examinee': {
-        'name': 'Examinee rooms',
-        'category': 'Tablets',
-        'price':'Starting at 2500'
-    }
+#    'hostels': {
+#        'name': 'Hostels',
+#        'category': 'Phones',
+#        'price':'Starting at 1500',
+#    },
+#    'rooms': {
+#        'name': 'Individual rooms/flats',
+#        'category': 'Tablets',
+#        'price':'Starting at 1500',
+#    },
+#    'examinee': {
+#        'name': 'Examinee rooms',
+#        'category': 'Tablets',
+#        'price':'Starting at 2500'
+#    }
 }
  
 productsList = {
@@ -30,6 +30,7 @@ productsList = {
         'name': 'A Coaching Classes',
         'category': 'IIT',
 	'location': 'Patna',
+	'overview' : 'A Coaching Classes is leading coaching institute in Patna for IIT JEE exam. Best IIT JEE Coaching in Patna.',
         'price':'Starting at 1000',
     },  
     'coaching2': {
@@ -37,6 +38,7 @@ productsList = {
         'name': 'B Coaching Classes',
         'category': 'IIT',
         'location': 'Patna',
+	'overview' : 'B Coaching Classes is leading coaching institute in Patna for IIT JEE exam. Best IIT JEE Coaching in Patna.',
         'price':'Starting at 1500',
     },
     'coaching3': {
@@ -44,6 +46,7 @@ productsList = {
         'name': 'C Coaching Classes',
         'category': 'GATE',
         'location': 'Mumbai',
+	'overview' : 'C Coaching Classes is leading coaching institute in Mumbai for GATE exam.',
         'price':'Starting at 1600',
     },
     'coaching4': {
@@ -51,6 +54,7 @@ productsList = {
         'name': 'D Coaching Classes',
         'category': 'UPSC',
         'location': 'Pune',
+	'overview' : 'D Coaching Classes is leading coaching institute in Pune for UPSC exam. Best UPSC Coaching in Pune.',
         'price':'Starting at 100',
     },
     'coaching5': {
@@ -58,6 +62,7 @@ productsList = {
         'name': 'E Coaching Classes',
         'category': 'UPSC',
         'location': 'Pune',
+	'overview' : 'E Coaching Classes is leading coaching institute in Pune for UPSC exam.',
         'price':'Starting at 2500'
     }
 }
