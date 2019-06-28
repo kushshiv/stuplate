@@ -1,16 +1,29 @@
 {% extends 'base.html' %}
  
 {% block container %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
+    <input class="form-control" id="myInput" type="text" placeholder="Search..">
+  <br>
     {% for id, product in productList.items() %}
-      <div class="well">
-        <h2>
-          <a href="{{ url_for('item', key=id) }}">{{product['name'] }}</a>
-          <ul><small>
-		<li>{{ product['category'] }}</li>
-          	<li>{{ product['location'] }}</li>
-          	<li>{{ product['price'] }}</li>
-	 </small><ul>
-        </h2>
-      </div>
+          <div class="well">
+            <h2>
+              <a href="{{ url_for('item', key=id) }}">{{product['name'] }}</a>
+              <ul id="coachingList"><small>
+	    	<li>{{ product['category'] }}</li>
+              	<li>{{ product['location'] }}</li>
+              	<li>{{ product['price'] }}</li>
+	     </small><ul>
+            </h2>
+          </div>
     {% endfor %}
+<script>
+$(document).ready(function(){
+  $("#myInput").on("keyup", function() {
+    var value = $(this).val().toLowerCase();
+    $("#myTable tr").filter(function() {
+      $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+    });
+  });
+});
+</script>
 {% endblock %}
