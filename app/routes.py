@@ -1,5 +1,9 @@
 from app import app
-from flask import Flask, render_template, abort
+from flask import Flask, render_template, abort, flash, request
+from wtforms import Form, TextField, TextAreaField, validators, StringField, SubmitField
+from random import randint
+from time import strftime
+  
  
 ITEMS = {
     'coaching': {
@@ -68,6 +72,21 @@ productsList = {
 }
 
 
+class ReusableForm(Form):
+    name = TextField('Name:', validators=[validators.required()])
+
+def get_time():
+    time = strftime("%Y-%m-%dT%H:%M")
+    return time
+
+def write_to_disk(name, email):
+    data = open('file.log', 'a')
+    timestamp = get_time()
+    data.write('DateStamp={}, Name={}, Email={} \n'.format(timestamp, name, email))
+    data.close()
+
+
+
 @app.route('/')
 @app.route('/home')
 def home():
@@ -83,3 +102,24 @@ def item(key):
 @app.route('/productList')
 def productList():
     return render_template('productList.html', productList=productsList)
+
+@app.route("/CoachingInput", methods=['GET', 'POST'])
+def CoachingInput ():
+    form = ReusableForm(request.form)
+
+    #print(form.errors)
+    if request.method == 'POST':
+        name=request.form['name']
+        email=request.form['email']
+        mobile=request.form['mobile']
+        password=request.form['password']
+        CoachingType=request.form['Coaching Type']
+
+        if form.validate():
+            write_to_disk(name, email)
+            flash('Hello: {}'.format(name))
+
+        else:
+            flash('Error: All Fields are Required')
+
+    return render_template('CoachingInput.html', form=form)

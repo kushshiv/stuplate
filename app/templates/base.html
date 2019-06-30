@@ -26,12 +26,23 @@
         </div>
 
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+
           <ul class="nav navbar-nav">
-            <li><a href="#">Link</a></li>
-          </ul>
+            <li class="dropdown">
+              <a class="dropdown-toggle" data-toggle="dropdown" href="#">Register
+              <span class="caret"></span></a> 
+              <ul class="dropdown-menu">
+                <li><a href="{{ url_for('CoachingInput')}}">Register Coaching</a></li>
+                <li><a href="#">Register Hostels</a></li>
+                <li><a href="#">Register Mess</a></li>
+              </ul>
+            </li>
+	  </ul>
+
           <ul class="nav navbar-nav navbar-right">
             <li><a href="#">Sign up/Login</a></li>
           </ul>
+
         </div><!-- /.navbar-collapse -->
       </div><!-- /.container-fluid -->
     </nav>
