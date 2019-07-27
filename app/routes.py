@@ -1,8 +1,10 @@
 from app import app
-from flask import Flask, render_template, abort, flash, request
-from wtforms import Form, TextField, TextAreaField, validators, StringField, SubmitField
-from random import randint
 from time import strftime
+from random import randint
+from flask_wtf import FlaskForm
+from wtforms.validators import DataRequired
+from flask import Flask, render_template, abort, flash, request, redirect
+from wtforms import Form, TextField, TextAreaField, validators, StringField, SubmitField, PasswordField, BooleanField
   
  
 ITEMS = {
@@ -86,6 +88,11 @@ def write_to_disk(name, email):
     data.close()
 
 
+class LoginForm(FlaskForm):
+    username = StringField('Username', validators=[DataRequired()])
+    password = PasswordField('Password', validators=[DataRequired()])
+    remember_me = BooleanField('Remember Me')
+    submit = SubmitField('Sign In')
 
 @app.route('/')
 @app.route('/home')
@@ -123,3 +130,11 @@ def CoachingInput ():
             flash('Error: All Fields are Required')
 
     return render_template('CoachingInput.html', form=form)
+
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    form = LoginForm()
+    if form.validate_on_submit():
+        flash('Login requested for user {}, remember_me={}'.format(form.username.data, form.remember_me.data))
+        return redirect('/index')
+    return render_template('login.html', title='Sign In', form=form)
