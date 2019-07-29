@@ -168,7 +168,7 @@ def login():
         login_user(user, remember=form.remember_me.data)
         next_page = request.args.get('next')
         if not next_page or url_parse(next_page).netloc != '':
-            next_page = url_for('CoachingInput')
+            next_page = url_for('home')
         return redirect(next_page)
 #        return redirect(url_for('index'))
     return render_template('login.html', title='Sign In', form=form)
@@ -176,7 +176,7 @@ def login():
 @app.route('/logout')
 def logout():
     logout_user()
-    return redirect(url_for('index'))
+    return redirect(url_for('home'))
 
 @app.route('/StudentDescrition')
 def StudentDescrition():

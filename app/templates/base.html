@@ -33,18 +33,26 @@
               <span class="caret"></span></a> 
               <ul class="dropdown-menu">
                 <li><a href="{{ url_for('CoachingInput')}}">Register Coaching</a></li>
-                <li><a href="#">Register Hostels</a></li>
-                <li><a href="#">Register Mess</a></li>
+                <li class="disabled"><a href="#">Register Hostels</a></li>
+                <li class="disabled"><a href="#">Register Mess</a></li>
               </ul>
             </li>
 	  </ul>
 
           <ul class="nav navbar-nav navbar-right">
-      	    <li><a href="#"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
             {% if current_user.is_anonymous %}
-            <li><a href="{{ url_for('login')}}"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+      	    <li><a href="{{ url_for('register') }}"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
+            <li><a href="{{ url_for('login') }}"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
             {% else %}
-            <li><a href="{{ url_for('logout')}}"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
+            <li><a href="{{ url_for('logout') }}"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
+            <li class="dropdown"><a class="glyphicon glyphicon-user dropdown-toggle" data-toggle="dropdown"></a>
+              <ul class="dropdown-menu">
+                <li class="disabled"><a href="#">Hi, {{ current_user.username }}</a></li>
+                <li class="divider"></li>
+                <li><a href="#">Profile</a></li>
+                <li><a href="#">Detailed Information</a></li>
+              </ul>
+            </li>
             {% endif %}
           </ul>
 
@@ -105,10 +113,11 @@
 
     <style>
     .footer {
-      position: relative;
+      position: fixed;
       left: 0;
       bottom: 0;
       width: 100%;
+      height:60px;
       background-color: black;
       color: white;
       text-align: center;
