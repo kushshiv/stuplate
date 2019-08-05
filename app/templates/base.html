@@ -113,7 +113,7 @@
 
     <style>
     .footer {
-      position: fixed;
+      position: relative;
       left: 0;
       bottom: 0;
       width: 100%;
@@ -123,7 +123,9 @@
       text-align: center;
     }
     </style>
-
+<br>
+<br>
+<br>
     <div class="footer">
       <nav class="navbar navbar-inverse" role="navigation">
         <div class="container-fluid">
@@ -141,11 +143,11 @@
 
           <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
-              <li><a href="#">Contact us</a></li>
+              <li><a href=" {{ url_for('contactUs') }}">Contact us</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
               <li><a href="#">Follow us</a></li>
-              <li><a href="#" class="fa fa-facebook"></a></li>
+              <li><a href="https://www.facebook.com/stuplatepage" class="fa fa-facebook"></a></li>
               <li><a href="#" class="fa fa-twitter"></a></li>
               <li><a href="#" class="fa fa-google"></a></li>
               <li><a href="#" class="fa fa-youtube"></a></li>
