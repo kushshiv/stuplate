@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+  
+{% block container %}
+
+  <body>
+    <h1>Add New Feed</h1>
+    <form method="POST" action="/updateNewsTicker">
+        <input type="text" name="title">
+        <input type="submit" value="Add">
+    </form>
+
+    <h1>News</h1>
+    {% for news1 in news %}
+      <p>{{news1.news}}</p>
+    {% endfor %}
+  </body>
+
+{% endfor %}

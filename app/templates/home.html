@@ -106,17 +106,9 @@ function showSlides() {
 <div id="left" class="holder" style="float:left; width:48%;background-image: linear-gradient(to right, #33E3FF , #33C7FF);"> 
 	<span>Latest News</span>
   <ul id="ticker01">
-    	<li><a href="#">1 The first thing that most Javascript programmers</a></li>
-	<li><a href="#">2 End up doing is adding some code</a></li>
-	<li><a href="#">3 The code that you want to run</a></li>
-	<li><a href="#">4 Inside of which is the code that you want to run</a></li>
-	<li><a href="#">5 Right when the page is loaded</a></li>
-	<li><a href="#">6 Problematically, however, the Javascript code</a></li>
-	<li><a href="#">7 The first thing that most Javascript programmers</a></li>
-	<li><a href="#">8 End up doing is adding some code</a></li>
-	<li><a href="#">9 The code that you want to run</a></li>
-	<li><a href="#">10 Inside of which is the code that you want to run</a></li>
-	<li><a href="#">Hi, {{ current_user.username }}</a></li>
+        {% for news1 in news %}
+        <li><a>{{ news1.id }}.{{ news1.news }}</a></li>
+        {% endfor %}
   </ul>
 </div>
 

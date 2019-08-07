@@ -7,7 +7,7 @@ from flask import Flask, render_template, abort, flash, request, redirect, url_f
 from wtforms import Form, TextField, TextAreaField, validators, StringField, SubmitField, PasswordField, BooleanField
 from wtforms.validators import ValidationError, DataRequired, Email, EqualTo
 from flask_login import current_user, login_user, logout_user, login_required
-from app.models import User
+from app.models import User, Newsticker
 from werkzeug.urls import url_parse
 from app import db
 
@@ -121,7 +121,8 @@ class RegistrationForm(FlaskForm):
 @app.route('/')
 @app.route('/home')
 def home():
-    return render_template('home.html', items=ITEMS)
+    news = Newsticker.query.all()
+    return render_template('home.html', items=ITEMS, news=news)
  
 @app.route('/item/<key>')
 def item(key):
@@ -200,3 +201,24 @@ def register():
 @app.route('/contactUs')
 def contactUs():
     return render_template('contactUs.html')
+
+@app.route("/updateNewsFeed", methods=['GET', 'POST'])
+def updateNewsFeed():
+    try:
+        book = Book(title=request.form.get("title"))
+        db.session.add(book)
+        db.session.commit()
+    except Exception as e:
+        print("Failed to add book")
+        print(e)
+    try:
+        newtitle = request.form.get("newtitle")
+        oldtitle = request.form.get("oldtitle")
+        book = Book.query.filter_by(title=oldtitle).first()
+        book.title = newtitle
+        db.session.commit()
+    except Exception as e:
+        print("Couldn't update book title")
+        print(e)
+    books = Book.query.all()
+        return render_template("home.html", books=books)
