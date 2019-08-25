@@ -39,3 +39,27 @@ class Newsticker(db.Model):
     
     def __repr__(self):
         return '<NewsTicker {}>'.format(self.news)
+
+class CoachingClass(db.Model):
+    coachingid = db.Column(db.Integer, primary_key=True)
+    coachingname = db.Column(db.String(140))
+    coachingcontact = db.Column(db.Integer)
+    coachingemail = db.Column(db.String(140))
+    coachingpassword_hash = db.Column(db.String(128))
+    coachingabout = db.Column(db.String(140))
+    coachingcoursesoffered = db.Column(db.String(140))
+    coachingteachers = db.Column(db.String(140))
+    coachingachievement = db.Column(db.String(140))
+    coachingresults = db.Column(db.String(140))
+    coachingcategory = db.Column(db.String(140))
+    coachingsubcategory = db.Column(db.String(140))
+    coachinglocation = db.Column(db.String(140))
+    
+    def __repr__(self):
+        return '<CoachingClass {}>'.format(self.coachingname)
+
+    def set_password(self, password):
+        self.password_hash = generate_password_hash(password)
+
+    def check_password(self, password):
+        return check_password_hash(self.password_hash, password)

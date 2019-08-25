@@ -221,4 +221,4 @@ def updateNewsFeed():
         print("Couldn't update book title")
         print(e)
     books = Book.query.all()
-        return render_template("home.html", books=books)
+    return render_template("home.html", books=books)
