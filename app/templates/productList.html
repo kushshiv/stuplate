@@ -4,14 +4,13 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
     <input class="form-control" id="myInput" type="text" placeholder="Search..">
   <br>
-    {% for id, product in productList.items() %}
+    {% for coaching in productList %}
           <div class="well">
             <h2>
-              <a href="{{ url_for('item', key=id) }}">{{product['name'] }}</a>
+              <a href="{{ url_for('item', key=coaching.coachingid) }}">{{ coaching.coachingname }}</a>
               <ul id="coachingList"><small>
-	    	<li>{{ product['category'] }}</li>
-              	<li>{{ product['location'] }}</li>
-              	<li>{{ product['price'] }}</li>
+	    	<li>{{ coaching.coachingcategory }}</li>
+              	<li>{{ coaching.coachinglocation }}</li>
 	     </small><ul>
             </h2>
           </div>

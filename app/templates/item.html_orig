@@ -15,20 +15,23 @@
 
 <div class="slideshow-container">
 
-  {% for image in images %}
-      <div class="mySlides slide">
-        <div class="numbertext">1 / 2</div>
-          <img src="{{ url_for('static', filename = 'img/coaching_slide/' + image) }}"  height="400" width="1000">
-        <div class="text">School</div>
-      </div>
-  {% endfor %}
+<div class="mySlides slide">
+  <div class="numbertext">1 / 2</div>
+  <img src="{{ url_for('static', filename = 'img/coaching_slide/coaching1.jpg') }}"  height="400" width="1000">
+  <div class="text">School</div>
+</div>
+
+<div class="mySlides slide">
+  <div class="numbertext">2 / 2</div>
+  <img src="{{ url_for('static', filename = 'img/coaching_slide/coaching2.jpg') }}"  height="400" width="1000">
+  <div class="text">Mess</div>
+</div>
 
 <br>
 
 <div style="text-align:center">
-  {% for image in images %}
-      <span class="dot"></span>
-  {% endfor %}
+  <span class="dot"></span>
+  <span class="dot"></span>
 </div>
 <br>
 

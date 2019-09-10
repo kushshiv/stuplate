@@ -1,13 +1,15 @@
+import os
+import fnmatch
 from app import app
 from time import strftime
 from random import randint
 from flask_wtf import FlaskForm
 from wtforms.validators import DataRequired
 from flask import Flask, render_template, abort, flash, request, redirect, url_for
-from wtforms import Form, TextField, TextAreaField, validators, StringField, SubmitField, PasswordField, BooleanField
+from wtforms import Form, TextField, TextAreaField, validators, StringField, SubmitField, PasswordField, BooleanField, SelectField
 from wtforms.validators import ValidationError, DataRequired, Email, EqualTo
 from flask_login import current_user, login_user, logout_user, login_required
-from app.models import User, Newsticker
+from app.models import User, Newsticker, CoachingClass
 from werkzeug.urls import url_parse
 from app import db
 
@@ -97,12 +99,14 @@ def write_to_disk(name, email):
 class LoginForm(FlaskForm):
     username = StringField('Username', validators=[DataRequired()])
     password = PasswordField('Password', validators=[DataRequired()])
+    #usertype = SelectField('User Type', choices = [('Student'), ('Coaching Class')])
     remember_me = BooleanField('Remember Me')
     submit = SubmitField('Sign In')
 
 class RegistrationForm(FlaskForm):
     username = StringField('Username', validators=[DataRequired()])
     email = StringField('Email', validators=[DataRequired(), Email()])
+    usertype = SelectField('User Type', choices = [('Student', 'Student'), ('Coaching', 'Coaching')], validators=[DataRequired()])
     password = PasswordField('Password', validators=[DataRequired()])
     password2 = PasswordField(
         'Repeat Password', validators=[DataRequired(), EqualTo('password')])
@@ -126,13 +130,16 @@ def home():
  
 @app.route('/item/<key>')
 def item(key):
-    item = productsList.get(key)
+    #item = productsList.get(key)
+    item = CoachingClass.query.get(key)
+    images = fnmatch.filter(os.listdir(os.path.join(app.static_folder, "img/coaching_slide")), str(item.coachingid) + '_' + '*.jpg')
     if not item:
         abort(404)
-    return render_template('item.html', item=item)
+    return render_template('item.html', item=item, images=images)
 
 @app.route('/productList')
 def productList():
+    productsList = CoachingClass.query.all()
     return render_template('productList.html', productList=productsList)
 
 @app.route("/CoachingInput", methods=['GET', 'POST'])
@@ -190,7 +197,7 @@ def register():
         return redirect(url_for('index'))
     form = RegistrationForm()
     if form.validate_on_submit():
-        user = User(username=form.username.data, email=form.email.data)
+        user = User(username=form.username.data, email=form.email.data, usertype=form.usertype.data)
         user.set_password(form.password.data)
         db.session.add(user)
         db.session.commit()

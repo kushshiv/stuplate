@@ -1,18 +1,22 @@
-{% extends 'base.html' %}
-  
-{% block container %}     
-
+<html>
+  <head>
      <title>Coaching Registration Form</title>
-<!--     <link rel="stylesheet" media="screen" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"> 
+     <link rel="stylesheet" media="screen" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css">
-     <meta name="viewport" content="width=device-width, initial-scale=1.0"> -->
+     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+  </head>
+  <body>
+
+    <div class="container"><br>
       <center>
         <h2>REGISTER COACHING</h2>
       </center>
+    </div>
 
-    <div class="row align-items-center justify-content-center" >
-    <div class="col-md-4" >
+    <div class="container"><br>
+    <div class="row align-items-center justify-content-center">
+    <div class="col-md-4">
       <form  action="" method="post" role="form">
         {{ form.csrf }}
         <div class="form-group">
@@ -67,7 +71,9 @@
         {% endfor %}
             {% endif %}
         {% endwith %}
-    </div> 
+    </div>
     <br>
     </div>
-{% endblock %}
+    </div>
+  </body>
+</html>

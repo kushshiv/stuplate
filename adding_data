@@ -1,0 +1,5 @@
+from app import db
+from app.models import CoachingClass
+c = CoachingClass(coachingname='A Coaching Institute', coachingcontact=987654321, coachingemail='coachinga@gmail.com', coachingpassword_hash='sjkfjlsdjflasdfjkldjflksdfjksdjlfsd', coachingabout='A coaching institute is best institute in Mumbai', coachingcoursesoffered='IIT, 10th 12th', coachingteachers='Mr. ABC, Mr, PQR', coachingachievement='Global academic award 2019', coachingresults='200 Students in IIT', coachingcategory='Entrance', coachingsubcategory='Mains', coachinglocation='Mumbai')
+db.session.add(c)
+db.session.commit()
