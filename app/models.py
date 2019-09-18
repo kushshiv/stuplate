@@ -10,7 +10,7 @@ class User(UserMixin, db.Model):
     email = db.Column(db.String(120), index=True, unique=True)
     usertype = db.Column(db.String(120))
     password_hash = db.Column(db.String(128))
-    posts = db.relationship('Post', backref='author', lazy='dynamic')
+    coachingclass = db.relationship('CoachingClass', backref='author', lazy='dynamic')
 
     def __repr__(self):
         return '<User {}>'.format(self.username)
@@ -25,7 +25,7 @@ class Post(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     body = db.Column(db.String(140))
     timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    user_id1 = db.Column(db.Integer, db.ForeignKey('user.id'))
 
     def __repr__(self):
         return '<Post {}>'.format(self.body)
@@ -55,6 +55,7 @@ class CoachingClass(db.Model):
     coachingcategory = db.Column(db.String(140))
     coachingsubcategory = db.Column(db.String(140))
     coachinglocation = db.Column(db.String(140))
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     
     def __repr__(self):
         return '<CoachingClass {}>'.format(self.coachingname)

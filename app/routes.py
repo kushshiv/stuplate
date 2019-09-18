@@ -194,15 +194,19 @@ def StudentDescrition():
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     if current_user.is_authenticated:
-        return redirect(url_for('index'))
+        return redirect(url_for('home'))
     form = RegistrationForm()
     if form.validate_on_submit():
-        user = User(username=form.username.data, email=form.email.data, usertype=form.usertype.data)
-        user.set_password(form.password.data)
-        db.session.add(user)
-        db.session.commit()
-        flash('Congratulations, you are now a registered user!')
-        return redirect(url_for('login'))
+        print(form.usertype.data)
+        if form.usertype.data == 'Coaching':
+            user = User(username=form.username.data, email=form.email.data, usertype=form.usertype.data)
+            user.set_password(form.password.data)
+            db.session.add(user)
+            db.session.commit()
+            flash('Congratulations, you are now a registered user!')
+            return redirect(url_for('login'))
+        else:
+            print(form.usertype.data)
     return render_template('register.html', title='Register', form=form)
 
 @app.route('/contactUs')
@@ -229,3 +233,13 @@ def updateNewsFeed():
         print(e)
     books = Book.query.all()
     return render_template("home.html", books=books)
+
+@app.route('/mycoaching/<key>')
+def mycoaching(key):
+    #item = productsList.get(key)
+    mycoaching = CoachingClass.query.get(key)
+    print('mycoaching' + mycoaching.coachingname)
+    #images = fnmatch.filter(os.listdir(os.path.join(app.static_folder, "img/coaching_slide")), str(item.coachingid) + '_' + '*.jpg')
+    if not mycoaching:
+        abort(404)
+    return render_template('mycoaching.html', mycoaching=mycoaching)

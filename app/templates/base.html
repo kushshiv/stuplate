@@ -47,9 +47,14 @@
             <li><a href="{{ url_for('logout') }}"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
             <li class="dropdown"><a class="glyphicon glyphicon-user dropdown-toggle" data-toggle="dropdown"></a>
               <ul class="dropdown-menu">
-                <li class="disabled"><a href="#">Hi, {{ current_user.username }} ( {{ current_user.usertype }} )</a></li>
+                <li class="disabled"><a href="#">Hi, {{ current_user.username }} ( {{ current_user.id }} )</a></li>
                 <li class="divider"></li>
-                <li><a href="#">Profile</a></li>
+                {% if current_user.usertype == 'Coaching' %}
+                   <li><a href="{{ url_for('item', key=current_user.id ) }}">My Page</a></li>
+                   <li><a href="{{ url_for('mycoaching', key=current_user.id ) }}">Display/Edit Data</a></li>
+                {% else %}
+                   <li><a href="#">Profile</a></li>
+                {% endif %}
                 <li><a href="#">Detailed Information</a></li>
               </ul>
             </li>
