@@ -39,6 +39,17 @@
             </li>
 	  </ul>
 
+          <ul class="nav navbar-nav">
+            <li class="dropdown">
+              <a class="dropdown-toggle" data-toggle="dropdown" href="#">Admin 
+              <span class="caret"></span></a> 
+              <ul class="dropdown-menu">
+                <li><a href="{{ url_for('updateNewsFeed')}}">Add News</a></li>
+                <li class="disabled"><a href="#">Update Coaching</a></li>
+              </ul>
+            </li>
+	  </ul>
+
           <ul class="nav navbar-nav navbar-right">
             {% if current_user.is_anonymous %}
       	    <li><a href="{{ url_for('register') }}"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>

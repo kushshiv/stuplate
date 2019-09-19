@@ -122,6 +122,10 @@ class RegistrationForm(FlaskForm):
         if user is not None:
             raise ValidationError('Please use a different email address.')
 
+class UpdateNewsForm(FlaskForm):
+    news = StringField('News', validators=[DataRequired()])
+    submit = SubmitField('Submit')
+
 @app.route('/')
 @app.route('/home')
 def home():
@@ -215,24 +219,16 @@ def contactUs():
 
 @app.route("/updateNewsFeed", methods=['GET', 'POST'])
 def updateNewsFeed():
-    try:
-        book = Book(title=request.form.get("title"))
-        db.session.add(book)
+    form = UpdateNewsForm()
+    if form.validate_on_submit():
+        print(form.news.data)
+        newNews = Newsticker(news=form.news.data)
+        db.session.add(newNews)
         db.session.commit()
-    except Exception as e:
-        print("Failed to add book")
-        print(e)
-    try:
-        newtitle = request.form.get("newtitle")
-        oldtitle = request.form.get("oldtitle")
-        book = Book.query.filter_by(title=oldtitle).first()
-        book.title = newtitle
-        db.session.commit()
-    except Exception as e:
-        print("Couldn't update book title")
-        print(e)
-    books = Book.query.all()
-    return render_template("home.html", books=books)
+        flash('Congratulations, News live now!')
+        return redirect(url_for('home'))
+    return render_template('updateNewsFeed.html', title='Update News', form=form)
+
 
 @app.route('/mycoaching/<key>')
 def mycoaching(key):

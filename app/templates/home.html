@@ -16,14 +16,14 @@ jQuery.fn.liScroll = function(settings) {
 				$strip.addClass("newsticker")
 				var stripHeight = 1;
 				$strip.find("li").each(function(i){
-					stripHeight += jQuery(this, i).outerHeight(true); // thanks to Michael Haszprunar and Fabien Volpi
+					stripHeight += jQuery(this, i).outerHeight(true); 
 				});
 				var $mask = $strip.wrap("<div class='mask'></div>");
 				var $tickercontainer = $strip.parent().wrap("<div class='tickercontainer'></div>");								
-				var containerHeight = $strip.parent().parent().height();	//a.k.a. 'mask' width 	
+				var containerHeight = $strip.parent().parent().height();
 				$strip.height(stripHeight);			
 				var totalTravel = stripHeight;
-				var defTiming = totalTravel/settings.travelocity;	// thanks to Scott Waye		
+				var defTiming = totalTravel/settings.travelocity;
 				function scrollnews(spazio, tempo){
 				$strip.animate({top: '-='+ spazio}, tempo, "linear", function(){$strip.css("top", containerHeight); scrollnews(totalTravel, defTiming);});
 				}
@@ -107,7 +107,7 @@ function showSlides() {
 	<span>Latest News</span>
   <ul id="ticker01">
         {% for news1 in news %}
-        <li><a>{{ news1.id }}.{{ news1.news }}</a></li>
+        <li><a>{{ news1.id }}. {{ news1.news }}</a></li>
         {% endfor %}
   </ul>
 </div>

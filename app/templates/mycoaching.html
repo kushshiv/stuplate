@@ -1,40 +1,70 @@
 {% extends 'base.html' %}
 
 {% block container %}
+<style>
+table, th, td {
+  border: 1px solid black;
+  border-collapse: collapse;
+}
+th, td {
+  padding: 5px;
+  text-align: left;
+}
+</style>
     <div class="container" style="overflow: auto; max-height: 80vh">
+<h2>{{ mycoaching.coachingname }} details :</h2>
+<br>
+
         <div class="table-responsive">
-            <table class="table" id="mycoaching">
-                <thead>
+            <table class="table" id="mycoaching" style="width:100%">
                     <tr>
-                        <th scope="col">coachingname</th>
-                        <th scope="col">coachingcontact</th>
-                        <th scope="col">coachingemail</th>
-                        <th scope="col">coachingabout</th>
-                        <th scope="col">coachingcoursesoffered</th>
-                        <th scope="col">coachingteachers</th>
-                        <th scope="col">coachingachievement</th>
-                        <th scope="col">coachingresults</th>
-                        <th scope="col">coachingcategory</th>
-                        <th scope="col">coachingsubcategory</th>
-                        <th scope="col">coachinglocation</th>          
+                        <th scope="col">Coaching id</th>
+                        <td> {{ mycoaching.coachingid }} </td>
                     </tr>
-                </thead>
-                <tbody>
-                    <tr id={{ mycoaching.coachingid }}>
-                        <th scope="row">{{ mycoaching.coachingid }}</th>
+                    <tr>
+                        <th scope="col">Coaching Name</th>
                         <td> {{ mycoaching.coachingname }} </td>
+                    </tr>
+                    <tr>
+                        <th scope="col">Coaching Contact</th>
                         <td> {{ mycoaching.coachingcontact }} </td>
+                    </tr>
+                    <tr>
+                        <th scope="col">Coaching Email</th>
                         <td> {{ mycoaching.coachingemail }} </td>
+                    </tr>
+                    <tr>
+                        <th scope="col">About</th>
                         <td> {{ mycoaching.coachingabout }} </td>
+                    </tr>
+                    <tr>
+                        <th scope="col">Courses Offered</th>
                         <td> {{ mycoaching.coachingcoursesoffered }} </td>
+                    </tr>
+                    <tr>
+                        <th scope="col">Teachers</th>
                         <td> {{ mycoaching.coachingteachers }} </td>
+                    </tr>
+                    <tr>
+                        <th scope="col">Achievement</th>
                         <td> {{ mycoaching.coachingachievement }} </td>
+                    </tr>
+                    <tr>
+                        <th scope="col">Results</th>
                         <td> {{ mycoaching.coachingresults }} </td>
+                    </tr>
+                    <tr>
+                        <th scope="col">Coaching Category</th>
                         <td> {{ mycoaching.coachingcategory }} </td>
+                    </tr>
+                    <tr>
+                        <th scope="col">Coaching Sub-category</th>
                         <td> {{ mycoaching.coachingsubcategory }} </td>
+                    </tr>
+                    <tr>
+                        <th scope="col">Location</th>          
                         <td> {{ mycoaching.coachinglocation }} </td>
                     </tr>
-                </tbody>
             </table>
         </div>
     </div>
