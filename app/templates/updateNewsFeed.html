@@ -13,5 +13,35 @@
         </p>
         <p>{{ form.submit() }}</p>
     </form>
+<style>
+table, th, td {
+  border: 1px solid black;
+  border-collapse: collapse;
+}
+th, td {
+  padding: 5px;
+  text-align: left;
+}
+</style>
+    <div class="container" style="overflow: auto; max-height: 80vh">
+	<h1>Latest News :</h1>
+	<br>
+
+        <div class="table-responsive">
+            <table class="table" id="currentNews" style="width:100%">
+                    <tr>
+    			<th>S.No.</th>
+    			<th>News</th>
+                    </tr>
+		    {% for currNews in currentNews %}
+                        <tr>
+			    <td>{{ currNews.id }}</td>
+			    <td>{{ currNews.news }}</td>
+                        </tr>
+		    {% endfor %}
+            </table>
+        </div>
+    </div>
+
 {% endblock %}
 

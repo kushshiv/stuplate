@@ -219,8 +219,6 @@ def contactUs():
 
 @app.route("/updateNewsFeed", methods=['GET', 'POST'])
 def updateNewsFeed():
-    currentNews = Newsticker.query.all()
-    print(currentNews)
     form = UpdateNewsForm()
     if form.validate_on_submit():
         print(form.news.data)
@@ -228,8 +226,9 @@ def updateNewsFeed():
         db.session.add(newNews)
         db.session.commit()
         flash('Congratulations, News live now!')
-        return redirect(url_for('updateNewsFeed'))
-    return render_template('updateNewsFeed.html', title='Update News', form=form, currentNews=currentNews)
+        return redirect(url_for('home'))
+    return render_template('updateNewsFeed.html', title='Update News', form=form)
+
 
 @app.route('/mycoaching/<key>')
 def mycoaching(key):

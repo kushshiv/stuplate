@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block container %}
+    <h1>Update News</h1>
+    <form action="" method="post">
+        {{ form.hidden_tag() }}
+        <p>  
+            {{ form.news.label }}<br>
+            {{ form.news(size=120) }}<br>
+            {% for error in form.news.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+        </p>
+        <p>{{ form.submit() }}</p>
+    </form>
+{% endblock %}
+
