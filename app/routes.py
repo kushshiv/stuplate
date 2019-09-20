@@ -126,6 +126,20 @@ class UpdateNewsForm(FlaskForm):
     news = StringField('News', validators=[DataRequired()])
     submit = SubmitField('Submit')
 
+class CoachingRegistrationForm(FlaskForm):
+    coachingname = StringField('coachingname', validators=[DataRequired()])
+    coachingcontact = StringField('Contact', validators=[DataRequired()])
+    coachingemail = StringField('Email', validators=[DataRequired(), Email()])
+    coachingabout = StringField('About', validators=[DataRequired()])
+    coachingcoursesoffered = StringField('Courses Offered', validators=[DataRequired()])
+    coachingteachers = StringField('Teachers', validators=[DataRequired()])
+    coachingachievement = StringField('Achievement', validators=[DataRequired()])
+    coachingresults = StringField('Results', validators=[DataRequired()])
+    coachingcategory = SelectField('User Type', choices = [('Academic', 'Academic'), ('Entrance', 'Entrance'), ('Competition', 'Competition')], validators=[DataRequired()])
+    coachingsubcategory = SelectField('User Type', choices = [('IIT', 'IIT'), ('UPSC', 'UPSC'), ('Bank', 'Bank'), ('12th', '12th')], validators=[DataRequired()])
+    coachinglocation = SelectField('User Type', choices = [('Patna', 'Patna'), ('Pune', 'Pune'), ('Mumbai', 'Mumbai')], validators=[DataRequired()])
+    submit = SubmitField('Register')
+
 @app.route('/')
 @app.route('/home')
 def home():
@@ -146,26 +160,15 @@ def productList():
     productsList = CoachingClass.query.all()
     return render_template('productList.html', productList=productsList)
 
-@app.route("/CoachingInput", methods=['GET', 'POST'])
-def CoachingInput ():
-    form = ReusableForm(request.form)
-
-    #print(form.errors)
-    if request.method == 'POST':
-        name=request.form['name']
-        email=request.form['email']
-        mobile=request.form['mobile']
-        password=request.form['password']
-        CoachingType=request.form['Coaching Type']
-
-        if form.validate():
-            write_to_disk(name, email)
-            flash('Hello: {}'.format(name))
-
-        else:
-            flash('Error: All Fields are Required')
-
-    return render_template('CoachingInput.html', form=form)
+@app.route("/coachingregistration", methods=['GET', 'POST'])
+def coachingregistration():
+    form = CoachingRegistrationForm()
+    if form.validate_on_submit():
+        regCoaching = CoachingClass(coachingname=form.coachingname.data, coachingcontact=form.coachingcontact.data, coachingemail=form.coachingemail.data, coachingpassword_hash='sjkfjlsdjflasdfjkldjflksdfjksdjlfsd', coachingabout=form.coachingabout.data, coachingcoursesoffered=form.coachingcoursesoffered.data, coachingteachers=form.coachingteachers.data, coachingachievement=form.coachingachievement.data, coachingresults=form.coachingresults.data, coachingcategory=form.coachingcategory.data, coachingsubcategory=form.coachingsubcategory.data, coachinglocation=form.coachinglocation.data, author=current_user)
+        db.session.add(regCoaching)
+        db.session.commit()
+        return redirect(url_for('productList'))
+    return render_template('coachingregistration.html', title='Register Coaching', form=form)
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
