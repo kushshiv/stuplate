@@ -4,7 +4,7 @@ from app import app
 from time import strftime
 from random import randint
 from flask_wtf import FlaskForm
-from wtforms.validators import DataRequired
+from wtforms.validators import DataRequired, Length
 from flask import Flask, render_template, abort, flash, request, redirect, url_for
 from wtforms import Form, TextField, TextAreaField, validators, StringField, SubmitField, PasswordField, BooleanField, SelectField
 from wtforms.validators import ValidationError, DataRequired, Email, EqualTo
@@ -140,6 +140,10 @@ class CoachingRegistrationForm(FlaskForm):
     coachinglocation = SelectField('User Type', choices = [('Patna', 'Patna'), ('Pune', 'Pune'), ('Mumbai', 'Mumbai')], validators=[DataRequired()])
     submit = SubmitField('Register')
 
+class EditNewsForm(FlaskForm):
+    news = StringField('News', validators=[Length(min=0, max=140)])
+    submit = SubmitField('Submit')
+
 @app.route('/')
 @app.route('/home')
 def home():
@@ -223,7 +227,6 @@ def contactUs():
 @app.route("/updateNewsFeed", methods=['GET', 'POST'])
 def updateNewsFeed():
     currentNews = Newsticker.query.all()
-    print(currentNews)
     form = UpdateNewsForm()
     if form.validate_on_submit():
         print(form.news.data)
@@ -242,3 +245,18 @@ def mycoaching(key):
     if not mycoaching:
         abort(404)
     return render_template('mycoaching.html', mycoaching=mycoaching)
+
+@app.route('/edit_news/<key>', methods=['GET', 'POST'])
+def edit_news(key):
+    form = EditNewsForm()
+    if form.validate_on_submit():
+        News = Newsticker.query.get(key)
+        News.news = form.news.data
+        db.session.commit()
+        flash('Your changes have been saved.')
+        return redirect(url_for('updateNewsFeed'))
+    elif request.method == 'GET':
+        News = Newsticker.query.get(key)
+        form.news.data = News.news
+    return render_template('edit_news.html', title='Edit News',
+                           form=form)
