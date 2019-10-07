@@ -106,7 +106,7 @@ class LoginForm(FlaskForm):
 class RegistrationForm(FlaskForm):
     username = StringField('Username', validators=[DataRequired()])
     email = StringField('Email', validators=[DataRequired(), Email()])
-    usertype = SelectField('User Type', choices = [('Student', 'Student'), ('Coaching', 'Coaching')], validators=[DataRequired()])
+    usertype = SelectField('User Type', choices = [('Admin', 'Admin'), ('Coaching', 'Coaching')], validators=[DataRequired()])
     password = PasswordField('Password', validators=[DataRequired()])
     password2 = PasswordField(
         'Repeat Password', validators=[DataRequired(), EqualTo('password')])
@@ -135,9 +135,9 @@ class CoachingRegistrationForm(FlaskForm):
     coachingteachers = StringField('Teachers', validators=[DataRequired()])
     coachingachievement = StringField('Achievement', validators=[DataRequired()])
     coachingresults = StringField('Results', validators=[DataRequired()])
-    coachingcategory = SelectField('User Type', choices = [('Academic', 'Academic'), ('Entrance', 'Entrance'), ('Competition', 'Competition')], validators=[DataRequired()])
-    coachingsubcategory = SelectField('User Type', choices = [('IIT', 'IIT'), ('UPSC', 'UPSC'), ('Bank', 'Bank'), ('12th', '12th')], validators=[DataRequired()])
-    coachinglocation = SelectField('User Type', choices = [('Patna', 'Patna'), ('Pune', 'Pune'), ('Mumbai', 'Mumbai')], validators=[DataRequired()])
+    coachingcategory = SelectField('Category', choices = [('Academic', 'Academic'), ('Entrance', 'Entrance'), ('Competition', 'Competition')], validators=[DataRequired()])
+    coachingsubcategory = SelectField('Sub Category', choices = [('IIT', 'IIT'), ('UPSC', 'UPSC'), ('Bank', 'Bank'), ('12th', '12th')], validators=[DataRequired()])
+    coachinglocation = SelectField('Location', choices = [('Patna', 'Patna'), ('Pune', 'Pune'), ('Mumbai', 'Mumbai')], validators=[DataRequired()])
     submit = SubmitField('Register')
 
 class EditNewsForm(FlaskForm):
@@ -209,15 +209,13 @@ def register():
     form = RegistrationForm()
     if form.validate_on_submit():
         print(form.usertype.data)
-        if form.usertype.data == 'Coaching':
-            user = User(username=form.username.data, email=form.email.data, usertype=form.usertype.data)
-            user.set_password(form.password.data)
-            db.session.add(user)
-            db.session.commit()
-            flash('Congratulations, you are now a registered user!')
-            return redirect(url_for('login'))
-        else:
-            print(form.usertype.data)
+        #if form.usertype.data == 'Coaching':
+        user = User(username=form.username.data, email=form.email.data, usertype=form.usertype.data)
+        user.set_password(form.password.data)
+        db.session.add(user)
+        db.session.commit()
+        flash('Congratulations, you are now a registered user!')
+        return redirect(url_for('login'))
     return render_template('register.html', title='Register', form=form)
 
 @app.route('/contactUs')

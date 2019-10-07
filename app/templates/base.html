@@ -27,18 +27,19 @@
 
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 
+        {% if current_user.usertype == 'Coaching' %}
           <ul class="nav navbar-nav">
             <li class="dropdown">
               <a class="dropdown-toggle" data-toggle="dropdown" href="#">Register
               <span class="caret"></span></a> 
               <ul class="dropdown-menu">
-                <li><a href="{{ url_for('coachingregistration')}}">Register Coaching</a></li>
-                <li class="disabled"><a href="#">Register Hostels</a></li>
-                <li class="disabled"><a href="#">Register Mess</a></li>
+                    <li><a href="{{ url_for('coachingregistration')}}">Register Coaching</a></li>
+                    <li class="disabled"><a href="#">Register Hostels</a></li>
+                    <li class="disabled"><a href="#">Register Mess</a></li>
               </ul>
             </li>
 	  </ul>
-
+        {% elif current_user.usertype == 'Admin' %}
           <ul class="nav navbar-nav">
             <li class="dropdown">
               <a class="dropdown-toggle" data-toggle="dropdown" href="#">Admin 
@@ -49,6 +50,9 @@
               </ul>
             </li>
 	  </ul>
+        {% else %}
+      	    <li><a href="{{ url_for('home') }}"><span class="glyphicon glyphicon-user"></span> Links</a></li>
+        {% endif %}
 
           <ul class="nav navbar-nav navbar-right">
             {% if current_user.is_anonymous %}
@@ -58,11 +62,11 @@
             <li><a href="{{ url_for('logout') }}"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
             <li class="dropdown"><a class="glyphicon glyphicon-user dropdown-toggle" data-toggle="dropdown"></a>
               <ul class="dropdown-menu">
-                <li class="disabled"><a href="#">Hi, {{ current_user.username }} ( {{ current_user.id }} )</a></li>
+                <li class="disabled"><a href="#">Hi, {{ current_user.username }} </a></li>
                 <li class="divider"></li>
                 {% if current_user.usertype == 'Coaching' %}
-                   <li><a href="{{ url_for('item', key=current_user.id ) }}">My Page</a></li>
-                   <li><a href="{{ url_for('mycoaching', key=current_user.id ) }}">Display/Edit Data</a></li>
+                   <li><a href="{{ url_for('item', key=current_user.coachingclass.all()[0].coachingid ) }}">My Page</a></li>
+                   <li><a href="{{ url_for('mycoaching', key=current_user.coachingclass.all()[0].coachingid ) }}">Display/Edit Data</a></li>
                 {% else %}
                    <li><a href="#">Profile</a></li>
                 {% endif %}
