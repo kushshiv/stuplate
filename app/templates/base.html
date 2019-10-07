@@ -65,8 +65,10 @@
                 <li class="disabled"><a href="#">Hi, {{ current_user.username }} </a></li>
                 <li class="divider"></li>
                 {% if current_user.usertype == 'Coaching' %}
-                   <li><a href="{{ url_for('item', key=current_user.coachingclass.all()[0].coachingid ) }}">My Page</a></li>
-                   <li><a href="{{ url_for('mycoaching', key=current_user.coachingclass.all()[0].coachingid ) }}">Display/Edit Data</a></li>
+                  {% if current_user.coachingclass.all() != [] %}
+                     <li><a href="{{ url_for('item', key=current_user.coachingclass.all()[0].coachingid ) }}">My Page</a></li>
+                     <li><a href="{{ url_for('mycoaching', key=current_user.coachingclass.all()[0].coachingid ) }}">Display/Edit Data</a></li>
+                  {% endif %}
                 {% else %}
                    <li><a href="#">Profile</a></li>
                 {% endif %}
