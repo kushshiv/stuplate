@@ -1,0 +1,87 @@
+{% extends "base.html" %}
+  
+{% block container %}
+    <h1>Edit Coaching</h1>
+    <form action="" method="post">
+        {{ form.hidden_tag() }}
+        <p>
+            {{ form.coachingname.label }}<br>
+            {{ form.coachingname(cols=50, rows=4) }}<br>
+            {% for error in form.coachingname.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+        </p>
+        <p>
+            {{ form.coachingcontact.label }}<br>
+            {{ form.coachingcontact(cols=50, rows=4) }}<br>
+            {% for error in form.coachingcontact.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+        </p>
+        <p>
+            {{ form.coachingemail.label }}<br>
+            {{ form.coachingemail(cols=50, rows=4) }}<br>
+            {% for error in form.coachingemail.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+        </p>
+        <p>
+            {{ form.coachingabout.label }}<br>
+            {{ form.coachingabout(cols=50, rows=4) }}<br>
+            {% for error in form.coachingabout.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+        </p>
+        <p>
+            {{ form.coachingcoursesoffered.label }}<br>
+            {{ form.coachingcoursesoffered(cols=50, rows=4) }}<br>
+            {% for error in form.coachingcoursesoffered.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+        </p>
+        <p>
+            {{ form.coachingteachers.label }}<br>
+            {{ form.coachingteachers(cols=50, rows=4) }}<br>
+            {% for error in form.coachingteachers.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+        </p>
+        <p>
+            {{ form.coachingachievement.label }}<br>
+            {{ form.coachingachievement(cols=50, rows=4) }}<br>
+            {% for error in form.coachingachievement.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+        </p>
+        <p>
+            {{ form.coachingresults.label }}<br>
+            {{ form.coachingresults(cols=50, rows=4) }}<br>
+            {% for error in form.coachingresults.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+        </p>
+        <p>
+            {{ form.coachingcategory.label }}<br>
+            {{ form.coachingcategory(cols=50, rows=4) }}<br>
+            {% for error in form.coachingcategory.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+        </p>
+        <p>
+            {{ form.coachingsubcategory.label }}<br>
+            {{ form.coachingsubcategory(cols=50, rows=4) }}<br>
+            {% for error in form.coachingsubcategory.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+        </p>
+        <p>
+            {{ form.coachinglocation.label }}<br>
+            {{ form.coachinglocation(cols=50, rows=4) }}<br>
+            {% for error in form.coachinglocation.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+        </p>
+        <p>{{ form.submit() }}</p>
+    </form>
+{% endblock %}
+

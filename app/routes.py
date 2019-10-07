@@ -144,6 +144,20 @@ class EditNewsForm(FlaskForm):
     news = StringField('News', validators=[Length(min=0, max=140)])
     submit = SubmitField('Submit')
 
+class EditCoachingForm(FlaskForm):
+    coachingname = StringField('coachingname', validators=[DataRequired()])
+    coachingcontact = StringField('Contact', validators=[DataRequired()])
+    coachingemail = StringField('Email', validators=[DataRequired(), Email()])
+    coachingabout = StringField('About', validators=[DataRequired()])
+    coachingcoursesoffered = StringField('Courses Offered', validators=[DataRequired()])
+    coachingteachers = StringField('Teachers', validators=[DataRequired()])
+    coachingachievement = StringField('Achievement', validators=[DataRequired()])
+    coachingresults = StringField('Results', validators=[DataRequired()])
+    coachingcategory = SelectField('Category', choices = [('Academic', 'Academic'), ('Entrance', 'Entrance'), ('Competition', 'Competition')], validators=[DataRequired()])
+    coachingsubcategory = SelectField('Sub Category', choices = [('IIT', 'IIT'), ('UPSC', 'UPSC'), ('Bank', 'Bank'), ('12th', '12th')], validators=[DataRequired()])
+    coachinglocation = SelectField('Location', choices = [('Patna', 'Patna'), ('Pune', 'Pune'), ('Mumbai', 'Mumbai')], validators=[DataRequired()])
+    submit = SubmitField('Submit')
+
 @app.route('/')
 @app.route('/home')
 def home():
@@ -257,4 +271,40 @@ def edit_news(key):
         News = Newsticker.query.get(key)
         form.news.data = News.news
     return render_template('edit_news.html', title='Edit News',
+                           form=form)
+
+@app.route('/edit_coaching/<key>', methods=['GET', 'POST'])
+def edit_coaching(key):
+    form = EditCoachingForm()
+    mycoaching = CoachingClass.query.get(key)
+    if form.validate_on_submit():
+        Coaching = CoachingClass.query.get(key)
+        Coaching.coachingname = form.coachingname.data
+        Coaching.coachingcontact = form.coachingcontact.data
+        Coaching.coachingemail = form.coachingemail.data
+        Coaching.coachingabout = form.coachingabout.data
+        Coaching.coachingcoursesoffered = form.coachingcoursesoffered.data
+        Coaching.coachingteachers = form.coachingteachers.data
+        Coaching.coachingachievement = form.coachingachievement.data
+        Coaching.coachingresults = form.coachingresults.data 
+        Coaching.coachingcategory = form.coachingcategory.data 
+        Coaching.coachingsubcategory = form.coachingsubcategory.data
+        Coaching.coachinglocation = form.coachinglocation.data 
+        db.session.commit()
+        flash('Your changes have been saved.')
+        return render_template('mycoaching.html', mycoaching=mycoaching)
+    elif request.method == 'GET':
+        Coaching = CoachingClass.query.get(key)
+        form.coachingname.data = Coaching.coachingname
+        form.coachingcontact.data = Coaching.coachingcontact
+        form.coachingemail.data = Coaching.coachingemail
+        form.coachingabout.data = Coaching.coachingabout
+        form.coachingcoursesoffered.data = Coaching.coachingcoursesoffered
+        form.coachingteachers.data = Coaching.coachingteachers
+        form.coachingachievement.data = Coaching.coachingachievement
+        form.coachingresults.data = Coaching.coachingresults
+        form.coachingcategory.data = Coaching.coachingcategory
+        form.coachingsubcategory.data = Coaching.coachingsubcategory
+        form.coachinglocation.data = Coaching.coachinglocation
+    return render_template('edit_coaching.html', title='Edit Coaching',
                            form=form)
