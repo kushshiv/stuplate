@@ -29,30 +29,32 @@ $(document).ready(function(){
 });
 </script>
 <script>
-   function myFunction() {
-       var input, filter, ul, li, a, i, txtValue, j, u, c, k, div;
-       input = document.getElementById("myInput");
-       filter = input.value.toUpperCase();
-       c = document.getElementsByTagName("div");
-       for (k = 0; k < c.length; k++) {
-       div = c[k];
-       u = div.getElementsByTagName("ul");
-       for (j = 0; j < u.length; j++) {
-       ul=u[j];
-       li = ul.getElementsByTagName("li");
-       for (i = 0; i < li.length; i++) {
-           a = li[1];
-           txtValue = a.textContent || a.innerText;
-           if (txtValue.toUpperCase().indexOf(filter) > -1) {
-               li[i].style.display = "";
-               div.style.display = "";
-           } else {
-               li[i].style.display = "none";
-               div.style.display = "none";
-           }
-       }
-       }
-       }
-   }
+	function myFunction() {
+		var input, filter, ul, li, a, i, txtValue, j, u, c, k, div;
+		input = document.getElementById("myInput");
+		filter = input.value.toUpperCase();
+		uprdiv = document.getElementsByClassName("container");
+		divc = uprdiv[0];
+		c = divc.getElementsByTagName("div");
+		for (k = 0; k < c.length; k++) {
+			div = c[k];
+			u = div.getElementsByTagName("ul");
+			for (j = 0; j < u.length; j++) {
+				ul = u[j];
+				li = ul.getElementsByTagName("li");
+				for (i = 0; i < li.length; i++) {
+					a = li[1];
+					txtValue = a.textContent || a.innerText;
+					if (txtValue.toUpperCase().indexOf(filter) > -1) {
+						li[i].style.display = "";
+						div.style.display = "";
+					} else {
+						li[i].style.display = "none";
+						div.style.display = "none";
+					}
+				}
+			}
+		}
+	} 
 </script>
 {% endblock %}
