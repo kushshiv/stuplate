@@ -137,7 +137,7 @@ class CoachingRegistrationForm(FlaskForm):
     coachingresults = StringField('Results', validators=[DataRequired()])
     coachingcategory = SelectField('Category', choices = [('Academic', 'Academic'), ('Entrance', 'Entrance'), ('Competition', 'Competition')], validators=[DataRequired()])
     coachingsubcategory = SelectField('Sub Category', choices = [('IIT', 'IIT'), ('UPSC', 'UPSC'), ('Bank', 'Bank'), ('12th', '12th')], validators=[DataRequired()])
-    coachinglocation = SelectField('Location', choices = [('Patna', 'Patna'), ('Pune', 'Pune'), ('Mumbai', 'Mumbai')], validators=[DataRequired()])
+    coachinglocation = SelectField('Location', choices = [('Patna', 'Patna'), ('Pune', 'Pune'), ('Mumbai', 'Mumbai'), ('Bokaro', 'Bokaro')], validators=[DataRequired()])
     submit = SubmitField('Register')
 
 class EditNewsForm(FlaskForm):
@@ -155,7 +155,7 @@ class EditCoachingForm(FlaskForm):
     coachingresults = StringField('Results', validators=[DataRequired()])
     coachingcategory = SelectField('Category', choices = [('Academic', 'Academic'), ('Entrance', 'Entrance'), ('Competition', 'Competition')], validators=[DataRequired()])
     coachingsubcategory = SelectField('Sub Category', choices = [('IIT', 'IIT'), ('UPSC', 'UPSC'), ('Bank', 'Bank'), ('12th', '12th')], validators=[DataRequired()])
-    coachinglocation = SelectField('Location', choices = [('Patna', 'Patna'), ('Pune', 'Pune'), ('Mumbai', 'Mumbai')], validators=[DataRequired()])
+    coachinglocation = SelectField('Location', choices = [('Patna', 'Patna'), ('Pune', 'Pune'), ('Mumbai', 'Mumbai'), ('Bokaro', 'Bokaro')], validators=[DataRequired()])
     submit = SubmitField('Submit')
 
 @app.route('/')
