@@ -12,6 +12,7 @@ from flask_login import current_user, login_user, logout_user, login_required
 from app.models import User, Newsticker, CoachingClass
 from werkzeug.urls import url_parse
 from app import db
+from werkzeug import secure_filename
 
   
  
@@ -162,7 +163,8 @@ class EditCoachingForm(FlaskForm):
 @app.route('/home')
 def home():
     news = Newsticker.query.all()
-    return render_template('home.html', items=ITEMS, news=news)
+    files = fnmatch.filter(os.listdir(os.path.join(app.static_folder, "img/home")), '*.jpg')
+    return render_template('home.html', items=ITEMS, news=news, files=files)
  
 @app.route('/item/<key>')
 def item(key):
@@ -308,3 +310,16 @@ def edit_coaching(key):
         form.coachinglocation.data = Coaching.coachinglocation
     return render_template('edit_coaching.html', title='Edit Coaching',
                            form=form)
+
+@app.route('/uploadHomeImages')
+def uploadHomeImages():
+   return render_template('uploadHomeImages.html')
+	
+@app.route('/uploaderHomeImages', methods = ['GET', 'POST'])
+def uploaderHomeImages():
+   if request.method == 'POST':
+      f = request.files['file']
+      filename = secure_filename(f.filename)
+      f.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+      return 'file uploaded successfully'
+		

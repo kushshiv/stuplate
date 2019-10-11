@@ -46,25 +46,23 @@ jqueryObj(function(){
 </script>
 <div class="slideshow-container">
 
-<div class="mySlides slide">
-  <div class="numbertext">1 / 2</div>
-  <img src="{{ url_for('static', filename = 'img/home/school.jpg') }}"  height="400" width="1000">
-  <div class="text">School</div>
+  {% for imgfile in files %}
+      <div class="mySlides slide">
+        <div class="numbertext">1 / 2</div>
+          <img src="{{ url_for('static', filename = 'img/home/' + imgfile) }}"  height="400" width="1000">
+        <div class="text"></div>
+      </div>
+  {% endfor %}
 </div>
 
-<div class="mySlides slide">
-  <div class="numbertext">2 / 2</div>
-  <img src="{{ url_for('static', filename = 'img/home/mess.jpg') }}"  height="400" width="1000">
-  <div class="text">Mess</div>
-</div>
-
-</div>
 <br>
 
 <div style="text-align:center">
-  <span class="dot"></span> 
-  <span class="dot"></span> 
+  {% for imgfile in files %}
+      <span class="dot"></span>
+  {% endfor %}
 </div>
+<br>
 
 <script>
 var slideIndex = 0;
@@ -147,23 +145,6 @@ function showSlides() {
 }
 
 </style>
-
-<!--
-<div id="container" style="width:100%;">                                   
--->
-
-<!--
-<div id="right" style="float:right; width:48%;"> 
-    {% for id, item in items.items() %}
-      <div class="well" style="border: 2px solid red; border-radius: 5px; height: 200px;text-align: center;background-image: linear-gradient(to right, #33FFD1 , #33FF9C);">
-        <h2>
-          <a href="{{ url_for('item', key=id ) }}">{{item['name'] }}</a>
-        </h2>
-      </div>
-    {% endfor %}
-  </div>  
-</div> 
--->
 
 
 <div id="right" style="float:right; width:48%;"> 
