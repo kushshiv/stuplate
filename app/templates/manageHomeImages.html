@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block container %}
+
+<title>Home Image Display Manager</title>
+ <!-- <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script> -->
+<h1>Home Image Display Manager</h1>
+<br>
+
+  <div class="row">
+    {% for photo in homeImg_list %}
+      <div class="col-md-4">
+        <a target="_blank" href="{{ url_for('static' , filename='img/home/' + photo) }}"><img src="{{ url_for('static' , filename='img/home/' + photo) }}" class="img-rounded" alt="Cinque Terre" width="304" height="236" ></a>
+        <div class="caption" style="text-align: center">
+           <h4>{{ photo }} | 
+           <a href="{{ url_for('deleteHomeImages', filename=photo) }}">Delete</a><br>
+           </h4>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+
+{% endblock %}

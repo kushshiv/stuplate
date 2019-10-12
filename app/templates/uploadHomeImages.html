@@ -1,10 +1,25 @@
-<html>
+{% extends "base.html" %}
+
+{% block container %}
+
+<title>Home page images update</title>
+ <!-- <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script> -->
+<h1>Home page images update</h1>
+<br>
+
    <body>
-      <form action = "{{ url_for ('uploaderHomeImages') }}" method = "POST" 
+      <form action = "" method = "POST" 
          enctype = "multipart/form-data">
          <input type = "file" name = "file" />
+	 <br>
          <input type = "submit"/>
       </form>
+      <br>
+      <button type="submit" ><a href="{{ url_for('manageHomeImages') }}">Delete Home Images</a></button>
    </body>
-</html>
 
+{% endblock %}

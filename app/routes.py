@@ -311,15 +311,23 @@ def edit_coaching(key):
     return render_template('edit_coaching.html', title='Edit Coaching',
                            form=form)
 
-@app.route('/uploadHomeImages')
+@app.route('/uploadHomeImages', methods = ['GET', 'POST'])
 def uploadHomeImages():
-   return render_template('uploadHomeImages.html')
-	
-@app.route('/uploaderHomeImages', methods = ['GET', 'POST'])
-def uploaderHomeImages():
    if request.method == 'POST':
       f = request.files['file']
       filename = secure_filename(f.filename)
       f.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-      return 'file uploaded successfully'
-		
+      return redirect(url_for('home'))
+   return render_template('uploadHomeImages.html')
+	
+@app.route('/manageHomeImages')
+def manageHomeImages():
+    #homeImg_list = os.listdir(app.config['UPLOAD_FOLDER'])
+    homeImg_list = fnmatch.filter(os.listdir(os.path.join(app.static_folder, "img/home")), '*.jpg')
+    return render_template('manageHomeImages.html', homeImg_list=homeImg_list)		
+
+@app.route('/deleteHomeImages/<filename>')
+def deleteHomeImages(filename):
+    file_name = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+    os.remove(file_name)
+    return redirect(url_for('manageHomeImages'))
