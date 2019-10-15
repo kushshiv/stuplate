@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block container %}
+
+<title>Coaching Class images update</title>
+ <!-- <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script> -->
+<br>
+
+   <body>
+      <form action = "" method = "POST" 
+         enctype = "multipart/form-data">
+         <h1>Coaching Class Slider Images</h1>
+         <input type = "file" name = "CoachingClassSliderfile1" />
+         <input type = "file" name = "CoachingClassSliderfile2" />
+         <input type = "file" name = "CoachingClassSliderfile3" />
+         <input type = "file" name = "CoachingClassSliderfile4" />
+         <input type = "file" name = "CoachingClassSliderfile5" />
+	 <br>
+         <h1>Coaching Class Achievement Image</h1>
+         <input type = "file" name = "CoachingClassAchievementfile" />
+	 <br>
+         <h1>Coaching Class Results Images</h1>
+         <input type = "file" name = "CoachingClassResultsfile" />
+	 <br>
+         <input type = "submit"/>
+      </form>
+      <br>
+    <!--  <button type="submit" ><a href="{{ url_for('manageHomeImages') }}">Delete Home Images</a></button> -->
+   </body>
+
+{% endblock %}

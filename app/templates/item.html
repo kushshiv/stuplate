@@ -14,8 +14,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 <div class="slideshow-container">
-
-  {% for image in images %}
+  {% for image in CoachingClassSliderimages %}
       <div class="mySlides slide">
         <div class="numbertext">1 / 2</div>
           <img src="{{ url_for('static', filename = 'img/coaching_slide/' + image) }}"  height="400" width="1000">
@@ -26,7 +25,7 @@
 <br>
 
 <div style="text-align:center">
-  {% for image in images %}
+  {% for image in CoachingClassSliderimages %}
       <span class="dot"></span>
   {% endfor %}
 </div>
@@ -78,13 +77,19 @@ function showSlides() {
 </div>
 
 <div id="Achievement" class="tabcontent">
-  <h3>Achievement</h3>
-  <p>{{ item.coachingachievement }}</p>
+      <div class="mySlides slide">
+  {% for image in CoachingClassAchievementimages %}
+          <img src="{{ url_for('static', filename = 'img/coaching_slide/' + image) }}"  height="400" width="1000">
+  {% endfor %}
+      </div>
 </div>
 
 <div id="Results" class="tabcontent">
-  <h3>Results</h3>
-  <p>{{ item.coachingresults }}</p>
+      <div class="mySlides slide">
+  {% for image in CoachingClassResultsimages %}
+          <img src="{{ url_for('static', filename = 'img/coaching_slide/' + image) }}"  height="400" width="1000">
+  {% endfor %}
+      </div>
 </div>
 
 <script>

@@ -170,10 +170,12 @@ def home():
 def item(key):
     #item = productsList.get(key)
     item = CoachingClass.query.get(key)
-    images = fnmatch.filter(os.listdir(os.path.join(app.static_folder, "img/coaching_slide")), str(item.coachingid) + '_' + '*.jpg')
+    CoachingClassSliderimages = fnmatch.filter(os.listdir(os.path.join(app.static_folder, "img/coaching_slide")), str(item.coachingid) + '_' + '*' + '_' +'CoachingClassSliderfile*' + '_' + '*.jpg')
+    CoachingClassAchievementimages = fnmatch.filter(os.listdir(os.path.join(app.static_folder, "img/coaching_slide")), str(item.coachingid) + '_' + '*' + '_' +'CoachingClassAchievementfile' + '_' + '*.jpg')
+    CoachingClassResultsimages = fnmatch.filter(os.listdir(os.path.join(app.static_folder, "img/coaching_slide")), str(item.coachingid) + '_' + '*' + '_' +'CoachingClassResultsfile' + '_' + '*.jpg')
     if not item:
         abort(404)
-    return render_template('item.html', item=item, images=images)
+    return render_template('item.html', item=item, CoachingClassSliderimages=CoachingClassSliderimages, CoachingClassAchievementimages=CoachingClassAchievementimages, CoachingClassResultsimages=CoachingClassResultsimages)
 
 @app.route('/productList')
 def productList():
@@ -331,3 +333,17 @@ def deleteHomeImages(filename):
     file_name = os.path.join(app.config['UPLOAD_FOLDER'], filename)
     os.remove(file_name)
     return redirect(url_for('manageHomeImages'))
+
+@app.route('/uploadCoachingImages', methods = ['GET', 'POST'])
+def uploadCoachingImages():
+   if request.method == 'POST':
+      coaching_id = current_user.coachingclass.all()[0].coachingid
+      filefield = ['CoachingClassSliderfile1', 'CoachingClassSliderfile2', 'CoachingClassSliderfile3', 'CoachingClassSliderfile4', 'CoachingClassSliderfile5', 'CoachingClassAchievementfile', 'CoachingClassResultsfile']
+      for file in filefield:
+          f = request.files[file]
+          f.filename = str(coaching_id) + "_" + str(filefield.index(file)) + "_" + file + "_" + f.filename
+          filename = secure_filename(f.filename)
+          f.save(os.path.join(app.config['UPLOAD_COACHING_FOLDER'], filename))
+      return redirect(url_for('home'))
+   return render_template('uploadCoachingImages.html')
+
