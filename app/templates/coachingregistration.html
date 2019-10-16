@@ -2,6 +2,16 @@
 
 {% block container %}
     <h1>Register Coaching</h1>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/styleCoaching.css') }}">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<div class="slideshow-container">
+<button class="tablink" onclick="openPage('Register Details', this, 'DarkGray')" id="defaultOpen">Register Details</button>
+<button class="tablink" onclick="openPage('Upload photos', this, 'DarkGray')" >Upload photos</button>
+<button class="tablink" onclick="openPage('Teachers Detail', this, 'DarkGray')" >Teachers Detail</button>
+
+<div id="Register Details" class="tabcontent">
     <form action="" method="post">
         {{ form.hidden_tag() }}
         <p>  
@@ -83,6 +93,75 @@
         </p>
         <p>{{ form.submit() }}</p>
     </form>
+</div>
+
+<div id="Upload photos" class="tabcontent">
+    <form action = "" method = "POST"
+        enctype = "multipart/form-data">
+        <h1>Coaching Class Slider Images</h1>
+        <input type = "file" name = "CoachingClassSliderfile1" />
+        <input type = "file" name = "CoachingClassSliderfile2" />
+        <input type = "file" name = "CoachingClassSliderfile3" />
+        <input type = "file" name = "CoachingClassSliderfile4" />
+        <input type = "file" name = "CoachingClassSliderfile5" />
+        <br>
+        <h1>Coaching Class Achievement Image</h1>
+        <input type = "file" name = "CoachingClassAchievementfile" />
+        <br>
+        <h1>Coaching Class Results Images</h1>
+        <input type = "file" name = "CoachingClassResultsfile" />
+        <br>
+        <input type = "submit" value = "submit_images" name = "submit"><br>
+    </form>
+    <br>
+    <!--  <button type="submit" ><a href="{{ url_for('manageHomeImages') }}">Delete Home Images</a></button> -->
+</div>
+
+<div id="Teachers Detail" class="tabcontent">
+    <form action = "" method = "POST"
+        enctype = "multipart/form-data">
+        <h1>Coaching Class Slider Images</h1>
+        <input type = "file" name = "CoachingClassSliderfile1" />
+        <input type = "file" name = "CoachingClassSliderfile2" />
+        <input type = "file" name = "CoachingClassSliderfile3" />
+        <input type = "file" name = "CoachingClassSliderfile4" />
+        <input type = "file" name = "CoachingClassSliderfile5" />
+        <br>
+        <h1>Coaching Class Achievement Image</h1>
+        <input type = "file" name = "CoachingClassAchievementfile" />
+        <br>
+        <h1>Coaching Class Results Images</h1>
+        <input type = "file" name = "CoachingClassResultsfile" />
+        <br>
+        <input type = "submit" value = "submit_images" name = "submit"><br>
+    </form>
+    <br>
+    <!--  <button type="submit" ><a href="{{ url_for('manageHomeImages') }}">Delete Home Images</a></button> -->
+</div>
+
+
+<script>
+function openPage(pageName,elmnt,color) {
+  var i, tabcontent, tablinks;
+  tabcontent = document.getElementsByClassName("tabcontent");
+  for (i = 0; i < tabcontent.length; i++) {
+    tabcontent[i].style.display = "none";
+  }
+  tablinks = document.getElementsByClassName("tablink");
+  for (i = 0; i < tablinks.length; i++) {
+    tablinks[i].style.backgroundColor = "";
+  }
+  document.getElementById(pageName).style.display = "block";
+  elmnt.style.backgroundColor = color;
+}
+
+// Get the element with id="defaultOpen" and click on it
+document.getElementById("defaultOpen").click();
+</script>
+
+
+</div>
 
 {% endblock %}
+
 

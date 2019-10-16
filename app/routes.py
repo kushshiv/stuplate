@@ -184,13 +184,26 @@ def productList():
 
 @app.route("/coachingregistration", methods=['GET', 'POST'])
 def coachingregistration():
-    form = CoachingRegistrationForm()
-    if form.validate_on_submit():
-        regCoaching = CoachingClass(coachingname=form.coachingname.data, coachingcontact=form.coachingcontact.data, coachingemail=form.coachingemail.data, coachingpassword_hash='sjkfjlsdjflasdfjkldjflksdfjksdjlfsd', coachingabout=form.coachingabout.data, coachingcoursesoffered=form.coachingcoursesoffered.data, coachingteachers=form.coachingteachers.data, coachingachievement=form.coachingachievement.data, coachingresults=form.coachingresults.data, coachingcategory=form.coachingcategory.data, coachingsubcategory=form.coachingsubcategory.data, coachinglocation=form.coachinglocation.data, author=current_user)
-        db.session.add(regCoaching)
-        db.session.commit()
-        return redirect(url_for('productList'))
+    print(request.form.get('submit'))
+    if request.form.get('submit') == 'submit_images':
+        print(request.form.get('submit'))
+        coaching_id = current_user.coachingclass.all()[0].coachingid
+        filefield = ['CoachingClassSliderfile1', 'CoachingClassSliderfile2', 'CoachingClassSliderfile3', 'CoachingClassSliderfile4', 'CoachingClassSliderfile5', 'CoachingClassAchievementfile', 'CoachingClassResultsfile']
+        for file in filefield:
+            f = request.files[file]
+            f.filename = str(coaching_id) + "_" + str(filefield.index(file)) + "_" + file + "_" + f.filename
+            filename = secure_filename(f.filename)
+            f.save(os.path.join(app.config['UPLOAD_COACHING_FOLDER'], filename))
+        return redirect(url_for('home'))
+    else:
+        form = CoachingRegistrationForm()
+        if form.validate_on_submit():
+            regCoaching = CoachingClass(coachingname=form.coachingname.data, coachingcontact=form.coachingcontact.data, coachingemail=form.coachingemail.data, coachingpassword_hash='sjkfjlsdjflasdfjkldjflksdfjksdjlfsd', coachingabout=form.coachingabout.data, coachingcoursesoffered=form.coachingcoursesoffered.data, coachingteachers=form.coachingteachers.data, coachingachievement=form.coachingachievement.data, coachingresults=form.coachingresults.data, coachingcategory=form.coachingcategory.data, coachingsubcategory=form.coachingsubcategory.data, coachinglocation=form.coachinglocation.data, author=current_user)
+            db.session.add(regCoaching)
+            db.session.commit()
+            return redirect(url_for('productList'))
     return render_template('coachingregistration.html', title='Register Coaching', form=form)
+
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
