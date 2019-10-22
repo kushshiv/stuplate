@@ -79,12 +79,14 @@ function showSlides() {
 <div id="Achievement" class="tabcontent">
   {% for image in CoachingClassAchievementimages %}
           <img src="{{ url_for('static', filename = 'img/coaching_slide/' + image) }}"  height="400" width="960">
+          </BR>
   {% endfor %}
 </div>
 
 <div id="Results" class="tabcontent">
   {% for image in CoachingClassResultsimages %}
           <img src="{{ url_for('static', filename = 'img/coaching_slide/' + image) }}"  height="400" width="960">
+          </BR>
   {% endfor %}
 </div>
 
