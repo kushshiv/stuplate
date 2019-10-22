@@ -294,6 +294,13 @@ def edit_news(key):
 def edit_coaching(key):
     form = EditCoachingForm()
     mycoaching = CoachingClass.query.get(key)
+    coaching_id = current_user.coachingclass.all()[0].coachingid
+    coachingSlideImg_list = fnmatch.filter(os.listdir(os.path.join(app.static_folder, "img/coaching_slide")), str(coaching_id) + '_' + '*' + '_' + 'CoachingClassSliderfile*' + '*.jpg')
+    coachingAchievementImg_list = fnmatch.filter(os.listdir(os.path.join(app.static_folder, "img/coaching_slide")), str(coaching_id) + '_' + '*' + '_' + 'CoachingClassAchievementfile*' + '*.jpg')
+    coachingResultsImg_list = fnmatch.filter(os.listdir(os.path.join(app.static_folder, "img/coaching_slide")), str(coaching_id) + '_' + '*' + '_' + 'CoachingClassResultsfile*' + '*.jpg')
+    print("hi1")
+    print(coachingSlideImg_list)
+    print("hi2")
     if form.validate_on_submit():
         Coaching = CoachingClass.query.get(key)
         Coaching.coachingname = form.coachingname.data
@@ -324,7 +331,7 @@ def edit_coaching(key):
         form.coachingsubcategory.data = Coaching.coachingsubcategory
         form.coachinglocation.data = Coaching.coachinglocation
     return render_template('edit_coaching.html', title='Edit Coaching',
-                           form=form)
+                           form=form, coachingSlideImg_list=coachingSlideImg_list, coachingAchievementImg_list=coachingAchievementImg_list, coachingResultsImg_list=coachingResultsImg_list)
 
 @app.route('/uploadHomeImages', methods = ['GET', 'POST'])
 def uploadHomeImages():
@@ -360,3 +367,19 @@ def uploadCoachingImages():
       return redirect(url_for('home'))
    return render_template('uploadCoachingImages.html')
 
+#@app.route('/manageCoachingImages', methods = ['GET', 'POST'])
+#def manageCoachingImages():
+#    coaching_id = current_user.coachingclass.all()[0].coachingid
+#    coachingSlideImg_list = fnmatch.filter(os.listdir(os.path.join(app.static_folder, "img/coaching_slide")), str(item.coachingid) + '_' + '*' + '_' + 'CoachingClassSliderfile*' + '*.jpg')
+#    coachingAchievementImg_list = fnmatch.filter(os.listdir(os.path.join(app.static_folder, "img/coaching_slide")), str(item.coachingid) + '_' + '*' + '_' + 'CoachingClassAchievementfile*' + '*.jpg')
+#    coachingResultsImg_list = fnmatch.filter(os.listdir(os.path.join(app.static_folder, "img/coaching_slide")), str(item.coachingid) + '_' + '*' + '_' + 'CoachingClassResultsfile*' + '*.jpg')
+#    print("hi1")
+#    print(coachingSlideImg_list)
+#    print("hi2")
+#    return render_template('edit_coaching.html', coachingSlideImg_list=coachingSlideImg_list, coachingAchievementImg_list=coachingAchievementImg_list, coachingResultsImg_list=coachingResultsImg_list)		
+
+@app.route('/deleteCoachingImages/<filename>', methods = ['GET', 'POST'])
+def deleteCoachingImages(filename):
+    file_name = os.path.join(app.config['UPLOAD_COACHING_FOLDER'], filename)
+    os.remove(file_name)
+    return redirect(url_for('manageCoachingImages'))
