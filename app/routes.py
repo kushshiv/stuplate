@@ -39,50 +39,6 @@ ITEMS = {
 #    }
 }
  
-productsList = {
-    'coaching1': {
-        'id': '100',
-        'name': 'A Coaching Classes',
-        'category': 'IIT',
-	'location': 'Patna',
-	'overview' : 'A Coaching Classes is leading coaching institute in Patna for IIT JEE exam. Best IIT JEE Coaching in Patna.',
-        'price':'Starting at 1000',
-    },  
-    'coaching2': {
-        'id': '101',
-        'name': 'B Coaching Classes',
-        'category': 'IIT',
-        'location': 'Patna',
-	'overview' : 'B Coaching Classes is leading coaching institute in Patna for IIT JEE exam. Best IIT JEE Coaching in Patna.',
-        'price':'Starting at 1500',
-    },
-    'coaching3': {
-        'id': '103',
-        'name': 'C Coaching Classes',
-        'category': 'GATE',
-        'location': 'Mumbai',
-	'overview' : 'C Coaching Classes is leading coaching institute in Mumbai for GATE exam.',
-        'price':'Starting at 1600',
-    },
-    'coaching4': {
-        'id': '104',
-        'name': 'D Coaching Classes',
-        'category': 'UPSC',
-        'location': 'Pune',
-	'overview' : 'D Coaching Classes is leading coaching institute in Pune for UPSC exam. Best UPSC Coaching in Pune.',
-        'price':'Starting at 100',
-    },
-    'coaching5': {
-        'id': '105',
-        'name': 'E Coaching Classes',
-        'category': 'UPSC',
-        'location': 'Pune',
-	'overview' : 'E Coaching Classes is leading coaching institute in Pune for UPSC exam.',
-        'price':'Starting at 2500'
-    }
-}
-
-
 class ReusableForm(Form):
     name = TextField('Name:', validators=[validators.required()])
 
@@ -298,10 +254,17 @@ def edit_coaching(key):
     coachingSlideImg_list = fnmatch.filter(os.listdir(os.path.join(app.static_folder, "img/coaching_slide")), str(coaching_id) + '_' + '*' + '_' + 'CoachingClassSliderfile*' + '*.jpg')
     coachingAchievementImg_list = fnmatch.filter(os.listdir(os.path.join(app.static_folder, "img/coaching_slide")), str(coaching_id) + '_' + '*' + '_' + 'CoachingClassAchievementfile*' + '*.jpg')
     coachingResultsImg_list = fnmatch.filter(os.listdir(os.path.join(app.static_folder, "img/coaching_slide")), str(coaching_id) + '_' + '*' + '_' + 'CoachingClassResultsfile*' + '*.jpg')
-    print("hi1")
-    print(coachingSlideImg_list)
-    print("hi2")
-    if form.validate_on_submit():
+    if request.form.get('submit') == 'submit_images':
+        print(request.form.get('submit'))
+        coaching_id = current_user.coachingclass.all()[0].coachingid
+        filefield = ['CoachingClassSliderfile1', 'CoachingClassSliderfile2', 'CoachingClassSliderfile3', 'CoachingClassSliderfile4', 'CoachingClassSliderfile5', 'CoachingClassAchievementfile', 'CoachingClassResultsfile']
+        for file in filefield:
+            f = request.files[file]
+            f.filename = str(coaching_id) + "_" + str(filefield.index(file)) + "_" + file + "_" + f.filename
+            filename = secure_filename(f.filename)
+            f.save(os.path.join(app.config['UPLOAD_COACHING_FOLDER'], filename))
+        return render_template('mycoaching.html', mycoaching=mycoaching)
+    elif form.validate_on_submit():
         Coaching = CoachingClass.query.get(key)
         Coaching.coachingname = form.coachingname.data
         Coaching.coachingcontact = form.coachingcontact.data
@@ -367,19 +330,9 @@ def uploadCoachingImages():
       return redirect(url_for('home'))
    return render_template('uploadCoachingImages.html')
 
-#@app.route('/manageCoachingImages', methods = ['GET', 'POST'])
-#def manageCoachingImages():
-#    coaching_id = current_user.coachingclass.all()[0].coachingid
-#    coachingSlideImg_list = fnmatch.filter(os.listdir(os.path.join(app.static_folder, "img/coaching_slide")), str(item.coachingid) + '_' + '*' + '_' + 'CoachingClassSliderfile*' + '*.jpg')
-#    coachingAchievementImg_list = fnmatch.filter(os.listdir(os.path.join(app.static_folder, "img/coaching_slide")), str(item.coachingid) + '_' + '*' + '_' + 'CoachingClassAchievementfile*' + '*.jpg')
-#    coachingResultsImg_list = fnmatch.filter(os.listdir(os.path.join(app.static_folder, "img/coaching_slide")), str(item.coachingid) + '_' + '*' + '_' + 'CoachingClassResultsfile*' + '*.jpg')
-#    print("hi1")
-#    print(coachingSlideImg_list)
-#    print("hi2")
-#    return render_template('edit_coaching.html', coachingSlideImg_list=coachingSlideImg_list, coachingAchievementImg_list=coachingAchievementImg_list, coachingResultsImg_list=coachingResultsImg_list)		
-
 @app.route('/deleteCoachingImages/<filename>', methods = ['GET', 'POST'])
 def deleteCoachingImages(filename):
+    coaching_id = current_user.coachingclass.all()[0].coachingid
     file_name = os.path.join(app.config['UPLOAD_COACHING_FOLDER'], filename)
     os.remove(file_name)
-    return redirect(url_for('manageCoachingImages'))
+    return redirect(url_for('edit_coaching' , key=coaching_id))
