@@ -99,6 +99,11 @@
 
 <div id="Edit Upload photos" class="tabcontent">
 
+
+
+    <form action = "" method = "POST"
+        enctype = "multipart/form-data">
+        <h1>Coaching Class Slider Images</h1>
   <div class="row">
     {% for photo in coachingSlideImg_list %}
       <div class="col-md-4">
@@ -111,7 +116,13 @@
       </div>
     {% endfor %}
   </div>
-
+        <input type = "file" name = "CoachingClassSliderfile1" />
+        <input type = "file" name = "CoachingClassSliderfile2" />
+        <input type = "file" name = "CoachingClassSliderfile3" />
+        <input type = "file" name = "CoachingClassSliderfile4" />
+        <input type = "file" name = "CoachingClassSliderfile5" />
+        <br>
+        <h1>Coaching Class Achievement Image</h1>
   <div class="row">
     {% for photo in coachingAchievementImg_list %}
       <div class="col-md-4">
@@ -124,7 +135,9 @@
       </div>
     {% endfor %}
   </div>
-
+        <input type = "file" name = "CoachingClassAchievementfile" />
+        <br>
+        <h1>Coaching Class Results Images</h1>
   <div class="row">
     {% for photo in coachingResultsImg_list %}
       <div class="col-md-4">
@@ -138,19 +151,6 @@
     {% endfor %}
   </div>
 
-    <form action = "" method = "POST"
-        enctype = "multipart/form-data">
-        <h1>Coaching Class Slider Images</h1>
-        <input type = "file" name = "CoachingClassSliderfile1" />
-        <input type = "file" name = "CoachingClassSliderfile2" />
-        <input type = "file" name = "CoachingClassSliderfile3" />
-        <input type = "file" name = "CoachingClassSliderfile4" />
-        <input type = "file" name = "CoachingClassSliderfile5" />
-        <br>
-        <h1>Coaching Class Achievement Image</h1>
-        <input type = "file" name = "CoachingClassAchievementfile" />
-        <br>
-        <h1>Coaching Class Results Images</h1>
         <input type = "file" name = "CoachingClassResultsfile" />
         <br>
         <input type = "submit" value = "submit_images" name = "submit"><br>
