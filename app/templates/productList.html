@@ -3,8 +3,15 @@
 {% block container %}
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
  <!--     <input class="form-control" id="myInput" type="text" placeholder="Search.."> -->
-      <input class="form-control" type="text" id="myInput" onkeyup="myFunction()" placeholder="Search for Location...">
 
+<div class="row" >
+  <div class="column" style="float:left;width:50%">
+      <input style='width:20em' class="form-control" type="text" id="myInput" onkeyup="myFunction()" placeholder="Search for Location...">
+  </div>
+  <div class="column" style="float:left;width:50%">
+      <input style='width:20em' class="form-control" type="text" id="myInput1" onkeyup="myFunction1()" placeholder="Search for Coaching Type...">
+  </div>
+</div>
 
   <br>
     {% for coaching in productList %}
@@ -57,4 +64,44 @@ $(document).ready(function(){
 		}
 	} 
 </script>
+<script>
+$(document).ready(function(){
+  $("#myInput1").on("keyup", function() {
+    var value = $(this).val().toLowerCase();
+    $("#myTable tr").filter(function() {
+      $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+    });
+  });
+});
+</script>
+<script>
+        function myFunction1() {
+                var input, filter, ul, li, a, i, txtValue, j, u, c, k, div;
+                input = document.getElementById("myInput1");
+                filter = input.value.toUpperCase();
+                uprdiv = document.getElementsByClassName("container");
+                divc = uprdiv[0];
+                c = divc.getElementsByTagName("div");
+                for (k = 0; k < c.length; k++) {
+                        div = c[k];
+                        u = div.getElementsByTagName("ul");
+                        for (j = 0; j < u.length; j++) {
+                                ul = u[j];
+                                li = ul.getElementsByTagName("li");
+                                for (i = 0; i < li.length; i++) {
+                                        a = li[0];
+                                        txtValue = a.textContent || a.innerText;
+                                        if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                                                li[i].style.display = "";
+                                                div.style.display = "";
+                                        } else {
+                                                li[i].style.display = "none";
+                                                div.style.display = "none";
+                                        }
+                                }
+                        }
+                }
+        }
+</script>
+
 {% endblock %}
