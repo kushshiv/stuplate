@@ -260,9 +260,10 @@ def edit_coaching(key):
         filefield = ['CoachingClassSliderfile1', 'CoachingClassSliderfile2', 'CoachingClassSliderfile3', 'CoachingClassSliderfile4', 'CoachingClassSliderfile5', 'CoachingClassAchievementfile', 'CoachingClassResultsfile']
         for file in filefield:
             f = request.files[file]
-            f.filename = str(coaching_id) + "_" + str(filefield.index(file)) + "_" + file + "_" + f.filename
-            filename = secure_filename(f.filename)
-            f.save(os.path.join(app.config['UPLOAD_COACHING_FOLDER'], filename))
+            if f.filename:
+                f.filename = str(coaching_id) + "_" + str(filefield.index(file)) + "_" + file + "_" + f.filename
+                filename = secure_filename(f.filename)
+                f.save(os.path.join(app.config['UPLOAD_COACHING_FOLDER'], filename))
         return render_template('mycoaching.html', mycoaching=mycoaching)
     elif form.validate_on_submit():
         Coaching = CoachingClass.query.get(key)
@@ -324,9 +325,10 @@ def uploadCoachingImages():
       filefield = ['CoachingClassSliderfile1', 'CoachingClassSliderfile2', 'CoachingClassSliderfile3', 'CoachingClassSliderfile4', 'CoachingClassSliderfile5', 'CoachingClassAchievementfile', 'CoachingClassResultsfile']
       for file in filefield:
           f = request.files[file]
-          f.filename = str(coaching_id) + "_" + str(filefield.index(file)) + "_" + file + "_" + f.filename
-          filename = secure_filename(f.filename)
-          f.save(os.path.join(app.config['UPLOAD_COACHING_FOLDER'], filename))
+          if f.filename:
+              f.filename = str(coaching_id) + "_" + str(filefield.index(file)) + "_" + file + "_" + f.filename
+              filename = secure_filename(f.filename)
+              f.save(os.path.join(app.config['UPLOAD_COACHING_FOLDER'], filename))
       return redirect(url_for('home'))
    return render_template('uploadCoachingImages.html')
 
