@@ -9,7 +9,7 @@ from flask import Flask, render_template, abort, flash, request, redirect, url_f
 from wtforms import Form, TextField, TextAreaField, validators, StringField, SubmitField, PasswordField, BooleanField, SelectField
 from wtforms.validators import ValidationError, DataRequired, Email, EqualTo
 from flask_login import current_user, login_user, logout_user, login_required
-from app.models import User, Newsticker, CoachingClass
+from app.models import User, Newsticker, CoachingClass, CoachingTeachers
 from werkzeug.urls import url_parse
 from app import db
 from werkzeug import secure_filename
@@ -113,6 +113,14 @@ class EditCoachingForm(FlaskForm):
     coachingcategory = SelectField('Category', choices = [('Academic', 'Academic'), ('Entrance', 'Entrance'), ('Competition', 'Competition')], validators=[DataRequired()])
     coachingsubcategory = SelectField('Sub Category', choices = [('IIT', 'IIT'), ('UPSC', 'UPSC'), ('Bank', 'Bank'), ('12th', '12th')], validators=[DataRequired()])
     coachinglocation = SelectField('Location', choices = [('Patna', 'Patna'), ('Pune', 'Pune'), ('Mumbai', 'Mumbai'), ('Bokaro', 'Bokaro')], validators=[DataRequired()])
+    submit = SubmitField('Submit')
+
+class CoachingTeachersForm(FlaskForm):
+    id = db.Column(db.Integer, primary_key=True)
+    teachersname = StringField('Teachers Name', validators=[DataRequired()])
+    teachersqualification = StringField('Teachers Qualification', validators=[DataRequired()])
+    teacherssubject = StringField('Teachers Subject', validators=[DataRequired()])
+    teachersexperience = StringField('Teachers Experience', validators=[DataRequired()])
     submit = SubmitField('Submit')
 
 @app.route('/')
@@ -338,3 +346,16 @@ def deleteCoachingImages(filename):
     file_name = os.path.join(app.config['UPLOAD_COACHING_FOLDER'], filename)
     os.remove(file_name)
     return redirect(url_for('edit_coaching' , key=coaching_id))
+
+@app.route("/coachingteachers", methods=['GET', 'POST'])
+def coachingteachers():
+    print(request.form.get('submit'))
+    form = CoachingTeachersForm()
+    if form.validate_on_submit():
+        coachingteachers = CoachingTeachers(teachersname=form.teachersname.data, teachersqualification=form.teachersqualification.data, teacherssubject=form.teacherssubject.data, teachersexperience=form.teachersexperience.data, teacher=current_user)
+        db.session.add(coachingteachers)
+        db.session.commit()
+        return redirect(url_for('productList'))
+    return render_template('coachingteachers.html', title='Register Coaching Teachers', form=form)
+
+
