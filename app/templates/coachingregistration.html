@@ -118,25 +118,39 @@
 </div>
 
 <div id="Teachers Detail" class="tabcontent">
-    <form action = "" method = "POST"
-        enctype = "multipart/form-data">
-        <h1>Coaching Class Slider Images</h1>
-        <input type = "file" name = "CoachingClassSliderfile1" />
-        <input type = "file" name = "CoachingClassSliderfile2" />
-        <input type = "file" name = "CoachingClassSliderfile3" />
-        <input type = "file" name = "CoachingClassSliderfile4" />
-        <input type = "file" name = "CoachingClassSliderfile5" />
-        <br>
-        <h1>Coaching Class Achievement Image</h1>
-        <input type = "file" name = "CoachingClassAchievementfile" />
-        <br>
-        <h1>Coaching Class Results Images</h1>
-        <input type = "file" name = "CoachingClassResultsfile" />
-        <br>
-        <input type = "submit" value = "submit_images" name = "submit"><br>
+    <form action="" method="post">
+        {{ form.hidden_tag() }}
+        <p>
+            {{ form.teachersname.label }}<br>
+            {{ form.teachersname(size=120) }}<br>
+            {% for error in form.teachersname.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+        </p>
+        <p>
+            {{ form.teachersqualification.label }}<br>
+            {{ form.teachersqualification(size=120) }}<br>
+            {% for error in form.teachersqualification.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+        </p>
+        <p>
+            {{ form.teacherssubject.label }}<br>
+            {{ form.teacherssubject(size=120) }}<br>
+            {% for error in form.teacherssubject.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+        </p>
+        <p>
+            {{ form.teachersexperience.label }}<br>
+            {{ form.teachersexperience(size=120) }}<br>
+            {% for error in form.teachersexperience.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+        </p>
+        <p>{{ form.submit_teachers() }}</p>
     </form>
     <br>
-    <!--  <button type="submit" ><a href="{{ url_for('manageHomeImages') }}">Delete Home Images</a></button> -->
 </div>
 
 

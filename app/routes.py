@@ -96,6 +96,11 @@ class CoachingRegistrationForm(FlaskForm):
     coachingsubcategory = SelectField('Sub Category', choices = [('IIT', 'IIT'), ('UPSC', 'UPSC'), ('Bank', 'Bank'), ('12th', '12th')], validators=[DataRequired()])
     coachinglocation = SelectField('Location', choices = [('Patna', 'Patna'), ('Pune', 'Pune'), ('Mumbai', 'Mumbai'), ('Bokaro', 'Bokaro')], validators=[DataRequired()])
     submit = SubmitField('Register')
+    teachersname = StringField('Teachers Name', validators=[DataRequired()])
+    teachersqualification = StringField('Teachers Qualification', validators=[DataRequired()])
+    teacherssubject = StringField('Teachers Subject', validators=[DataRequired()])
+    teachersexperience = StringField('Teachers Experience', validators=[DataRequired()])
+    submit_teachers = SubmitField('Submit Teachers')
 
 class EditNewsForm(FlaskForm):
     news = StringField('News', validators=[Length(min=0, max=140)])
@@ -113,14 +118,6 @@ class EditCoachingForm(FlaskForm):
     coachingcategory = SelectField('Category', choices = [('Academic', 'Academic'), ('Entrance', 'Entrance'), ('Competition', 'Competition')], validators=[DataRequired()])
     coachingsubcategory = SelectField('Sub Category', choices = [('IIT', 'IIT'), ('UPSC', 'UPSC'), ('Bank', 'Bank'), ('12th', '12th')], validators=[DataRequired()])
     coachinglocation = SelectField('Location', choices = [('Patna', 'Patna'), ('Pune', 'Pune'), ('Mumbai', 'Mumbai'), ('Bokaro', 'Bokaro')], validators=[DataRequired()])
-    submit = SubmitField('Submit')
-
-class CoachingTeachersForm(FlaskForm):
-    id = db.Column(db.Integer, primary_key=True)
-    teachersname = StringField('Teachers Name', validators=[DataRequired()])
-    teachersqualification = StringField('Teachers Qualification', validators=[DataRequired()])
-    teacherssubject = StringField('Teachers Subject', validators=[DataRequired()])
-    teachersexperience = StringField('Teachers Experience', validators=[DataRequired()])
     submit = SubmitField('Submit')
 
 @app.route('/')
@@ -161,12 +158,20 @@ def coachingregistration():
         return redirect(url_for('home'))
     else:
         form = CoachingRegistrationForm()
-        if form.validate_on_submit():
+        if request.form.get('submit_teachers') == 'Submit Teachers':
+            form = CoachingTeachersForm()
+            if form.validate_on_submit():
+                print(request.form.get('submit_teachers'))
+                coachingteachers = CoachingTeachers(teachersname=form.teachersname.data, teachersqualification=form.teachersqualification.data, teacherssubject=form.teacherssubject.data, teachersexperience=form.teachersexperience.data, teacher=current_user)
+                db.session.add(coachingteachers)
+                db.session.commit()
+                return redirect(url_for('productList'))
+        elif form.validate_on_submit():
             regCoaching = CoachingClass(coachingname=form.coachingname.data, coachingcontact=form.coachingcontact.data, coachingemail=form.coachingemail.data, coachingpassword_hash='sjkfjlsdjflasdfjkldjflksdfjksdjlfsd', coachingabout=form.coachingabout.data, coachingcoursesoffered=form.coachingcoursesoffered.data, coachingteachers=form.coachingteachers.data, coachingachievement=form.coachingachievement.data, coachingresults=form.coachingresults.data, coachingcategory=form.coachingcategory.data, coachingsubcategory=form.coachingsubcategory.data, coachinglocation=form.coachinglocation.data, author=current_user)
             db.session.add(regCoaching)
             db.session.commit()
             return redirect(url_for('productList'))
-    return render_template('coachingregistration.html', title='Register Coaching', form=form)
+    return render_template('coachingregistration.html', title='Register Coaching', form=form )
 
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -346,16 +351,4 @@ def deleteCoachingImages(filename):
     file_name = os.path.join(app.config['UPLOAD_COACHING_FOLDER'], filename)
     os.remove(file_name)
     return redirect(url_for('edit_coaching' , key=coaching_id))
-
-@app.route("/coachingteachers", methods=['GET', 'POST'])
-def coachingteachers():
-    print(request.form.get('submit'))
-    form = CoachingTeachersForm()
-    if form.validate_on_submit():
-        coachingteachers = CoachingTeachers(teachersname=form.teachersname.data, teachersqualification=form.teachersqualification.data, teacherssubject=form.teacherssubject.data, teachersexperience=form.teachersexperience.data, teacher=current_user)
-        db.session.add(coachingteachers)
-        db.session.commit()
-        return redirect(url_for('productList'))
-    return render_template('coachingteachers.html', title='Register Coaching Teachers', form=form)
-
 
