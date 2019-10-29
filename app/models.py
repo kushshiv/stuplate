@@ -73,6 +73,8 @@ class CoachingTeachers(db.Model):
     teachersqualification = db.Column(db.String(140))
     teacherssubject = db.Column(db.String(140))
     teachersexperience = db.Column(db.String(140))
+    image_filename = db.Column(db.String, default=None, nullable=True)
+    image_url = db.Column(db.String, default=None, nullable=True)
     user_id2 = db.Column(db.Integer, db.ForeignKey('user.id'))
 
     def __repr__(self):

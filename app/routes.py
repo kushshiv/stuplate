@@ -13,6 +13,9 @@ from app.models import User, Newsticker, CoachingClass, CoachingTeachers
 from werkzeug.urls import url_parse
 from app import db
 from werkzeug import secure_filename
+from flask_uploads import UploadSet, IMAGES, configure_uploads
+from flask_wtf.file import FileField, FileAllowed, FileRequired
+
 
   
  
@@ -38,6 +41,10 @@ ITEMS = {
 #        'price':'Starting at 2500'
 #    }
 }
+
+# Configure the image uploading via Flask-Uploads
+images = UploadSet('images', IMAGES)
+configure_uploads(app, images)
  
 class ReusableForm(Form):
     name = TextField('Name:', validators=[validators.required()])
@@ -84,22 +91,23 @@ class UpdateNewsForm(FlaskForm):
     submit = SubmitField('Submit')
 
 class CoachingRegistrationForm(FlaskForm):
-    coachingname = StringField('coachingname', validators=[DataRequired()])
-    coachingcontact = StringField('Contact', validators=[DataRequired()])
-    coachingemail = StringField('Email', validators=[DataRequired(), Email()])
-    coachingabout = StringField('About', validators=[DataRequired()])
-    coachingcoursesoffered = StringField('Courses Offered', validators=[DataRequired()])
-    coachingteachers = StringField('Teachers', validators=[DataRequired()])
-    coachingachievement = StringField('Achievement', validators=[DataRequired()])
-    coachingresults = StringField('Results', validators=[DataRequired()])
-    coachingcategory = SelectField('Category', choices = [('Academic', 'Academic'), ('Entrance', 'Entrance'), ('Competition', 'Competition')], validators=[DataRequired()])
-    coachingsubcategory = SelectField('Sub Category', choices = [('IIT', 'IIT'), ('UPSC', 'UPSC'), ('Bank', 'Bank'), ('12th', '12th')], validators=[DataRequired()])
-    coachinglocation = SelectField('Location', choices = [('Patna', 'Patna'), ('Pune', 'Pune'), ('Mumbai', 'Mumbai'), ('Bokaro', 'Bokaro')], validators=[DataRequired()])
+    coachingname = StringField('coachingname')
+    coachingcontact = StringField('Contact')
+    coachingemail = StringField('Email')
+    coachingabout = StringField('About')
+    coachingcoursesoffered = StringField('Courses Offered')
+    coachingteachers = StringField('Teachers')
+    coachingachievement = StringField('Achievement')
+    coachingresults = StringField('Results')
+    coachingcategory = SelectField('Category', choices = [('Academic', 'Academic'), ('Entrance', 'Entrance'), ('Competition', 'Competition')])
+    coachingsubcategory = SelectField('Sub Category', choices = [('IIT', 'IIT'), ('UPSC', 'UPSC'), ('Bank', 'Bank'), ('12th', '12th')])
+    coachinglocation = SelectField('Location', choices = [('Patna', 'Patna'), ('Pune', 'Pune'), ('Mumbai', 'Mumbai'), ('Bokaro', 'Bokaro')])
     submit = SubmitField('Register')
-    teachersname = StringField('Teachers Name', validators=[DataRequired()])
-    teachersqualification = StringField('Teachers Qualification', validators=[DataRequired()])
-    teacherssubject = StringField('Teachers Subject', validators=[DataRequired()])
-    teachersexperience = StringField('Teachers Experience', validators=[DataRequired()])
+    teachersname = StringField('Teachers Name')
+    teachersqualification = StringField('Teachers Qualification')
+    teacherssubject = StringField('Teachers Subject')
+    teachersexperience = StringField('Teachers Experience')
+    teachers_image = FileField('Teachers Image')
     submit_teachers = SubmitField('Submit Teachers')
 
 class EditNewsForm(FlaskForm):
@@ -159,10 +167,11 @@ def coachingregistration():
     else:
         form = CoachingRegistrationForm()
         if request.form.get('submit_teachers') == 'Submit Teachers':
-            form = CoachingTeachersForm()
-            if form.validate_on_submit():
-                print(request.form.get('submit_teachers'))
-                coachingteachers = CoachingTeachers(teachersname=form.teachersname.data, teachersqualification=form.teachersqualification.data, teacherssubject=form.teacherssubject.data, teachersexperience=form.teachersexperience.data, teacher=current_user)
+            if True:
+                filename1 = secure_filename(form.teachers_image.data.filename)
+                form.teachers_image.data.save(app.config['UPLOAD_TEACHERS_FOLDER'] + filename1)
+                url = images.url(filename1)
+                coachingteachers = CoachingTeachers(teachersname=form.teachersname.data, teachersqualification=form.teachersqualification.data, teacherssubject=form.teacherssubject.data, teachersexperience=form.teachersexperience.data, image_filename=filename1, image_url=url, teacher=current_user)
                 db.session.add(coachingteachers)
                 db.session.commit()
                 return redirect(url_for('productList'))
@@ -172,7 +181,6 @@ def coachingregistration():
             db.session.commit()
             return redirect(url_for('productList'))
     return render_template('coachingregistration.html', title='Register Coaching', form=form )
-
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
