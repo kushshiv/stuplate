@@ -73,7 +73,18 @@ function showSlides() {
 
 <div id="Teacher" class="tabcontent">
   <h3>Teachers</h3>
-  <p>{{ item.coachingteachers }}</p>
+  {% for teacher in teachers %}
+    <table>
+        <tr valign="top">
+            <td><img src="{{ url_for('static', filename = 'img/coaching_teachers/' + teacher.image_filename) }}" height="100" width="100" style="margin-right: 20px";></td>
+              <td>Name : {{ teacher.teachersname }}<br>
+              Subject : {{ teacher.teacherssubject }}<br>
+              Qualification : {{ teacher.teachersqualification }}<br>
+              Experience : {{ teacher.teachersexperience }}</td>
+        </tr>
+    </table>
+    <br>
+  {% endfor %}
 </div>
 
 <div id="Achievement" class="tabcontent">

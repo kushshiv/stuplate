@@ -139,12 +139,13 @@ def home():
 def item(key):
     #item = productsList.get(key)
     item = CoachingClass.query.get(key)
+    teachers = CoachingTeachers.query.filter_by(user_id2=current_user.id).all()
     CoachingClassSliderimages = fnmatch.filter(os.listdir(os.path.join(app.static_folder, "img/coaching_slide")), str(item.coachingid) + '_' + '*' + '_' +'CoachingClassSliderfile*' + '_' + '*.jpg')
     CoachingClassAchievementimages = fnmatch.filter(os.listdir(os.path.join(app.static_folder, "img/coaching_slide")), str(item.coachingid) + '_' + '*' + '_' +'CoachingClassAchievementfile' + '_' + '*.jpg')
     CoachingClassResultsimages = fnmatch.filter(os.listdir(os.path.join(app.static_folder, "img/coaching_slide")), str(item.coachingid) + '_' + '*' + '_' +'CoachingClassResultsfile' + '_' + '*.jpg')
     if not item:
         abort(404)
-    return render_template('item.html', item=item, CoachingClassSliderimages=CoachingClassSliderimages, CoachingClassAchievementimages=CoachingClassAchievementimages, CoachingClassResultsimages=CoachingClassResultsimages)
+    return render_template('item.html', item=item, CoachingClassSliderimages=CoachingClassSliderimages, CoachingClassAchievementimages=CoachingClassAchievementimages, CoachingClassResultsimages=CoachingClassResultsimages, teachers=teachers)
 
 @app.route('/productList')
 def productList():
