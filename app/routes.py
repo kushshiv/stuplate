@@ -139,7 +139,11 @@ def home():
 def item(key):
     #item = productsList.get(key)
     item = CoachingClass.query.get(key)
-    teachers = CoachingTeachers.query.filter_by(user_id2=current_user.id).all()
+    #teachers = CoachingTeachers.query.filter_by(user_id2=current_user.id).all()
+    coachingUserId = CoachingClass.query.filter_by(coachingid=str(key)).first_or_404()
+    print(coachingUserId.user_id)
+    teachers = CoachingTeachers.query.filter_by(user_id2=coachingUserId.user_id).all()
+    print(teachers)
     CoachingClassSliderimages = fnmatch.filter(os.listdir(os.path.join(app.static_folder, "img/coaching_slide")), str(item.coachingid) + '_' + '*' + '_' +'CoachingClassSliderfile*' + '_' + '*.jpg')
     CoachingClassAchievementimages = fnmatch.filter(os.listdir(os.path.join(app.static_folder, "img/coaching_slide")), str(item.coachingid) + '_' + '*' + '_' +'CoachingClassAchievementfile' + '_' + '*.jpg')
     CoachingClassResultsimages = fnmatch.filter(os.listdir(os.path.join(app.static_folder, "img/coaching_slide")), str(item.coachingid) + '_' + '*' + '_' +'CoachingClassResultsfile' + '_' + '*.jpg')
@@ -154,9 +158,7 @@ def productList():
 
 @app.route("/coachingregistration", methods=['GET', 'POST'])
 def coachingregistration():
-    print(request.form.get('submit'))
     if request.form.get('submit') == 'submit_images':
-        print(request.form.get('submit'))
         coaching_id = current_user.coachingclass.all()[0].coachingid
         filefield = ['CoachingClassSliderfile1', 'CoachingClassSliderfile2', 'CoachingClassSliderfile3', 'CoachingClassSliderfile4', 'CoachingClassSliderfile5', 'CoachingClassAchievementfile', 'CoachingClassResultsfile']
         for file in filefield:
@@ -217,7 +219,6 @@ def register():
         return redirect(url_for('home'))
     form = RegistrationForm()
     if form.validate_on_submit():
-        print(form.usertype.data)
         #if form.usertype.data == 'Coaching':
         user = User(username=form.username.data, email=form.email.data, usertype=form.usertype.data)
         user.set_password(form.password.data)
@@ -236,7 +237,6 @@ def updateNewsFeed():
     currentNews = Newsticker.query.all()
     form = UpdateNewsForm()
     if form.validate_on_submit():
-        print(form.news.data)
         newNews = Newsticker(news=form.news.data)
         db.session.add(newNews)
         db.session.commit()
@@ -277,7 +277,6 @@ def edit_coaching(key):
     coachingAchievementImg_list = fnmatch.filter(os.listdir(os.path.join(app.static_folder, "img/coaching_slide")), str(coaching_id) + '_' + '*' + '_' + 'CoachingClassAchievementfile*' + '*.jpg')
     coachingResultsImg_list = fnmatch.filter(os.listdir(os.path.join(app.static_folder, "img/coaching_slide")), str(coaching_id) + '_' + '*' + '_' + 'CoachingClassResultsfile*' + '*.jpg')
     if request.form.get('submit') == 'submit_images':
-        print(request.form.get('submit'))
         coaching_id = current_user.coachingclass.all()[0].coachingid
         filefield = ['CoachingClassSliderfile1', 'CoachingClassSliderfile2', 'CoachingClassSliderfile3', 'CoachingClassSliderfile4', 'CoachingClassSliderfile5', 'CoachingClassAchievementfile', 'CoachingClassResultsfile']
         for file in filefield:
