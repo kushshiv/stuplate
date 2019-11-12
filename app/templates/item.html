@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
  
-{% block container %}
+{% block app_content %}
 
   <div class="top-pad" style="text-align:center">
     <h1>{{ item.coachingname }}
@@ -9,15 +9,13 @@
   </div>
 
 
-<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-<link rel="stylesheet" href="{{ url_for('static', filename='css/styleCoaching.css') }}">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<div class="slideshow-container">
+<div class="slideshow-container" style="width:87%;margin: auto">
   {% for image in CoachingClassSliderimages %}
       <div class="mySlides slide">
         <div class="numbertext">1 / 2</div>
-          <img src="{{ url_for('static', filename = 'img/coaching_slide/' + image) }}"  height="400" width="1000">
+          <img src="{{ url_for('static', filename = 'img/coaching_slide/' + image) }}"  height="400" width="100%">
         <div class="text">School</div>
       </div>
   {% endfor %}

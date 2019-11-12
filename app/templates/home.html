@@ -1,12 +1,8 @@
 {% extends 'base.html' %}
  
-{% block container %}
+{% block app_content %}
 
-<!-- start of display -->
-<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-<script src="//code.jquery.com/jquery-latest.min.js"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
-<script type="text/javascript">
+<script>
 jQuery.fn.liScroll = function(settings) {
 	settings = jQuery.extend({
 		travelocity: 0.03
@@ -44,12 +40,12 @@ jqueryObj(function(){
     jqueryObj("ul#ticker01").liScroll();
 });
 </script>
-<div class="slideshow-container">
+<div class="slideshow-container" style="width:87%;margin: auto">
 
   {% for imgfile in files %}
       <div class="mySlides slide">
         <div class="numbertext">1 / 2</div>
-          <img src="{{ url_for('static', filename = 'img/home/' + imgfile) }}"  height="400" width="1000">
+          <img src="{{ url_for('static', filename = 'img/home/' + imgfile) }}"  height="400" width="100%">
         <div class="text"></div>
       </div>
   {% endfor %}
