@@ -160,21 +160,25 @@
 </div>
 
 <div id="Edit Teachers Detail" class="tabcontent">
-  <h3>Teachers</h3>
-  {% for teacher in teachers %}
-    <table>
-        <tr valign="top">
-            <td><img src="{{ url_for('static', filename = 'img/coaching_teachers/' + teacher.image_filename) }}" height="100" width="100" style="margin-right: 20px";></td>
-              <td>Name : {{ teacher.teachersname }}<br>
-              Subject : {{ teacher.teacherssubject }}<br>
-              Qualification : {{ teacher.teachersqualification }}<br>
-              Experience : {{ teacher.teachersexperience }}</td>
-            <td><a href="{{ url_for('deleteCoachingTeachers', id=teacher.id) }}">Delete</a><br></td>
-        </tr>
-    </table>
+    <form action = "" method = "POST"
+        enctype = "multipart/form-data">
+        <h1>Coaching Class Slider Images</h1>
+        <input type = "file" name = "CoachingClassSliderfile1" />
+        <input type = "file" name = "CoachingClassSliderfile2" />
+        <input type = "file" name = "CoachingClassSliderfile3" />
+        <input type = "file" name = "CoachingClassSliderfile4" />
+        <input type = "file" name = "CoachingClassSliderfile5" />
+        <br>
+        <h1>Coaching Class Achievement Image</h1>
+        <input type = "file" name = "CoachingClassAchievementfile" />
+        <br>
+        <h1>Coaching Class Results Images</h1>
+        <input type = "file" name = "CoachingClassResultsfile" />
+        <br>
+        <input type = "submit" value = "submit_images" name = "submit"><br>
+    </form>
     <br>
-  {% endfor %}
-
+    <!--  <button type="submit" ><a href="{{ url_for('manageHomeImages') }}">Delete Home Images</a></button> -->
 </div>
 
 
