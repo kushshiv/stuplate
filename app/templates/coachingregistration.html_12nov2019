@@ -1,5 +1,4 @@
 {% extends "base.html" %}
-{% import 'bootstrap/wtf.html' as wtf %}
 
 {% block app_content %}
     <h1>Register Coaching</h1>
@@ -17,77 +16,77 @@
         {{ form.hidden_tag() }}
         <p>  
             {{ form.coachingname.label }}<br>
-            {{ form.coachingname(class_="form-control",size=120) }}<br>
+            {{ form.coachingname(size=120) }}<br>
             {% for error in form.coachingname.errors %}
             <span style="color: red;">[{{ error }}]</span>
             {% endfor %}
         </p>
         <p>  
             {{ form.coachingcontact.label }}<br>
-            {{ form.coachingcontact(class_="form-control",size=120) }}<br>
+            {{ form.coachingcontact(size=120) }}<br>
             {% for error in form.coachingcontact.errors %}
             <span style="color: red;">[{{ error }}]</span>
             {% endfor %}
         </p>
         <p>  
             {{ form.coachingemail.label }}<br>
-            {{ form.coachingemail(class_="form-control",size=120) }}<br>
+            {{ form.coachingemail(size=120) }}<br>
             {% for error in form.coachingemail.errors %}
             <span style="color: red;">[{{ error }}]</span>
             {% endfor %}
         </p>
         <p>  
             {{ form.coachingabout.label }}<br>
-            {{ form.coachingabout(class_="form-control",size=120) }}<br>
+            {{ form.coachingabout(size=120) }}<br>
             {% for error in form.coachingabout.errors %}
             <span style="color: red;">[{{ error }}]</span>
             {% endfor %}
         </p>
         <p>  
             {{ form.coachingcoursesoffered.label }}<br>
-            {{ form.coachingcoursesoffered(class_="form-control",size=120) }}<br>
+            {{ form.coachingcoursesoffered(size=120) }}<br>
             {% for error in form.coachingcoursesoffered.errors %}
             <span style="color: red;">[{{ error }}]</span>
             {% endfor %}
         </p>
         <p>  
             {{ form.coachingteachers.label }}<br>
-            {{ form.coachingteachers(class_="form-control",size=120) }}<br>
+            {{ form.coachingteachers(size=120) }}<br>
             {% for error in form.coachingteachers.errors %}
             <span style="color: red;">[{{ error }}]</span>
             {% endfor %}
         </p>
         <p>  
             {{ form.coachingachievement.label }}<br>
-            {{ form.coachingachievement(class_="form-control",size=120) }}<br>
+            {{ form.coachingachievement(size=120) }}<br>
             {% for error in form.coachingachievement.errors %}
             <span style="color: red;">[{{ error }}]</span>
             {% endfor %}
         </p>
         <p>  
             {{ form.coachingresults.label }}<br>
-            {{ form.coachingresults(class_="form-control",size=120) }}<br>
+            {{ form.coachingresults(size=120) }}<br>
             {% for error in form.coachingresults.errors %}
             <span style="color: red;">[{{ error }}]</span>
             {% endfor %}
         </p>
         <p>  
             {{ form.coachingcategory.label }}<br>
-            {{ form.coachingcategory(class_="form-control") }}<br>
+            {{ form.coachingcategory }}<br>
             {% for error in form.coachingcategory.errors %}
             <span style="color: red;">[{{ error }}]</span>
             {% endfor %}
         </p>
         <p>  
             {{ form.coachingsubcategory.label }}<br>
-            {{ form.coachingsubcategory(class_="form-control") }}<br>
+            {{ form.coachingsubcategory }}<br>
             {% for error in form.coachingsubcategory.errors %}
             <span style="color: red;">[{{ error }}]</span>
             {% endfor %}
         </p>
         <p>  
             {{ form.coachinglocation.label }}<br>
-            {{ form.coachinglocation(class_="form-control") }}<br>
+            {{ form.coachinglocation }}<br>
             {% for error in form.coachinglocation.errors %}
             <span style="color: red;">[{{ error }}]</span>
             {% endfor %}
@@ -123,35 +122,35 @@
         enctype = "multipart/form-data">
         <p>
             {{ form.teachersname.label }}<br>
-            {{ form.teachersname(class_="form-control",size=120) }}<br>
+            {{ form.teachersname(size=120) }}<br>
             {% for error in form.teachersname.errors %}
             <span style="color: red;">[{{ error }}]</span>
             {% endfor %}
         </p>
         <p>
             {{ form.teachersqualification.label }}<br>
-            {{ form.teachersqualification(class_="form-control",size=120) }}<br>
+            {{ form.teachersqualification(size=120) }}<br>
             {% for error in form.teachersqualification.errors %}
             <span style="color: red;">[{{ error }}]</span>
             {% endfor %}
         </p>
         <p>
             {{ form.teacherssubject.label }}<br>
-            {{ form.teacherssubject(class_="form-control",size=120) }}<br>
+            {{ form.teacherssubject(size=120) }}<br>
             {% for error in form.teacherssubject.errors %}
             <span style="color: red;">[{{ error }}]</span>
             {% endfor %}
         </p>
         <p>
             {{ form.teachersexperience.label }}<br>
-            {{ form.teachersexperience(class_="form-control",size=120) }}<br>
+            {{ form.teachersexperience(size=120) }}<br>
             {% for error in form.teachersexperience.errors %}
             <span style="color: red;">[{{ error }}]</span>
             {% endfor %}
         </p>
         <p>
             {{ form.teachers_image.label }}<br>
-            {{ form.teachers_image(class_="form-control") }}<br>
+            {{ form.teachers_image }}<br>
         </p>
         <p>{{ form.submit_teachers() }}</p>
     </form>
