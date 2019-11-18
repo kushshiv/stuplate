@@ -1,32 +1,18 @@
 {% extends "base.html" %}
+{% import 'bootstrap/wtf.html' as wtf %}
 
 {% block app_content %}
     <h1>Register Coaching</h1>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-<br>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/styleCoaching.css') }}">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <!-- Nav tabs -->
-  <ul class="nav nav-tabs" role="tablist">
-    <li class="nav-item">
-      <a class="nav-link in fade active" data-toggle="tab" href="#RegisterDetails">Register Details</a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link" data-toggle="tab" href="#Uploadphotos">Upload photos</a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link" data-toggle="tab" href="#TeachersDetail">Teachers Detail</a>
-    </li>
-  </ul>
+<div class="slideshow-container">
+<button class="tablink" onclick="openPage('Register Details', this, 'DarkGray')" id="defaultOpen">Register Details</button>
+<button class="tablink" onclick="openPage('Upload photos', this, 'DarkGray')" >Upload photos</button>
+<button class="tablink" onclick="openPage('Teachers Detail', this, 'DarkGray')" >Teachers Detail</button>
 
-  <!-- Tab panes -->
-  <div class="tab-content">
-    <div id="RegisterDetails" class="container tab-pane in fade active"><br>
-   <div class="row">
-      <div class="col-md-4">
+<div id="Register Details" class="tabcontent">
     <form action="" method="post">
         {{ form.hidden_tag() }}
         <p>  
@@ -108,12 +94,9 @@
         </p>
         <p>{{ form.submit(class_="form-control") }}</p>
     </form>
-        </div>
-      </div>
-    </div>
-    <div id="Uploadphotos" class="container tab-pane fade"><br>
-   <div class="row">
-      <div class="col-md-4">
+</div>
+
+<div id="Upload photos" class="tabcontent">
     <form action = "" method = "POST"
         enctype = "multipart/form-data">
         <h1>Coaching Class Slider Images</h1>
@@ -131,12 +114,11 @@
         <br>
         <input type = "submit" value = "submit_images" name = "submit"><br>
     </form>
-        </div>
-      </div>
-    </div>
-    <div id="TeachersDetail" class="container tab-pane fade"><br>
-   <div class="row">
-      <div class="col-md-4">
+    <br>
+    <!--  <button type="submit" ><a href="{{ url_for('manageHomeImages') }}">Delete Home Images</a></button> -->
+</div>
+
+<div id="Teachers Detail" class="tabcontent">
     <form action="" method="post"
         enctype = "multipart/form-data">
         <p>
@@ -173,11 +155,31 @@
         </p>
         <p>{{ form.submit_teachers(class_="form-control") }}</p>
     </form>
-        </div>
-      </div>
-    </div>
-  </div>
+    <br>
+</div>
 
+
+<script>
+function openPage(pageName,elmnt,color) {
+  var i, tabcontent, tablinks;
+  tabcontent = document.getElementsByClassName("tabcontent");
+  for (i = 0; i < tabcontent.length; i++) {
+    tabcontent[i].style.display = "none";
+  }
+  tablinks = document.getElementsByClassName("tablink");
+  for (i = 0; i < tablinks.length; i++) {
+    tablinks[i].style.backgroundColor = "";
+  }
+  document.getElementById(pageName).style.display = "block";
+  elmnt.style.backgroundColor = color;
+}
+
+// Get the element with id="defaultOpen" and click on it
+document.getElementById("defaultOpen").click();
+</script>
+
+
+</div>
 
 {% endblock %}
 
