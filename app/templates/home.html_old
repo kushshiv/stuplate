@@ -1,0 +1,145 @@
+{% extends 'base.html' %}
+ 
+{% block app_content %}
+
+<script>
+jQuery.fn.liScroll = function(settings) {
+	settings = jQuery.extend({
+		travelocity: 0.03
+		}, settings);		
+		return this.each(function(){
+				var $strip = jQuery(this);
+				$strip.addClass("newsticker")
+				var stripHeight = 1;
+				$strip.find("li").each(function(i){
+					stripHeight += jQuery(this, i).outerHeight(true); 
+				});
+				var $mask = $strip.wrap("<div class='mask'></div>");
+				var $tickercontainer = $strip.parent().wrap("<div class='tickercontainer'></div>");								
+				var containerHeight = $strip.parent().parent().height();
+				$strip.height(stripHeight);			
+				var totalTravel = stripHeight;
+				var defTiming = totalTravel/settings.travelocity;
+				function scrollnews(spazio, tempo){
+				$strip.animate({top: '-='+ spazio}, tempo, "linear", function(){$strip.css("top", containerHeight); scrollnews(totalTravel, defTiming);});
+				}
+				scrollnews(totalTravel, defTiming);				
+				$strip.hover(function(){
+				jQuery(this).stop();
+				},
+				function(){
+				var offset = jQuery(this).offset();
+				var residualSpace = offset.top + stripHeight;
+				var residualTime = residualSpace/settings.travelocity;
+				scrollnews(residualSpace, residualTime);
+				});			
+		});	
+};
+var jqueryObj = $;
+jqueryObj(function(){
+    jqueryObj("ul#ticker01").liScroll();
+});
+</script>
+<div class="slideshow-container" style="width:87%;margin: auto">
+
+  {% for imgfile in files %}
+      <div class="mySlides slide">
+        <div class="numbertext">1 / 2</div>
+          <img src="{{ url_for('static', filename = 'img/home/' + imgfile) }}"  height="400" width="100%">
+        <div class="text"></div>
+      </div>
+  {% endfor %}
+</div>
+
+<br>
+
+<div style="text-align:center">
+  {% for imgfile in files %}
+      <span class="dot"></span>
+  {% endfor %}
+</div>
+<br>
+
+<script>
+var slideIndex = 0;
+showSlides();
+
+function showSlides() {
+  var i;
+  var slides = document.getElementsByClassName("mySlides");
+  var dots = document.getElementsByClassName("dot");
+  for (i = 0; i < slides.length; i++) {
+    slides[i].style.display = "none";  
+  }
+  slideIndex++;
+  if (slideIndex > slides.length) {slideIndex = 1}    
+  for (i = 0; i < dots.length; i++) {
+    dots[i].className = dots[i].className.replace(" active", "");
+  }
+  slides[slideIndex-1].style.display = "block";  
+  dots[slideIndex-1].className += " active";
+  setTimeout(showSlides, 2000); // Change image every 2 seconds
+}
+</script>
+<!-- end of display -->
+<br>
+
+<div class="container"  style="width:90%;">
+<div id="left" class="holder" style="float:left; width:48%;background-image: linear-gradient(to right, #33E3FF , #33C7FF);"> 
+	<span>Latest News</span>
+  <ul id="ticker01">
+        {% for news1 in news %}
+        <li><a>{{ news1.id }}. {{ news1.news }}</a></li>
+        {% endfor %}
+  </ul>
+</div>
+
+<style>
+
+.holder { 
+  background-color:#f5f5f5;
+  width:300px;
+  height:300px;
+  overflow:hidden;
+  padding:10px;
+  font-family:Helvetica;
+  border: 2px solid red;
+  border-radius: 5px;
+}
+.holder .mask {
+  position: relative;
+  left: 0px;
+  top: 10px;
+  width:300px;
+  height:290px;
+  overflow: hidden;
+}
+.holder ul {
+  list-style:none;
+  margin:0;
+  padding:0;
+  position: relative;
+}
+.holder ul li {
+  padding:10px 0px;
+}
+.holder ul li a {
+  color:darkred;
+  text-decoration:none;
+}
+
+</style>
+
+
+<div id="right" style="float:right; width:48%;"> 
+    {% for id, item in items.items() %}
+      <div class="well" style="border: 2px solid red; border-radius: 5px; height: 200px;text-align: center;background-image: linear-gradient(to right, #33FFD1 , #33FF9C);">
+        <h2>
+          <a href="{{ url_for('productList') }}">{{item['name'] }}</a>
+        </h2>
+      </div>
+    {% endfor %}
+  </div>  
+</div> 
+
+{% endblock %}

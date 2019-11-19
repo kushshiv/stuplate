@@ -5,7 +5,7 @@
 {% endblock %}
 
 {% block navbar %}
-    <nav class="navbar navbar-inverse" role="navigation">
+    <nav class="navbar navbar-default" role="navigation">
 
         <div class="navbar-header">
           <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
@@ -70,11 +70,11 @@
           </ul>
 
         </div><!-- /.navbar-collapse -->
-      </div><!-- /.container -->
     </nav>
 {% endblock %}
 
 {% block content %}
+<!--
     <style type="text/css">    
       body
       {
@@ -84,6 +84,7 @@
         min-height: 100vh;
       }
     </style>
+-->
     <div class="container">
        {% block app_content %}{% endblock %}
     </div>
