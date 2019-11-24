@@ -106,30 +106,42 @@
 <div id="contact" class="container-fluid bg-white">
   <h2 class="text-center">CONTACT</h2>
   <div class="row">
-    <div class="col-sm-5">
-      <p>Contact us and we'll get back to you within 24 hours.</p>
+    <div class="col-sm-4">
+      <p>We would love to hear from you. You can call us between(Mon-Sun 10 AM to 7 PM). </p>
       <p><span class="glyphicon glyphicon-map-marker"></span> Bokaro, Bihar(India)</p>
       <p><span class="glyphicon glyphicon-phone"></span> +91 9279207435</p>
       <p><span class="glyphicon glyphicon-envelope"></span> stuplate@gmail.com</p>
     </div>
-    <div class="col-sm-7 ">
-      <div class="row">
-        <div class="col-sm-6 form-group">
+    
+    <div class="col-sm-8 ">
+      <div class="col-sm-5 form-group">
+        <div class="row">
           <input class="form-control" id="name" name="name" placeholder="Name" type="text" required>
         </div>
-        <div class="col-sm-6 form-group">
+        <br>
+        <div class="row">
           <input class="form-control" id="email" name="email" placeholder="Email" type="email" required>
         </div>
-      </div>
-      <textarea class="form-control" id="comments" name="comments" placeholder="Comment" rows="5"></textarea><br>
+        <br>
+        <div class="row">
+          <input class="form-control" id="contact" name="contact" placeholder="Contact" type="tel" required>
+        </div>
+      </div> 
+      <div class="col-sm-6 form-group pull-right">
+        <div class="row">
+         <textarea class="form-control " id="comments" name="comments" placeholder="Comment" rows="7"></textarea><br>
+        </div>
+      </div> 
       <div class="row">
         <div class="col-sm-12 form-group">
           <button class="btn btn-default pull-right" type="submit">Send</button>
         </div>
-      </div>
-    </div>
+      </div>  
+    </div>  
   </div>
 </div>
+
+
 
 {% endblock %}
 
