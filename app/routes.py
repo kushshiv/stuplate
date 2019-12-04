@@ -15,6 +15,9 @@ from app import db
 from werkzeug import secure_filename
 from flask_uploads import UploadSet, IMAGES, configure_uploads
 from flask_wtf.file import FileField, FileAllowed, FileRequired
+from flask_mail import Mail, Message
+from flask_mail import Mail
+
 
 
   
@@ -45,6 +48,8 @@ ITEMS = {
 # Configure the image uploading via Flask-Uploads
 images = UploadSet('images', IMAGES)
 configure_uploads(app, images)
+mail = Mail(app)
+
  
 class ReusableForm(Form):
     name = TextField('Name:', validators=[validators.required()])
@@ -128,6 +133,12 @@ class EditCoachingForm(FlaskForm):
     coachinglocation = SelectField('Location', choices = [('Patna', 'Patna'), ('Pune', 'Pune'), ('Mumbai', 'Mumbai'), ('Bokaro', 'Bokaro')], validators=[DataRequired()])
     submit = SubmitField('Submit')
 
+class ContactMailForm(FlaskForm):
+    name = StringField('Name', validators=[Length(min=0, max=140)])
+    email = StringField('Email', validators=[DataRequired(), Email()])
+    comment = StringField('Comment', validators=[DataRequired()])
+    submit = SubmitField('Submit')
+
 @app.route('/')
 @app.route('/home')
 def home():
@@ -196,6 +207,7 @@ def login():
         login_user(user, remember=form.remember_me.data)
         next_page = request.args.get('next')
         if not next_page or url_parse(next_page).netloc != '':
+            flash('Logged in Successfully')
             next_page = url_for('coachingregistration')
         return redirect(next_page)
     return render_template('login.html', title='Sign In', form=form)
@@ -368,3 +380,14 @@ def deleteCoachingTeachers(id):
     db.session.commit()
     return redirect(url_for('edit_coaching' , key=coaching_id))
 
+@app.route('/contactMail', methods=['GET', 'POST'])
+def contactMail():
+    form = ContactMailForm()
+    print(form.name.data)
+    msg = Message("Customer Enquiry!!!",
+      sender="shivendra.ds48@gmail.com",
+      recipients=["shivendrakushwaha022@gmail.com"])
+    msg.body = "A customer has enquired about Stuplate\n Please find the details below : \n Name : " + form.name.data + "\nEmail :" + form.email.data + "\nComments :" + form.comment.data + "\n\nThanks and Regards,\nStuplate Team"           
+    mail.send(msg)
+    flash('Thanks for enquiry. We will get back to you soon.')
+    return redirect(url_for('home'))

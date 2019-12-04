@@ -78,6 +78,14 @@
 
 {% block content %}
 
+{% with messages = get_flashed_messages() %}
+{% if messages %}
+    {% for message in messages %}
+    <div class="alert alert-info" role="alert">{{ message }}</div>
+    {% endfor %}
+{% endif %}
+{% endwith %}
+
 <script>
 $(document).ready(function(){
   // Add smooth scrolling to all links in navbar + footer link

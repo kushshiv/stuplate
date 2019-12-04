@@ -12,3 +12,9 @@ class Config(object):
     UPLOAD_TEACHERS_FOLDER = os.getcwd() + '/app/static/img/coaching_teachers/'
     UPLOADS_DEFAULT_DEST = os.getcwd() + '/app/static/img/coaching_teachers/'
     UPLOADS_DEFAULT_URL = os.getcwd() + '/app/static/img/coaching_teachers/'
+    MAIL_SERVER='smtp.gmail.com'
+    MAIL_PORT=465
+    MAIL_USE_TLS = False
+    MAIL_USE_SSL= True
+    MAIL_USERNAME = 'shivendra.ds48@gmail.com'
+    MAIL_PASSWORD = 'Kush@1994'
