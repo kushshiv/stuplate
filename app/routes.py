@@ -241,6 +241,10 @@ def register():
 def contactUs():
     return render_template('contactUs.html')
 
+@app.route('/aboutUs')
+def aboutUs():
+    return render_template('aboutUs.html')
+
 @app.route("/updateNewsFeed", methods=['GET', 'POST'])
 def updateNewsFeed():
     currentNews = Newsticker.query.all()
