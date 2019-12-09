@@ -114,7 +114,7 @@
           <span class="glyphicon glyphicon-list-alt logo text-center"></span>
         </div>
         <div class="row">
-          <h4 class="text-center">{{ coaching.coachingname }}</p>
+          <h4 class="text-center"><a href="{{ url_for('item', key=coaching.coachingid) }}">{{ coaching.coachingname }}</a></h2>
         </div>
       </div>
    {% endfor %}
