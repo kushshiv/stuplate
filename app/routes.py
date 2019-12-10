@@ -209,7 +209,10 @@ def login():
         next_page = request.args.get('next')
         if not next_page or url_parse(next_page).netloc != '':
             flash('Logged in Successfully')
-            next_page = url_for('coachingregistration')
+            if current_user.usertype == 'Admin':
+                next_page = url_for('home')
+            elif current_user.usertype == 'Coaching':
+                next_page = url_for('coachingregistration')
         return redirect(next_page)
     return render_template('login.html', title='Sign In', form=form)
 
