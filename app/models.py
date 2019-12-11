@@ -12,6 +12,7 @@ class User(UserMixin, db.Model):
     password_hash = db.Column(db.String(128))
     coachingclass = db.relationship('CoachingClass', backref='author', lazy='dynamic')
     coachingteachers = db.relationship('CoachingTeachers' , backref='teacher', lazy='dynamic')
+    studentdetails = db.relationship('StudentDetails' , backref='studentlink', lazy='dynamic')
 
     def __repr__(self):
         return '<User {}>'.format(self.username)
@@ -80,3 +81,13 @@ class CoachingTeachers(db.Model):
     def __repr__(self):
         return '<Teachers {}>'.format(self.teachersname)
 
+class StudentDetails(db.Model):
+    studentid = db.Column(db.Integer, primary_key=True)
+    studentname = db.Column(db.String(140))
+    studentcontact = db.Column(db.Integer)
+    studentgender = db.Column(db.String(140))
+    studentaddress = db.Column(db.String(140))
+    user_idS = db.Column(db.Integer, db.ForeignKey('user.id'))
+
+    def __repr__(self):
+        return '<StudentDetails {}>'.format(self.studentname)

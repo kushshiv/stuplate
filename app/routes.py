@@ -9,7 +9,7 @@ from flask import Flask, render_template, abort, flash, request, redirect, url_f
 from wtforms import Form, TextField, TextAreaField, validators, StringField, SubmitField, PasswordField, BooleanField, SelectField
 from wtforms.validators import ValidationError, DataRequired, Email, EqualTo
 from flask_login import current_user, login_user, logout_user, login_required
-from app.models import User, Newsticker, CoachingClass, CoachingTeachers
+from app.models import User, Newsticker, CoachingClass, CoachingTeachers, StudentDetails
 from werkzeug.urls import url_parse
 from app import db
 from werkzeug import secure_filename
@@ -75,7 +75,7 @@ class LoginForm(FlaskForm):
 class RegistrationForm(FlaskForm):
     username = StringField('Username', validators=[DataRequired()])
     email = StringField('Email', validators=[DataRequired(), Email()])
-    usertype = SelectField('User Type', choices = [('Admin', 'Admin'), ('Coaching', 'Coaching')], validators=[DataRequired()])
+    usertype = SelectField('User Type', choices = [('Admin', 'Admin'), ('Coaching', 'Coaching'), ('Student', 'Student')], validators=[DataRequired()])
     password = PasswordField('Password', validators=[DataRequired()])
     password2 = PasswordField(
         'Repeat Password', validators=[DataRequired(), EqualTo('password')])
@@ -114,6 +114,13 @@ class CoachingRegistrationForm(FlaskForm):
     teachersexperience = StringField('Teachers Experience')
     teachers_image = FileField('Teachers Image')
     submit_teachers = SubmitField('Submit Teachers')
+
+class StudentRegistrationForm(FlaskForm):
+    studentname = StringField('Full Name')
+    studentcontact = StringField('Contact')
+    studentgender = SelectField('Gender', choices = [('Male', 'Male'), ('Female', 'Female')])
+    studentaddress = StringField('Full Address')
+    submit = SubmitField('Submit')
 
 class EditNewsForm(FlaskForm):
     news = StringField('News', validators=[Length(min=0, max=140)])
@@ -213,6 +220,8 @@ def login():
                 next_page = url_for('home')
             elif current_user.usertype == 'Coaching':
                 next_page = url_for('coachingregistration')
+            elif current_user.usertype == 'Student':
+                next_page = url_for('studentregistration')
         return redirect(next_page)
     return render_template('login.html', title='Sign In', form=form)
 
@@ -403,3 +412,16 @@ def contactMail():
     mail.send(msg)
     flash('Thanks for enquiry. We will get back to you soon.')
     return redirect(url_for('home'))
+
+@app.route("/studentregistration", methods=['GET', 'POST'])
+def studentregistration():
+    form = StudentRegistrationForm()
+    if form.validate_on_submit():
+        regStudent = StudentDetails(studentname=form.studentname.data, studentcontact=form.studentcontact.data, studentgender=form.studentgender.data, studentaddress=form.studentaddress.data, studentlink=current_user)
+        db.session.add(regStudent)
+        db.session.commit()
+        flash('Registration Complete!')
+        return redirect(url_for('home'))
+    return render_template('studentregistration.html', title='Register Student', form=form )
+
+
