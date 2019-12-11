@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+  
+{% block app_content %}
+
+<section class="mb-4">
+
+
+<!-- Container (Contact Section) -->
+<div id="contact" class="container-fluid bg-white">
+  <h2 class="text-center">UNDER CONSTRUCTION</h2>
+  <div class="row">
+    <div class="col-sm-5">
+      <h4>Thanks for visiting.</h4>
+      <h4>Our website is currently under construction. We hope to see you connected.</h4>
+      <h4>Meanwhile, Please get in touch with the contact form provided!</h4>
+    </div>
+   <form action="/contactMail" method="post" role="form" enctype="multipart/form-data">
+    <div class="col-sm-7">
+      <div class="row">
+        <div class="col-sm-6 form-group">
+          <input class="form-control" id="name" name="name" placeholder="Name" type="text" required>
+        </div>
+        <div class="col-sm-6 form-group">
+          <input class="form-control" id="email" name="email" placeholder="Email" type="email" required>
+        </div>
+      </div>
+      <textarea class="form-control" id="comments" name="comments" placeholder="Comment" rows="5"></textarea><br>
+      <div class="row">
+        <div class="col-sm-12 form-group">
+          <button class="btn btn-default pull-right" type="submit"><a href=" {{ url_for('contactMail') }} "></a>Send</button>
+        </div>
+      </div>
+    </div>
+   </form>
+  </div>
+</div>
+
+
+</section>
+
+{% endblock %}

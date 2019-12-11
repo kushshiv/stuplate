@@ -249,6 +249,10 @@ def contactUs():
 def aboutUs():
     return render_template('aboutUs.html')
 
+@app.route('/underMaintenance')
+def underMaintenance():
+    return render_template('underMaintenance.html')
+
 @app.route("/updateNewsFeed", methods=['GET', 'POST'])
 def updateNewsFeed():
     currentNews = Newsticker.query.all()
