@@ -9,7 +9,7 @@ from flask import Flask, render_template, abort, flash, request, redirect, url_f
 from wtforms import Form, TextField, TextAreaField, validators, StringField, SubmitField, PasswordField, BooleanField, SelectField
 from wtforms.validators import ValidationError, DataRequired, Email, EqualTo
 from flask_login import current_user, login_user, logout_user, login_required
-from app.models import User, Newsticker, CoachingClass, CoachingTeachers, StudentDetails
+from app.models import User, Newsticker, CoachingClass, CoachingTeachers, StudentDetails, StudentCoachingRelation
 from werkzeug.urls import url_parse
 from app import db
 from werkzeug import secure_filename
@@ -17,7 +17,9 @@ from flask_uploads import UploadSet, IMAGES, configure_uploads
 from flask_wtf.file import FileField, FileAllowed, FileRequired
 from flask_mail import Mail, Message
 from flask_mail import Mail
-
+from wtforms.fields import DateField
+from wtforms import widgets
+from wtforms.widgets import html_params, HTMLString
 
 
   
@@ -49,6 +51,30 @@ ITEMS = {
 images = UploadSet('images', IMAGES)
 configure_uploads(app, images)
 mail = Mail(app)
+
+class DatePickerWidget(object):
+    """
+    Date Time picker from Eonasdan GitHub
+    """
+
+    data_template = (
+        '<div class="input-group date appbuilder_date" id="datepicker">'
+        '<span class="input-group-addon"><i class="fa fa-calendar cursor-hand"></i>'
+        "</span>"
+        '<input class="form-control" data-format="yyyy-MM-dd" %(text)s />'
+        "</div>"
+    )
+
+    def __call__(self, field, **kwargs):
+        kwargs.setdefault("id", field.id)
+        kwargs.setdefault("name", field.name)
+        if not field.data:
+            field.data = ""
+        template = self.data_template
+
+        return HTMLString(
+            template % {"text": html_params(type="text", value=field.data, **kwargs)}
+        )
 
  
 class ReusableForm(Form):
@@ -121,6 +147,14 @@ class StudentRegistrationForm(FlaskForm):
     studentgender = SelectField('Gender', choices = [('Male', 'Male'), ('Female', 'Female')])
     studentaddress = StringField('Full Address')
     submit = SubmitField('Submit')
+
+class StudentCoachingRelationForm(FlaskForm):
+    student_id = StringField('Student ID')
+    CoachingStartDate = DateField('Start Date', format='%Y-%m-%d')
+    CoachingEndDate = DateField('End Date', format='%Y-%m-%d')
+    CoachingStubject = StringField('Subject')
+    CoachingPaidAmount = StringField('Paid Amount')
+    submit = SubmitField('Tag')
 
 class EditNewsForm(FlaskForm):
     news = StringField('News', validators=[Length(min=0, max=140)])
@@ -424,4 +458,13 @@ def studentregistration():
         return redirect(url_for('home'))
     return render_template('studentregistration.html', title='Register Student', form=form )
 
-
+@app.route("/studentcoachingrelation", methods=['GET', 'POST'])
+def studentcoachingrelation():
+    form = StudentCoachingRelationForm()
+    if form.validate_on_submit():
+        StudentCoachingRel = StudentCoachingRelation(student_id=form.student_id.data, coaching_id=current_user.id, coachingTagIsActive='YES', CoachingStartDate=form.CoachingStartDate.data, CoachingEndDate=form.CoachingEndDate.data, CoachingStubject=form.CoachingStubject.data, CoachingPaidAmount=form.CoachingPaidAmount.data)
+        db.session.add(StudentCoachingRel)
+        db.session.commit()
+        flash('Student has been tagged!')
+        return redirect(url_for('home'))
+    return render_template('studentcoachingrelation.html', title='Tag Student', form=form )

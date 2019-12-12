@@ -28,9 +28,20 @@
               <a class="dropdown-toggle" data-toggle="dropdown" href="#">Register
               <span class="caret"></span></a> 
               <ul class="dropdown-menu">
-                    <li><a href="{{ url_for('coachingregistration')}}">Register Coaching</a></li>
-                    <li class="disabled"><a href="#">Register Hostels</a></li>
-                    <li class="disabled"><a href="#">Register Mess</a></li>
+                 <li><a href="{{ url_for('coachingregistration')}}">Register Coaching</a></li>
+                 <li class="disabled"><a href="#">Register Hostels</a></li>
+                 <li class="disabled"><a href="#">Register Mess</a></li>
+              </ul>
+            </li>
+	  </ul>
+          <ul class="nav navbar-nav">
+            <li class="dropdown">
+              <a class="dropdown-toggle" data-toggle="dropdown" href="#">Student
+              <span class="caret"></span></a> 
+              <ul class="dropdown-menu">
+                 <li><a href="{{ url_for('studentcoachingrelation')}}">Tag Student</a></li>
+                 <li class="disabled"><a href="#">Untag Student</a></li>
+                 <li class="disabled"><a href="#">Print Recipt</a></li>
               </ul>
             </li>
 	  </ul>

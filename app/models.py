@@ -91,3 +91,16 @@ class StudentDetails(db.Model):
 
     def __repr__(self):
         return '<StudentDetails {}>'.format(self.studentname)
+
+class StudentCoachingRelation(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    student_id = db.Column(db.Integer)
+    coaching_id = db.Column(db.Integer)
+    coachingTagIsActive = db.Column(db.String(140))
+    CoachingStartDate = db.Column(db.String(140))
+    CoachingEndDate = db.Column(db.String(140))
+    CoachingStubject = db.Column(db.String(140))
+    CoachingPaidAmount = db.Column(db.String(140))
+
+    def __repr__(self):
+        return '<StudentCoachingRelation {}>'.format(self.id)
