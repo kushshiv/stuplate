@@ -472,5 +472,6 @@ def studentcoachingrelation():
 @app.route("/studentcoachinglist", methods=['GET', 'POST'])
 def studentcoachinglist():
     studentcoachinglists = StudentCoachingRelation.query.all()
-    return render_template('studentcoachinglists.html', studentcoachinglists=studentcoachinglists)
+    StudentDet = StudentDetails.query.all()
+    return render_template('studentcoachinglists.html', studentcoachinglists=studentcoachinglists, StudentDet=StudentDet)
 

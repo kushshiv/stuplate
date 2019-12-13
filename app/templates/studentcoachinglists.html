@@ -13,7 +13,8 @@ th, td {
 </style>
     <div class="container" style="overflow: auto; max-height: 80vh">
       <h2>Students list:</h2>
-     <!-- <br>studentcoachinglist-->
+     <!-- <br>    coachingUserId = CoachingClass.query.filter_by(coachingid=str(key)).first_or_404()
+     -->
 
       <div class="table-responsive">
         <table class="table table-striped">
@@ -21,6 +22,8 @@ th, td {
             <tr>
               <th>Student ID</th>
               <th>Student Name</th>
+              <th>Coaching ID</th>
+              <th>Contact</th>
               <th>Subject</th>
               <th>Start Date</th>
               <th>End Date</th>
@@ -30,15 +33,21 @@ th, td {
           </thead>
           <tbody>
             {% for studentcoachinglist in studentcoachinglists %}
-            <tr>
-              <td>{{ studentcoachinglist.student_id }}</td>
-              <td>{{ studentcoachinglist.coaching_id }}</td>
-              <td>{{ studentcoachinglist.CoachingSubject }}</td>
-              <td>{{ studentcoachinglist.CoachingStartDate }}</td>
-              <td>{{ studentcoachinglist.CoachingEndDate }}</td>
-              <td>{{ studentcoachinglist.CoachingPaidAmount }}</td>
-              <td>{{ studentcoachinglist.coachingTagIsActive }}</td>
-            </tr>
+              {% for studDet in StudentDet %}
+                {% if studDet.studentid == studentcoachinglist.student_id %}
+                  <tr>
+                    <td>{{ studentcoachinglist.student_id }}</td>
+                    <td>{{ studDet.studentname }} 
+                    <td>{{ studentcoachinglist.coaching_id }}</td>
+                    <td>{{ studDet.studentcontact }} 
+                    <td>{{ studentcoachinglist.CoachingSubject }}</td>
+                    <td>{{ studentcoachinglist.CoachingStartDate }}</td>
+                    <td>{{ studentcoachinglist.CoachingEndDate }}</td>
+                    <td>{{ studentcoachinglist.CoachingPaidAmount }}</td>
+                    <td>{{ studentcoachinglist.coachingTagIsActive }}</td>
+                  </tr>
+                {% endif %}
+              {% endfor %}
             {% endfor %}
           </tbody>
         </table>
