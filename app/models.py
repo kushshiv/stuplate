@@ -99,7 +99,7 @@ class StudentCoachingRelation(db.Model):
     coachingTagIsActive = db.Column(db.String(140))
     CoachingStartDate = db.Column(db.String(140))
     CoachingEndDate = db.Column(db.String(140))
-    CoachingStubject = db.Column(db.String(140))
+    CoachingSubject = db.Column(db.String(140))
     CoachingPaidAmount = db.Column(db.String(140))
 
     def __repr__(self):
