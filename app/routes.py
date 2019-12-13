@@ -468,3 +468,9 @@ def studentcoachingrelation():
         flash('Student has been tagged!')
         return redirect(url_for('home'))
     return render_template('studentcoachingrelation.html', title='Tag Student', form=form )
+
+@app.route("/studentcoachinglist", methods=['GET', 'POST'])
+def studentcoachinglist():
+    studentcoachinglists = StudentCoachingRelation.query.all()
+    return render_template('studentcoachinglists.html', studentcoachinglists=studentcoachinglists)
+

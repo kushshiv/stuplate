@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+
+{% block app_content %}
+<style>
+table, th, td {
+  border: 1px solid black;
+  border-collapse: collapse;
+}
+th, td {
+  padding: 5px;
+  text-align: left;
+}
+</style>
+    <div class="container" style="overflow: auto; max-height: 80vh">
+      <h2>Students list:</h2>
+     <!-- <br>studentcoachinglist-->
+
+      <div class="table-responsive">
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th>Student ID</th>
+              <th>Student Name</th>
+              <th>Subject</th>
+              <th>Start Date</th>
+              <th>End Date</th>
+              <th>Fees Paid</th>
+              <th>Tagged</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for studentcoachinglist in studentcoachinglists %}
+            <tr>
+              <td>{{ studentcoachinglist.student_id }}</td>
+              <td>{{ studentcoachinglist.coaching_id }}</td>
+              <td>{{ studentcoachinglist.CoachingStubject }}</td>
+              <td>{{ studentcoachinglist.CoachingStartDate }}</td>
+              <td>{{ studentcoachinglist.CoachingEndDate }}</td>
+              <td>{{ studentcoachinglist.CoachingPaidAmount }}</td>
+              <td>{{ studentcoachinglist.coachingTagIsActive }}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+{% endblock %}
