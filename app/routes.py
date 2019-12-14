@@ -152,7 +152,7 @@ class StudentCoachingRelationForm(FlaskForm):
     student_id = StringField('Student ID')
     CoachingStartDate = DateField('Start Date', format='%Y-%m-%d')
     CoachingEndDate = DateField('End Date', format='%Y-%m-%d')
-    CoachingStubject = StringField('Subject')
+    CoachingSubject = StringField('Subject')
     CoachingPaidAmount = StringField('Paid Amount')
     submit = SubmitField('Tag')
 
@@ -462,7 +462,7 @@ def studentregistration():
 def studentcoachingrelation():
     form = StudentCoachingRelationForm()
     if form.validate_on_submit():
-        StudentCoachingRel = StudentCoachingRelation(student_id=form.student_id.data, coaching_id=current_user.id, coachingTagIsActive='YES', CoachingStartDate=form.CoachingStartDate.data, CoachingEndDate=form.CoachingEndDate.data, CoachingStubject=form.CoachingStubject.data, CoachingPaidAmount=form.CoachingPaidAmount.data)
+        StudentCoachingRel = StudentCoachingRelation(student_id=form.student_id.data, coaching_id=current_user.id, coachingTagIsActive='YES', CoachingStartDate=form.CoachingStartDate.data, CoachingEndDate=form.CoachingEndDate.data, CoachingSubject=form.CoachingSubject.data, CoachingPaidAmount=form.CoachingPaidAmount.data)
         db.session.add(StudentCoachingRel)
         db.session.commit()
         flash('Student has been tagged!')
@@ -471,7 +471,20 @@ def studentcoachingrelation():
 
 @app.route("/studentcoachinglist", methods=['GET', 'POST'])
 def studentcoachinglist():
-    studentcoachinglists = StudentCoachingRelation.query.all()
+    #studentcoachinglists = StudentCoachingRelation.query.all()
+    studentcoachinglists = StudentCoachingRelation.query.filter_by(coaching_id=str(current_user.id))
     StudentDet = StudentDetails.query.all()
     return render_template('studentcoachinglists.html', studentcoachinglists=studentcoachinglists, StudentDet=StudentDet)
 
+@app.route("/studentcoachinguntaglist", methods=['GET', 'POST'])
+def studentcoachinguntaglist():
+    studentcoachinglists = StudentCoachingRelation.query.filter_by(coaching_id=str(current_user.id))
+    StudentDet = StudentDetails.query.all()
+    return render_template('studentcoachinguntaglist.html', studentcoachinglists=studentcoachinglists, StudentDet=StudentDet)
+
+@app.route("/studentcoachinguntag/<key>", methods=['GET', 'POST'])
+def studentcoachinguntag(key):
+    StudentCoachingRel = StudentCoachingRelation.query.filter_by(id=key).first()
+    StudentCoachingRel.coachingTagIsActive = 'NO'
+    db.session.commit()
+    return redirect(url_for('studentcoachinguntaglist'))
