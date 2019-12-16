@@ -5,7 +5,7 @@ from time import strftime
 from random import randint
 from flask_wtf import FlaskForm
 from wtforms.validators import DataRequired, Length
-from flask import Flask, render_template, abort, flash, request, redirect, url_for
+from flask import Flask, render_template, abort, flash, request, redirect, url_for, make_response
 from wtforms import Form, TextField, TextAreaField, validators, StringField, SubmitField, PasswordField, BooleanField, SelectField
 from wtforms.validators import ValidationError, DataRequired, Email, EqualTo
 from flask_login import current_user, login_user, logout_user, login_required
@@ -20,7 +20,7 @@ from flask_mail import Mail
 from wtforms.fields import DateField
 from wtforms import widgets
 from wtforms.widgets import html_params, HTMLString
-
+import pdfkit
 
   
  
@@ -488,3 +488,25 @@ def studentcoachinguntag(key):
     StudentCoachingRel.coachingTagIsActive = 'NO'
     db.session.commit()
     return redirect(url_for('studentcoachinguntaglist'))
+
+@app.route("/coachingfeesreciptlist", methods=['GET', 'POST'])
+def coachingfeesreciptlist():
+    studentcoachinglists = StudentCoachingRelation.query.filter_by(coaching_id=str(current_user.id))
+    StudentDet = StudentDetails.query.all()
+    return render_template('coachingfeesreciptlist.html', studentcoachinglists=studentcoachinglists, StudentDet=StudentDet)
+
+@app.route("/coachingfeesrecipt/<key>", methods=['GET', 'POST'])
+def coachingfeesrecipt(key):
+    StudentDet = StudentDetails.query.all()
+    StudentCoachingRel = StudentCoachingRelation.query.filter_by(id=key).first()
+    html = render_template('feeReceipt.html', StudentDet=StudentDet , StudentCoachingRel=StudentCoachingRel)
+    pdf = pdfkit.from_string(html, False)
+    response = make_response(pdf)
+    response.headers['Content-Type'] = 'application/pdf'
+    response.headers['Content-Disposition '] = 'inline; filename=FeeReceipt.pdf'
+    return response
+
+
+
+
+

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Fee Receipt</title>
+<style>
+ .center {
+  text-align:center;
+ }
+table, th, td {
+  border: 1px solid black;
+  border-collapse: collapse;
+}
+th, td {
+  padding: 5px;
+  text-align: left;    
+}
+th {
+  width: 18%;
+}
+</style>
+</head>
+<body>
+
+
+<h1 class="center">{{ current_user.coachingclass.all()[0].coachingname }}</h1>
+<p class="center">{{ current_user.coachingclass.all()[0].coachingemail }}<br>
+                  {{ current_user.coachingclass.all()[0].coachingcontact }}<br>
+                  {{ current_user.coachingclass.all()[0].coachinglocation }}</p>
+  {% for studDet in StudentDet %}
+    {% if studDet.studentid == StudentCoachingRel.student_id %}
+
+<div class="center">
+  <table align="center" style="width:90%">
+    <tr>
+      <th>Student ID :</th>
+      <td>{{ StudentCoachingRel.student_id }}</td>
+      <th>Student Name :</th>
+      <td>{{ studDet.studentname }}</td>
+    </tr>
+    <tr>
+      <th>Student Contact:</th>
+      <td>{{ studDet.studentcontact }}</td>
+      <th>Course Applied :</th>
+      <td>{{ StudentCoachingRel.CoachingSubject }}</td>
+    </tr>
+    <tr>
+      <th>Course Start Date:</th>
+      <td>{{ StudentCoachingRel.CoachingStartDate }}</td>
+      <th>Course End Date:</th>
+      <td>{{ StudentCoachingRel.CoachingEndDate }}</td>
+    </tr>
+    <tr>
+      <th>Total Amount Paid:</th>
+      <td colspan="3" style="text-align:right">{{ StudentCoachingRel.CoachingPaidAmount }}</td>
+    </tr>
+  </table>
+</div>
+
+    {% endif %}
+  {% endfor %}
+
+</body>
+</html>
+
+
