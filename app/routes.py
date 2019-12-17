@@ -185,8 +185,9 @@ class ContactMailForm(FlaskForm):
 def home():
     news = Newsticker.query.all()
     coachings = CoachingClass.query.all()
+    coachingnames = [r.coachingname for r in coachings ]
     files = fnmatch.filter(os.listdir(os.path.join(app.static_folder, "img/home")), '*.jpg')
-    return render_template('home.html', items=ITEMS, news=news, files=files, coachings=coachings)
+    return render_template('home.html', items=ITEMS, news=news, files=files, coachings=coachings,coachingnames=coachingnames)
  
 @app.route('/item/<key>')
 def item(key):
