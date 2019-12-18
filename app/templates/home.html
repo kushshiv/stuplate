@@ -52,10 +52,11 @@
   </div>
 </div>
 
+<!-- Container (search) -->
 <div id="search" class="container-fluid">
-     <form class="example" autocomplete="off" action="/action_page.php">
+     <form class="search" autocomplete="off" action="{{ url_for('productList') }}">
        <div class="autocomplete" style="width:100%">
-         <input id="myInput" type="text" name="myCountry" placeholder="Country" style="margin-left:.5em">
+         <input id="myInput" type="text" name="mySearch" placeholder="Search">
          <button type="submit"><i class="fa fa-search"></i></button>
        </div>
      </form>
@@ -335,7 +336,7 @@ autocomplete(document.getElementById("myInput"), countries);
 </script>
 
 <style>
-form.example input[type=text] {
+form.search input[type=text] {
   padding: 10px;
   font-size: 17px;
   border: 1px solid grey;
@@ -344,7 +345,7 @@ form.example input[type=text] {
   background: #f1f1f1;
 }
 
-form.example button {
+form.search button {
   float: left;
   width: 20%;
   padding: 10px;
@@ -356,11 +357,11 @@ form.example button {
   cursor: pointer;
 }
 
-form.example button:hover {
+form.search button:hover {
   background: #0b7dda;
 }
 
-form.example::after {
+form.search::after {
   content: "";
   clear: both;
   display: table;

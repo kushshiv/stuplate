@@ -4,12 +4,14 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
  <!--     <input class="form-control" id="myInput" type="text" placeholder="Search.."> -->
 
-<div class="row" >
-  <div class="column" style="float:left;width:50%">
-      <input style='width:20em' class="form-control" type="text" id="myInput" onkeyup="myFunction()" placeholder="Search for Location...">
-  </div>
-  <div class="column" style="float:left;width:50%">
-      <input style='width:20em' class="form-control" type="text" id="myInput1" onkeyup="myFunction1()" placeholder="Search for Coaching Type...">
+<div class="container-fluid">
+  <div class="row" >
+    <div class="column" style="float:left;width:45%">
+        <input class="form-control" type="text" id="myInput" onkeyup="myFunction()" placeholder="Search for Location...">
+    </div>
+    <div class="column" style="float:right;width:45%">
+        <input class="form-control" type="text" id="myInput1" onkeyup="myFunction1()" placeholder="Search for Coaching Type...">
+    </div>
   </div>
 </div>
 
@@ -103,5 +105,6 @@ $(document).ready(function(){
                 }
         }
 </script>
+
 
 {% endblock %}
