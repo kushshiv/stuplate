@@ -9,7 +9,7 @@ from flask import Flask, render_template, abort, flash, request, redirect, url_f
 from wtforms import Form, TextField, TextAreaField, validators, StringField, SubmitField, PasswordField, BooleanField, SelectField
 from wtforms.validators import ValidationError, DataRequired, Email, EqualTo
 from flask_login import current_user, login_user, logout_user, login_required
-from app.models import User, Newsticker, CoachingClass, CoachingTeachers, StudentDetails, StudentCoachingRelation
+from app.models import User, Newsticker, CoachingClass, CoachingTeachers, StudentDetails, StudentCoachingRelation, CoachingBatches
 from werkzeug.urls import url_parse
 from app import db
 from werkzeug import secure_filename
@@ -178,6 +178,14 @@ class ContactMailForm(FlaskForm):
     name = StringField('Name', validators=[Length(min=0, max=140)])
     email = StringField('Email', validators=[DataRequired(), Email()])
     comment = StringField('Comment', validators=[DataRequired()])
+    submit = SubmitField('Submit')
+
+class CoachingBatchesForm(FlaskForm):
+    batchname = StringField('Batch Name', validators=[Length(min=0, max=140)])
+    batchdescription = StringField('Batch Description', validators=[Length(min=0, max=140)])
+    batchstartdate = DateField('Start Date', format='%Y-%m-%d')
+    batchenddate = DateField('End Date', format='%Y-%m-%d')
+    batchfees = StringField('Batch Fees', validators=[DataRequired()])
     submit = SubmitField('Submit')
 
 @app.route('/')
@@ -506,6 +514,22 @@ def coachingfeesrecipt(key):
     response.headers['Content-Type'] = 'application/pdf'
     response.headers['Content-Disposition '] = 'inline; filename=FeeReceipt.pdf'
     return response
+
+@app.route("/coachingbatches", methods=['GET', 'POST'])
+def coachingbatches():
+    form = CoachingBatchesForm()
+    if form.validate_on_submit():
+        batchCoaching = CoachingBatches(batchname=form.batchname.data, batchdescription=form.batchdescription.data, batchstartdate=form.batchstartdate.data, batchenddate=form.batchenddate.data, batchfees=form.batchfees.data, batchlink=current_user)
+        db.session.add(batchCoaching)
+        db.session.commit()
+        flash('New batch has been added!')
+        return redirect(url_for('home'))
+    return render_template('coachingbatch.html', title='Add Batch', form=form )
+    
+@app.route("/coachingbatchlist", methods=['GET', 'POST'])
+def coachingbatchlist():
+    coachingbatches = CoachingBatches.query.filter_by(user_idB=str(current_user.id))
+    return render_template('coachingbatchlist.html', coachingbatches=coachingbatches)
 
 
 

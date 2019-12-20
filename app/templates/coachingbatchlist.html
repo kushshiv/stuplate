@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block app_content %}
+<style>
+table, th, td {
+  border: 1px solid black;
+  border-collapse: collapse;
+}
+th, td {
+  padding: 5px;
+  text-align: left;
+}
+</style>
+    <div class="container" style="overflow: auto; max-height: 80vh">
+      <h2>Batches list:</h2>
+
+      <div class="table-responsive">
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th>Batch ID</th>
+              <th>Batch</th>
+              <th>Batch Description</th>
+              <th>Start Date</th>
+              <th>End Date</th>
+              <th>Fees Paid</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for coachingbatch in coachingbatches %}
+                  <tr>
+                    <td>{{ coachingbatch.id }}</td>
+                    <td>{{ coachingbatch.batchname }}</td>
+                    <td>{{ coachingbatch.batchdescription }}</td>
+                    <td>{{ coachingbatch.batchstartdate }}</td>
+                    <td>{{ coachingbatch.batchenddate }}</td>
+                    <td>{{ coachingbatch.batchfees }}</td>
+                  </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+{% endblock %}

@@ -13,6 +13,7 @@ class User(UserMixin, db.Model):
     coachingclass = db.relationship('CoachingClass', backref='author', lazy='dynamic')
     coachingteachers = db.relationship('CoachingTeachers' , backref='teacher', lazy='dynamic')
     studentdetails = db.relationship('StudentDetails' , backref='studentlink', lazy='dynamic')
+    batchdetails = db.relationship('CoachingBatches' , backref='batchlink', lazy='dynamic')
 
     def __repr__(self):
         return '<User {}>'.format(self.username)
@@ -104,3 +105,12 @@ class StudentCoachingRelation(db.Model):
 
     def __repr__(self):
         return '<StudentCoachingRelation {}>'.format(self.id)
+
+class CoachingBatches(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    batchname = db.Column(db.String(140))
+    batchdescription = db.Column(db.String(140))
+    batchstartdate = db.Column(db.String(140))
+    batchenddate = db.Column(db.String(140))
+    batchfees = db.Column(db.Integer)
+    user_idB = db.Column(db.Integer, db.ForeignKey('user.id'))

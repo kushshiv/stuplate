@@ -46,6 +46,16 @@
               </ul>
             </li>
 	  </ul>
+          <ul class="nav navbar-nav">
+            <li class="dropdown">
+              <a class="dropdown-toggle" data-toggle="dropdown" href="#">Batches
+              <span class="caret"></span></a> 
+              <ul class="dropdown-menu">
+                 <li><a href="{{ url_for('coachingbatches')}}">Add Batches</a></li>
+                 <li class="disabled"><a href="#">Show Batche List</a></li>
+              </ul>
+            </li>
+	  </ul>
         {% elif current_user.usertype == 'Admin' %}
           <ul class="nav navbar-nav">
             <li class="dropdown">
