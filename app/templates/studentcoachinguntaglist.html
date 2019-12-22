@@ -23,6 +23,7 @@ th, td {
               <th>Student ID</th>
               <th>Student Name</th>
               <th>Coaching ID</th>
+              <th>Batch ID</th>
               <th>Contact</th>
               <th>Subject</th>
               <th>Start Date</th>
@@ -35,20 +36,23 @@ th, td {
           <tbody>
             {% for studentcoachinglist in studentcoachinglists %}
               {% for studDet in StudentDet %}
-                {% if studDet.studentid == studentcoachinglist.student_id %}
-                  <tr>
-                    <td>{{ studentcoachinglist.student_id }}</td>
-                    <td>{{ studDet.studentname }} 
-                    <td>{{ studentcoachinglist.coaching_id }}</td>
-                    <td>{{ studDet.studentcontact }} 
-                    <td>{{ studentcoachinglist.CoachingSubject }}</td>
-                    <td>{{ studentcoachinglist.CoachingStartDate }}</td>
-                    <td>{{ studentcoachinglist.CoachingEndDate }}</td>
-                    <td>{{ studentcoachinglist.CoachingPaidAmount }}</td>
-                    <td>{{ studentcoachinglist.coachingTagIsActive }}</td>
-                    <td><a href="{{ url_for('studentcoachinguntag', key=studentcoachinglist.id) }}">Untag</a></td>
-                  </tr>
-                {% endif %}
+                {% for coachingbatch in coachingbatches %}
+                  {% if studDet.studentid == studentcoachinglist.student_id and coachingbatch.id == studentcoachinglist.CoachingBatch %}
+                    <tr>
+                      <td>{{ studentcoachinglist.student_id }}</td>
+                      <td>{{ studDet.studentname }} 
+                      <td>{{ studentcoachinglist.coaching_id }}</td>
+                      <td>{{ studentcoachinglist.CoachingBatch }}</td>
+                      <td>{{ studDet.studentcontact }} 
+                      <td>{{ studentcoachinglist.CoachingSubject }}</td>
+                      <td>{{ coachingbatch.batchstartdate }}</td>
+                      <td>{{ coachingbatch.batchenddate }}</td>
+                      <td>{{ studentcoachinglist.CoachingPaidAmount }}</td>
+                      <td>{{ studentcoachinglist.coachingTagIsActive }}</td>
+                      <td><a href="{{ url_for('studentcoachinguntag', key=studentcoachinglist.id) }}">Untag</a></td>
+                    </tr>
+                  {% endif %}
+                {% endfor %}
               {% endfor %}
             {% endfor %}
           </tbody>

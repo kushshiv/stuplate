@@ -150,9 +150,8 @@ class StudentRegistrationForm(FlaskForm):
 
 class StudentCoachingRelationForm(FlaskForm):
     student_id = StringField('Student ID')
-    CoachingStartDate = DateField('Start Date', format='%Y-%m-%d')
-    CoachingEndDate = DateField('End Date', format='%Y-%m-%d')
-    CoachingSubject = StringField('Subject')
+    CoachingBatch = StringField('Batch ID')
+    CoachingSubject = StringField('Description/Subject')
     CoachingPaidAmount = StringField('Paid Amount')
     submit = SubmitField('Tag')
 
@@ -439,7 +438,6 @@ def deleteCoachingImages(filename):
 def deleteCoachingTeachers(id):
     coaching_id = current_user.coachingclass.all()[0].coachingid
     teacherid=CoachingTeachers.query.get(id)
-    print("teachersid is" + str(id) + ", teacher name is " + str(teacherid))
     db.session.delete(teacherid)
     db.session.commit()
     return redirect(url_for('edit_coaching' , key=coaching_id))
@@ -447,7 +445,6 @@ def deleteCoachingTeachers(id):
 @app.route('/contactMail', methods=['GET', 'POST'])
 def contactMail():
     form = ContactMailForm()
-    print(form.name.data)
     msg = Message("Customer Enquiry!!!",
       sender="shivendra.ds48@gmail.com",
       recipients=["shivendrakushwaha022@gmail.com"])
@@ -471,7 +468,7 @@ def studentregistration():
 def studentcoachingrelation():
     form = StudentCoachingRelationForm()
     if form.validate_on_submit():
-        StudentCoachingRel = StudentCoachingRelation(student_id=form.student_id.data, coaching_id=current_user.id, coachingTagIsActive='YES', CoachingStartDate=form.CoachingStartDate.data, CoachingEndDate=form.CoachingEndDate.data, CoachingSubject=form.CoachingSubject.data, CoachingPaidAmount=form.CoachingPaidAmount.data)
+        StudentCoachingRel = StudentCoachingRelation(student_id=form.student_id.data, coaching_id=current_user.id, coachingTagIsActive='YES', CoachingBatch=form.CoachingBatch.data, CoachingSubject=form.CoachingSubject.data, CoachingPaidAmount=form.CoachingPaidAmount.data)
         db.session.add(StudentCoachingRel)
         db.session.commit()
         flash('Student has been tagged!')
@@ -482,14 +479,16 @@ def studentcoachingrelation():
 def studentcoachinglist():
     #studentcoachinglists = StudentCoachingRelation.query.all()
     studentcoachinglists = StudentCoachingRelation.query.filter_by(coaching_id=str(current_user.id))
+    coachingbatches = CoachingBatches.query.filter_by(user_idB=str(current_user.id))
     StudentDet = StudentDetails.query.all()
-    return render_template('studentcoachinglists.html', studentcoachinglists=studentcoachinglists, StudentDet=StudentDet)
+    return render_template('studentcoachinglists.html', studentcoachinglists=studentcoachinglists, StudentDet=StudentDet, coachingbatches=coachingbatches)
 
 @app.route("/studentcoachinguntaglist", methods=['GET', 'POST'])
 def studentcoachinguntaglist():
     studentcoachinglists = StudentCoachingRelation.query.filter_by(coaching_id=str(current_user.id))
+    coachingbatches = CoachingBatches.query.filter_by(user_idB=str(current_user.id))
     StudentDet = StudentDetails.query.all()
-    return render_template('studentcoachinguntaglist.html', studentcoachinglists=studentcoachinglists, StudentDet=StudentDet)
+    return render_template('studentcoachinguntaglist.html', studentcoachinglists=studentcoachinglists, StudentDet=StudentDet, coachingbatches=coachingbatches)
 
 @app.route("/studentcoachinguntag/<key>", methods=['GET', 'POST'])
 def studentcoachinguntag(key):
@@ -501,8 +500,9 @@ def studentcoachinguntag(key):
 @app.route("/coachingfeesreciptlist", methods=['GET', 'POST'])
 def coachingfeesreciptlist():
     studentcoachinglists = StudentCoachingRelation.query.filter_by(coaching_id=str(current_user.id))
+    coachingbatches = CoachingBatches.query.filter_by(user_idB=str(current_user.id))
     StudentDet = StudentDetails.query.all()
-    return render_template('coachingfeesreciptlist.html', studentcoachinglists=studentcoachinglists, StudentDet=StudentDet)
+    return render_template('coachingfeesreciptlist.html', studentcoachinglists=studentcoachinglists, StudentDet=StudentDet, coachingbatches=coachingbatches)
 
 @app.route("/coachingfeesrecipt/<key>", methods=['GET', 'POST'])
 def coachingfeesrecipt(key):

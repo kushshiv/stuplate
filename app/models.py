@@ -98,8 +98,7 @@ class StudentCoachingRelation(db.Model):
     student_id = db.Column(db.Integer)
     coaching_id = db.Column(db.Integer)
     coachingTagIsActive = db.Column(db.String(140))
-    CoachingStartDate = db.Column(db.String(140))
-    CoachingEndDate = db.Column(db.String(140))
+    CoachingBatch = db.Column(db.Integer)
     CoachingSubject = db.Column(db.String(140))
     CoachingPaidAmount = db.Column(db.String(140))
 
