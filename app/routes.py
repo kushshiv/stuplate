@@ -17,7 +17,7 @@ from flask_uploads import UploadSet, IMAGES, configure_uploads
 from flask_wtf.file import FileField, FileAllowed, FileRequired
 from flask_mail import Mail, Message
 from flask_mail import Mail
-from wtforms.fields import DateField
+from wtforms.fields.html5 import DateField
 from wtforms import widgets
 from wtforms.widgets import html_params, HTMLString
 import pdfkit
@@ -52,31 +52,6 @@ images = UploadSet('images', IMAGES)
 configure_uploads(app, images)
 mail = Mail(app)
 
-class DatePickerWidget(object):
-    """
-    Date Time picker from Eonasdan GitHub
-    """
-
-    data_template = (
-        '<div class="input-group date appbuilder_date" id="datepicker">'
-        '<span class="input-group-addon"><i class="fa fa-calendar cursor-hand"></i>'
-        "</span>"
-        '<input class="form-control" data-format="yyyy-MM-dd" %(text)s />'
-        "</div>"
-    )
-
-    def __call__(self, field, **kwargs):
-        kwargs.setdefault("id", field.id)
-        kwargs.setdefault("name", field.name)
-        if not field.data:
-            field.data = ""
-        template = self.data_template
-
-        return HTMLString(
-            template % {"text": html_params(type="text", value=field.data, **kwargs)}
-        )
-
- 
 class ReusableForm(Form):
     name = TextField('Name:', validators=[validators.required()])
 
@@ -182,8 +157,8 @@ class ContactMailForm(FlaskForm):
 class CoachingBatchesForm(FlaskForm):
     batchname = StringField('Batch Name', validators=[Length(min=0, max=140)])
     batchdescription = StringField('Batch Description', validators=[Length(min=0, max=140)])
-    batchstartdate = DateField('Start Date', format='%Y-%m-%d')
-    batchenddate = DateField('End Date', format='%Y-%m-%d')
+    batchstartdate = DateField('Start Date')
+    batchenddate = DateField('End Date')
     batchfees = StringField('Batch Fees', validators=[DataRequired()])
     submit = SubmitField('Submit')
 
