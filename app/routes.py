@@ -95,12 +95,7 @@ class CoachingRegistrationForm(FlaskForm):
     coachingcontact = StringField('Contact')
     coachingemail = StringField('Email')
     coachingabout = StringField('About')
-    coachingcoursesoffered = StringField('Courses Offered')
-    coachingteachers = StringField('Teachers')
-    coachingachievement = StringField('Achievement')
-    coachingresults = StringField('Results')
     coachingcategory = SelectField('Category', choices = [('Academic', 'Academic'), ('Entrance', 'Entrance'), ('Competition', 'Competition'), ('ComputerClasses', 'Computer Classes'), ('SpokenEnglishClasses', 'Spoken English Classes'), ('Others', 'Others')])
-    coachingsubcategory = SelectField('Sub Category', choices = [('IIT', 'IIT'), ('UPSC', 'UPSC'), ('Bank', 'Bank'), ('12th', '12th')])
     coachinglocation = SelectField('Location', choices = [('Patna', 'Patna'), ('Pune', 'Pune'), ('Mumbai', 'Mumbai'), ('Bokaro', 'Bokaro')])
     submit = SubmitField('Register')
     teachersname = StringField('Teachers Name')
@@ -133,12 +128,7 @@ class EditCoachingForm(FlaskForm):
     coachingcontact = StringField('Contact', validators=[DataRequired()])
     coachingemail = StringField('Email', validators=[DataRequired(), Email()])
     coachingabout = StringField('About', validators=[DataRequired()])
-    coachingcoursesoffered = StringField('Courses Offered', validators=[DataRequired()])
-    coachingteachers = StringField('Teachers', validators=[DataRequired()])
-    coachingachievement = StringField('Achievement', validators=[DataRequired()])
-    coachingresults = StringField('Results', validators=[DataRequired()])
     coachingcategory = SelectField('Category', choices = [('Academic', 'Academic'), ('Entrance', 'Entrance'), ('Competition', 'Competition'), ('ComputerClasses', 'Computer Classes'), ('SpokenEnglishClasses', 'Spoken English Classes'), ('Others', 'Others')], validators=[DataRequired()])
-    coachingsubcategory = SelectField('Sub Category', choices = [('IIT', 'IIT'), ('UPSC', 'UPSC'), ('Bank', 'Bank'), ('12th', '12th')], validators=[DataRequired()])
     coachinglocation = SelectField('Location', choices = [('Patna', 'Patna'), ('Pune', 'Pune'), ('Mumbai', 'Mumbai'), ('Bokaro', 'Bokaro')], validators=[DataRequired()])
     submit = SubmitField('Submit')
 
@@ -208,7 +198,7 @@ def coachingregistration():
                 db.session.commit()
                 return redirect(url_for('productList'))
         elif form.validate_on_submit():
-            regCoaching = CoachingClass(coachingname=form.coachingname.data, coachingcontact=form.coachingcontact.data, coachingemail=form.coachingemail.data, coachingpassword_hash='sjkfjlsdjflasdfjkldjflksdfjksdjlfsd', coachingabout=form.coachingabout.data, coachingcoursesoffered=form.coachingcoursesoffered.data, coachingteachers=form.coachingteachers.data, coachingachievement=form.coachingachievement.data, coachingresults=form.coachingresults.data, coachingcategory=form.coachingcategory.data, coachingsubcategory=form.coachingsubcategory.data, coachinglocation=form.coachinglocation.data, author=current_user)
+            regCoaching = CoachingClass(coachingname=form.coachingname.data, coachingcontact=form.coachingcontact.data, coachingemail=form.coachingemail.data, coachingpassword_hash='sjkfjlsdjflasdfjkldjflksdfjksdjlfsd', coachingabout=form.coachingabout.data, coachingcategory=form.coachingcategory.data, coachinglocation=form.coachinglocation.data, author=current_user)
             db.session.add(regCoaching)
             db.session.commit()
             return redirect(url_for('productList'))
@@ -336,12 +326,7 @@ def edit_coaching(key):
         Coaching.coachingcontact = form.coachingcontact.data
         Coaching.coachingemail = form.coachingemail.data
         Coaching.coachingabout = form.coachingabout.data
-        Coaching.coachingcoursesoffered = form.coachingcoursesoffered.data
-        Coaching.coachingteachers = form.coachingteachers.data
-        Coaching.coachingachievement = form.coachingachievement.data
-        Coaching.coachingresults = form.coachingresults.data 
         Coaching.coachingcategory = form.coachingcategory.data 
-        Coaching.coachingsubcategory = form.coachingsubcategory.data
         Coaching.coachinglocation = form.coachinglocation.data 
         db.session.commit()
         flash('Your changes have been saved.')
@@ -352,12 +337,7 @@ def edit_coaching(key):
         form.coachingcontact.data = Coaching.coachingcontact
         form.coachingemail.data = Coaching.coachingemail
         form.coachingabout.data = Coaching.coachingabout
-        form.coachingcoursesoffered.data = Coaching.coachingcoursesoffered
-        form.coachingteachers.data = Coaching.coachingteachers
-        form.coachingachievement.data = Coaching.coachingachievement
-        form.coachingresults.data = Coaching.coachingresults
         form.coachingcategory.data = Coaching.coachingcategory
-        form.coachingsubcategory.data = Coaching.coachingsubcategory
         form.coachinglocation.data = Coaching.coachinglocation
     return render_template('edit_coaching.html', title='Edit Coaching',
                            form=form, coachingSlideImg_list=coachingSlideImg_list, coachingAchievementImg_list=coachingAchievementImg_list, coachingResultsImg_list=coachingResultsImg_list,teachers=teachers)
