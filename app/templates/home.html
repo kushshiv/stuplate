@@ -30,7 +30,7 @@
 
      {% for imgfile in files %}
       <div class="item{% if loop.index == 1 %} active{% endif %}">
-        <img src="{{ url_for('static', filename = 'img/home/' + imgfile) }}" style="height:500px;width:100%;">
+        <img src="{{ url_for('static', filename = 'img/home/' + imgfile) }}" style="max-height:500px;height:auto;width:100%;">
         <div class="carousel-caption">
           <h1>StuplatE</h1>
           <p>Coaching Classes, Hostels, Mess all at one place</p>
@@ -89,7 +89,7 @@
     <div class="col-sm-8">
       <h2><a href="{{ url_for('underMaintenance') }}">Mess</a></h2>
       <h4>Choose the best Mess for you.<br>
-      Find the list of mess at your place and select as your needs. Look at the menu and their price.</h4><br>
+      Find the list of mess at your place and select as your needs. Look at the menu and their price.</h4>
     </div>
     <div class="col-sm-4">
       <span class="material-icons logo">restaurant_menu</span>
@@ -98,24 +98,8 @@
   <button class="btn btn-default btn-lg"><a href="#contact">Get in Touch</a></button>
 </div>
 
-<br>
-<!-- Container (Why Stuplate Section) -->
-<div class="container-fluid bg-grey">
-  <div class="row">
-    <div class="col-sm-4">
-      <span class="glyphicon glyphicon-hourglass logo "></span>
-    </div>
-    <div class="col-sm-8">
-      <h2>Why Stuplate</h2><br>
-      <h4><strong>MISSION:</strong> Our mission is to provide facility to students, platform to Hostels, Mess and Coaching Classes. We help students to find one place for all the facilities.</h4><br>
-      <p><strong>VISION:</strong> Our vision is to unite Students, Coaching Classes , Mess and Hostels at one place. Easy to search and find the best option available to them. We provide all the facilities as per your needs.</p>
-    </div>
-  </div>
-</div>
-
-<br>
 <!-- Container (Newly added coaching Classes Section) -->
-<div class="container-fluid bg-white">
+<div class="container-fluid bg-grey">
   <h2 class="text-center">Recently added coaching classes</h2>
   <div class="row" style="text-align:center;">
    {% for coaching in coachings[-3:] %}
@@ -132,6 +116,22 @@
 </div>
 
 
+<br>
+<!-- Container (Why Stuplate Section) -->
+<div class="container-fluid bg-white">
+  <div class="row">
+    <div class="col-sm-4">
+      <span class="glyphicon glyphicon-hourglass logo "></span>
+    </div>
+    <div class="col-sm-8">
+      <h2>Why Stuplate</h2><br>
+      <h4><strong>MISSION:</strong> Our mission is to provide facility to students, platform to Hostels, Mess and Coaching Classes. We help students to find one place for all the facilities.</h4><br>
+      <p><strong>VISION:</strong> Our vision is to unite Students, Coaching Classes , Mess and Hostels at one place. Easy to search and find the best option available to them. We provide all the facilities as per your needs.</p>
+    </div>
+  </div>
+</div>
+
+<br>
 <!-- Container (Contact Section) -->
 <div id="contact" class="container-fluid bg-grey">
   <h2 class="text-center">CONTACT</h2>

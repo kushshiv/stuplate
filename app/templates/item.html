@@ -19,7 +19,7 @@
 
      {% for image in CoachingClassSliderimages %}
       <div class="item{% if loop.index == 1 %} active{% endif %}">
-        <img src="{{ url_for('static', filename = 'img/coaching_slide/' + image) }}" style="height:500px;width:100%;">
+        <img src="{{ url_for('static', filename = 'img/coaching_slide/' + image) }}" style="max-height:500px;height:auto;width:100%;">
         <div class="carousel-caption">
           <h1>{{ item.coachingname }}</h1>
         </div>
