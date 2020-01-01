@@ -36,7 +36,7 @@ th, td {
                     <td>{{ coachingbatch.batchstartdate }}</td>
                     <td>{{ coachingbatch.batchenddate }}</td>
                     <td>{{ coachingbatch.batchfees }}</td>
-                    <td>{{ CountStudDic[coachingbatch.id] }}</td>
+                    <td><a href="{{ url_for('coachingbatchstudentlist', key=coachingbatch.id) }}">{{ CountStudDic[coachingbatch.id] }}</a></td>
                   </tr>
             {% endfor %}
           </tbody>

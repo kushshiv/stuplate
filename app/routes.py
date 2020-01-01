@@ -483,7 +483,19 @@ def coachingbatchlist():
     CountStudDic = dict(StudentCoachingRelation.query.with_entities(StudentCoachingRelation.CoachingBatch,func.count(StudentCoachingRelation.CoachingBatch)).group_by(StudentCoachingRelation.CoachingBatch).filter_by(coaching_id=str(current_user.id)).all())
     return render_template('coachingbatchlist.html', coachingbatches=coachingbatches, CountStudDic=CountStudDic)
 
+@app.route("/coachingbatchstudentlist/<key>", methods=['GET', 'POST'])
+def coachingbatchstudentlist(key):
+    StudentDet = StudentDetails.query.all()
+    coachingBatchStudlist = StudentCoachingRelation.query.filter_by(coaching_id=str(current_user.id),CoachingBatch=key).all()
+    return render_template('coachingbatchstudentlist.html', StudentDet=StudentDet, coachingBatchStudlist=coachingBatchStudlist)
 
-
-
+@app.route("/studentdetails/<key>", methods=['GET', 'POST'])
+def studentdetails(key):
+    StudentDet = StudentDetails.query.filter_by(studentid=key).all()
+    html = render_template('studentdetails.html', StudentDet=StudentDet)
+    pdf = pdfkit.from_string(html, False)
+    response = make_response(pdf)
+    response.headers['Content-Type'] = 'application/pdf'
+    response.headers['Content-Disposition '] = 'inline; filename=StudentDetail.pdf'
+    return response
 
