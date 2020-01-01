@@ -23,7 +23,8 @@ th, td {
               <th>Batch Description</th>
               <th>Start Date</th>
               <th>End Date</th>
-              <th>Fees Paid</th>
+              <th>Batch Fees</th>
+              <th>Total Students</th>
             </tr>
           </thead>
           <tbody>
@@ -35,6 +36,7 @@ th, td {
                     <td>{{ coachingbatch.batchstartdate }}</td>
                     <td>{{ coachingbatch.batchenddate }}</td>
                     <td>{{ coachingbatch.batchfees }}</td>
+                    <td>{{ CountStudDic[coachingbatch.id] }}</td>
                   </tr>
             {% endfor %}
           </tbody>

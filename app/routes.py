@@ -21,6 +21,7 @@ from wtforms.fields.html5 import DateField
 from wtforms import widgets
 from wtforms.widgets import html_params, HTMLString
 import pdfkit
+from sqlalchemy import func
 
   
  
@@ -479,7 +480,8 @@ def coachingbatches():
 @app.route("/coachingbatchlist", methods=['GET', 'POST'])
 def coachingbatchlist():
     coachingbatches = CoachingBatches.query.filter_by(user_idB=str(current_user.id))
-    return render_template('coachingbatchlist.html', coachingbatches=coachingbatches)
+    CountStudDic = dict(StudentCoachingRelation.query.with_entities(StudentCoachingRelation.CoachingBatch,func.count(StudentCoachingRelation.CoachingBatch)).group_by(StudentCoachingRelation.CoachingBatch).filter_by(coaching_id=str(current_user.id)).all())
+    return render_template('coachingbatchlist.html', coachingbatches=coachingbatches, CountStudDic=CountStudDic)
 
 
 
