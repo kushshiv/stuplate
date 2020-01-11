@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block app_content %}
+<style>
+table, th, td {
+  border: 1px solid black;
+  border-collapse: collapse;
+}
+th, td {
+  padding: 5px;
+  text-align: left;
+}
+</style>
+    <div class="container" style="overflow: auto; max-height: 80vh">
+      <h2>Students list:</h2>
+
+      <div class="table-responsive">
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th>Student ID</th>
+              <th>Student Name</th>
+              <th>Contact</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for student in studTagYES %}
+              {% for studDet in StudentDet %}
+                  {% if studDet.studentid == student[0] %}
+                    <tr>
+                      <td>{{ studDet.studentid }}</td>
+                      <td>{{ studDet.studentname }} 
+                      <td>{{ studDet.studentcontact }} 
+                    </tr>
+                  {% endif %}
+              {% endfor %}
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+{% endblock %}

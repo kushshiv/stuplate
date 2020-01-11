@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+
+
+{% block app_content %}
+    <h1>Detailed information</h1>
+
+    <p>Total number of Students till now : <a href="{{ url_for('totalcoachingstudentlist', key=current_user.id) }}">{{ stud }}</a></p>
+    <p>Total number of Students tagged : <a href="{{ url_for('totalcoachingstudentlisttagyes', key=current_user.id) }}">{{ studTagYES }}</a></p>
+    <p>Total number of Students untagged : <a href="{{ url_for('totalcoachingstudentlisttagno', key=current_user.id) }}">{{ studTagNO }}</a></p>
+{% endblock %}

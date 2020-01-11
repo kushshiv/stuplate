@@ -208,7 +208,7 @@ def coachingregistration():
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if current_user.is_authenticated:
-        return redirect(url_for('CoachingInput'))
+        return redirect(url_for('home'))
     form = LoginForm()
     if form.validate_on_submit():
         user = User.query.filter_by(username=form.username.data).first()
@@ -222,7 +222,14 @@ def login():
             if current_user.usertype == 'Admin':
                 next_page = url_for('home')
             elif current_user.usertype == 'Coaching':
-                next_page = url_for('coachingregistration')
+                try:
+                    coachingID = current_user.coachingclass.all()[0].coachingid
+                except IndexError:
+                    coachingID = ''
+                if coachingID:
+                    next_page = url_for('item' , key=coachingID)
+                else:
+                    next_page = url_for('coachingregistration')
             elif current_user.usertype == 'Student':
                 next_page = url_for('studentregistration')
         return redirect(next_page)
@@ -499,3 +506,27 @@ def studentdetails(key):
     response.headers['Content-Disposition '] = 'inline; filename=StudentDetail.pdf'
     return response
 
+@app.route("/coachingdetailedinformation/<key>", methods=['GET', 'POST'])
+def coachingdetailedinformation(key):
+    stud = StudentCoachingRelation.query.with_entities(StudentCoachingRelation.student_id).distinct().filter_by(coaching_id=str(key)).count()
+    studTagYES = StudentCoachingRelation.query.with_entities(StudentCoachingRelation.student_id.distinct()).filter_by(coaching_id=str(key),coachingTagIsActive='YES').count()
+    studTagNO = StudentCoachingRelation.query.with_entities(StudentCoachingRelation.student_id.distinct()).filter_by(coaching_id=str(key),coachingTagIsActive='NO').count()
+    return render_template('coachingdetailedinformation.html', stud=stud, studTagYES=studTagYES, studTagNO=studTagNO)
+
+@app.route("/totalcoachingstudentlist/<key>", methods=['GET', 'POST'])
+def totalcoachingstudentlist(key):
+    stud = StudentCoachingRelation.query.with_entities(StudentCoachingRelation.student_id).distinct().filter_by(coaching_id=str(key)).all()
+    StudentDet = StudentDetails.query.all()
+    return render_template('totalcoachingstudentlist.html', stud=stud, StudentDet=StudentDet)
+
+@app.route("/coachingstudentlisttagyes/<key>", methods=['GET', 'POST'])
+def totalcoachingstudentlisttagyes(key):
+    studTagYES = StudentCoachingRelation.query.with_entities(StudentCoachingRelation.student_id.distinct()).filter_by(coaching_id=str(key),coachingTagIsActive='YES').all()
+    StudentDet = StudentDetails.query.all()
+    return render_template('totalcoachingstudentlisttagyes.html', studTagYES=studTagYES, StudentDet=StudentDet)
+
+@app.route("/totalcoachingstudentlisttagno/<key>", methods=['GET', 'POST'])
+def totalcoachingstudentlisttagno(key):
+    studTagNO = StudentCoachingRelation.query.with_entities(StudentCoachingRelation.student_id.distinct()).filter_by(coaching_id=str(key),coachingTagIsActive='NO').all()
+    StudentDet = StudentDetails.query.all()
+    return render_template('totalcoachingstudentlisttagno.html', studTagNO=studTagNO, StudentDet=StudentDet)
