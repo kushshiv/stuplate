@@ -22,12 +22,13 @@
     </li>
   </ul>
 
+    <form action = "" method = "POST"
+        enctype = "multipart/form-data">
   <!-- Tab panes -->
   <div class="tab-content">
     <div id="RegisterDetails" class="container tab-pane in fade active"><br>
    <div class="row">
       <div class="col-md-4">
-    <form action="" method="post">
         {{ form.hidden_tag() }}
         <p>  
             {{ form.coachingname.label }}<br>
@@ -71,16 +72,14 @@
             <span style="color: red;">[{{ error }}]</span>
             {% endfor %}
         </p>
-        <p>{{ form.submit(class_="form-control") }}</p>
-    </form>
+      <a class="btn btn-success btnNext">Next</a>
+
         </div>
       </div>
     </div>
     <div id="Uploadphotos" class="container tab-pane fade"><br>
    <div class="row">
       <div class="col-md-4">
-    <form action = "" method = "POST"
-        enctype = "multipart/form-data">
         <h1>Coaching Class Slider Images</h1>
         <input type = "file" name = "CoachingClassSliderfile1" />
         <input type = "file" name = "CoachingClassSliderfile2" />
@@ -94,16 +93,14 @@
         <h1>Coaching Class Results Images</h1>
         <input type = "file" name = "CoachingClassResultsfile" />
         <br>
-        <input type = "submit" value = "submit_images" name = "submit"><br>
-    </form>
+      <a class="btn btn-success btnNext">Next</a>
+
         </div>
       </div>
     </div>
     <div id="TeachersDetail" class="container tab-pane fade"><br>
    <div class="row">
       <div class="col-md-4">
-    <form action="" method="post"
-        enctype = "multipart/form-data">
         <p>
             {{ form.teachersname.label }}<br>
             {{ form.teachersname(class_="form-control",size=120) }}<br>
@@ -137,12 +134,20 @@
             {{ form.teachers_image(class_="form-control") }}<br>
         </p>
         <p>{{ form.submit_teachers(class_="form-control") }}</p>
-    </form>
         </div>
       </div>
     </div>
   </div>
 
+    </form>
+
+<script>
+$(document).ready(function() {
+  $('.btnNext').click(function() {
+    $('.nav-tabs .active').next('li').find('a').trigger('click');
+  });
+});
+</script>
 
 {% endblock %}
 

@@ -16,13 +16,14 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" style="font-size: 30px; text-decoration: none" href="{{ url_for('home')}}">StuplatE</a>
-          <!-- <a class="navbar-brand" href="{{ url_for('home')}}"><img src="{{ url_for('static' , filename='stuplate.svg') }}" style="height:200%;width:50%"></a>-->
+          <a href="{{ url_for('home') }}"><img src="/static/stuplate.png" style="max-height: 50px; margin-top: 0%;" class="img-responsive"></a>
+         {# <a class="navbar-brand" style="font-size: 30px; text-decoration: none" href="{{ url_for('home')}}">StuplatE</a> #}
         </div>
 
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 
         {% if current_user.usertype == 'Coaching' %}
+         {% if current_user.coachingclass.all() == [] %}
           <ul class="nav navbar-nav">
             <li class="dropdown">
               <a class="dropdown-toggle" data-toggle="dropdown" href="#">Register
@@ -32,6 +33,7 @@
               </ul>
             </li>
 	  </ul>
+	 {% endif %}
           <ul class="nav navbar-nav">
             <li class="dropdown">
               <a class="dropdown-toggle" data-toggle="dropdown" href="#">Batches

@@ -98,12 +98,13 @@ class CoachingRegistrationForm(FlaskForm):
     coachingabout = StringField('About')
     coachingcategory = SelectField('Category', choices = [('Academic', 'Academic'), ('Entrance', 'Entrance'), ('Competition', 'Competition'), ('ComputerClasses', 'Computer Classes'), ('SpokenEnglishClasses', 'Spoken English Classes'), ('Others', 'Others')])
     coachinglocation = SelectField('Location', choices = [('Patna', 'Patna'), ('Pune', 'Pune'), ('Mumbai', 'Mumbai'), ('Bokaro', 'Bokaro')])
+    submit = SubmitField('Register')
     teachersname = StringField('Teachers Name')
     teachersqualification = StringField('Teachers Qualification')
     teacherssubject = StringField('Teachers Subject')
     teachersexperience = StringField('Teachers Experience')
     teachers_image = FileField('Teachers Image')
-    submit_teachers = SubmitField('Submit')
+    submit_teachers = SubmitField('Submit Teachers')
 
 class StudentRegistrationForm(FlaskForm):
     studentname = StringField('Full Name')
@@ -163,9 +164,9 @@ def item(key):
     coachingUserId = CoachingClass.query.filter_by(coachingid=str(key)).first_or_404()
     coachingbatches = CoachingBatches.query.filter_by(user_idB=str(coachingUserId.user_id))
     teachers = CoachingTeachers.query.filter_by(user_id2=coachingUserId.user_id).all()
-    CoachingClassSliderimages = fnmatch.filter(os.listdir(os.path.join(app.static_folder, "img/coaching_slide")), str(current_user.id) + '_' + '*' + '_' +'CoachingClassSliderfile*' + '_' + '*.jpg')
-    CoachingClassAchievementimages = fnmatch.filter(os.listdir(os.path.join(app.static_folder, "img/coaching_slide")), str(current_user.id) + '_' + '*' + '_' +'CoachingClassAchievementfile' + '_' + '*.jpg')
-    CoachingClassResultsimages = fnmatch.filter(os.listdir(os.path.join(app.static_folder, "img/coaching_slide")), str(current_user.id) + '_' + '*' + '_' +'CoachingClassResultsfile' + '_' + '*.jpg')
+    CoachingClassSliderimages = fnmatch.filter(os.listdir(os.path.join(app.static_folder, "img/coaching_slide")), str(item.coachingid) + '_' + '*' + '_' +'CoachingClassSliderfile*' + '_' + '*.jpg')
+    CoachingClassAchievementimages = fnmatch.filter(os.listdir(os.path.join(app.static_folder, "img/coaching_slide")), str(item.coachingid) + '_' + '*' + '_' +'CoachingClassAchievementfile' + '_' + '*.jpg')
+    CoachingClassResultsimages = fnmatch.filter(os.listdir(os.path.join(app.static_folder, "img/coaching_slide")), str(item.coachingid) + '_' + '*' + '_' +'CoachingClassResultsfile' + '_' + '*.jpg')
     if not item:
         abort(404)
     return render_template('item.html', item=item, CoachingClassSliderimages=CoachingClassSliderimages, CoachingClassAchievementimages=CoachingClassAchievementimages, CoachingClassResultsimages=CoachingClassResultsimages, teachers=teachers, coachingbatches=coachingbatches)
@@ -177,25 +178,31 @@ def productList():
 
 @app.route("/coachingregistration", methods=['GET', 'POST'])
 def coachingregistration():
-    form = CoachingRegistrationForm()
-    if request.form.get('submit_teachers') == 'Submit':
-        coaching_id = current_user.id
+    if request.form.get('submit') == 'submit_images':
+        coaching_id = current_user.coachingclass.all()[0].coachingid
         filefield = ['CoachingClassSliderfile1', 'CoachingClassSliderfile2', 'CoachingClassSliderfile3', 'CoachingClassSliderfile4', 'CoachingClassSliderfile5', 'CoachingClassAchievementfile', 'CoachingClassResultsfile']
         for file in filefield:
             f = request.files[file]
             f.filename = str(coaching_id) + "_" + str(filefield.index(file)) + "_" + file + "_" + f.filename
             filename = secure_filename(f.filename)
             f.save(os.path.join(app.config['UPLOAD_COACHING_FOLDER'], filename))
-        filename1 = secure_filename(form.teachers_image.data.filename)
-        form.teachers_image.data.save(app.config['UPLOAD_TEACHERS_FOLDER'] + filename1)
-        url = images.url(filename1)
-        coachingteachers = CoachingTeachers(teachersname=form.teachersname.data, teachersqualification=form.teachersqualification.data, teacherssubject=form.teacherssubject.data, teachersexperience=form.teachersexperience.data, image_filename=filename1, image_url=url, teacher=current_user)
-        db.session.add(coachingteachers)
-        db.session.commit()
-        regCoaching = CoachingClass(coachingname=form.coachingname.data, coachingcontact=form.coachingcontact.data, coachingemail=form.coachingemail.data, coachingpassword_hash='sjkfjlsdjflasdfjkldjflksdfjksdjlfsd', coachingabout=form.coachingabout.data, coachingcategory=form.coachingcategory.data, coachinglocation=form.coachinglocation.data, author=current_user)
-        db.session.add(regCoaching)
-        db.session.commit()
-        return redirect(url_for('productList'))
+        #return redirect(url_for('home'))
+    else:
+        form = CoachingRegistrationForm()
+        if request.form.get('submit_teachers') == 'Submit Teachers':
+            if True:
+                filename1 = secure_filename(form.teachers_image.data.filename)
+                form.teachers_image.data.save(app.config['UPLOAD_TEACHERS_FOLDER'] + filename1)
+                url = images.url(filename1)
+                coachingteachers = CoachingTeachers(teachersname=form.teachersname.data, teachersqualification=form.teachersqualification.data, teacherssubject=form.teacherssubject.data, teachersexperience=form.teachersexperience.data, image_filename=filename1, image_url=url, teacher=current_user)
+                db.session.add(coachingteachers)
+                db.session.commit()
+                return redirect(url_for('productList'))
+        elif form.validate_on_submit():
+            regCoaching = CoachingClass(coachingname=form.coachingname.data, coachingcontact=form.coachingcontact.data, coachingemail=form.coachingemail.data, coachingpassword_hash='sjkfjlsdjflasdfjkldjflksdfjksdjlfsd', coachingabout=form.coachingabout.data, coachingcategory=form.coachingcategory.data, coachinglocation=form.coachinglocation.data, author=current_user)
+            db.session.add(regCoaching)
+            db.session.commit()
+            #return redirect(url_for('productList'))
     return render_template('coachingregistration.html', title='Register Coaching', form=form )
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -305,14 +312,14 @@ def edit_news(key):
 def edit_coaching(key):
     form = EditCoachingForm()
     mycoaching = CoachingClass.query.get(key)
-    coaching_id = current_user.id
+    coaching_id = current_user.coachingclass.all()[0].coachingid
     coachingUserId = CoachingClass.query.filter_by(coachingid=str(key)).first_or_404()
     teachers = CoachingTeachers.query.filter_by(user_id2=coachingUserId.user_id).all()
     coachingSlideImg_list = fnmatch.filter(os.listdir(os.path.join(app.static_folder, "img/coaching_slide")), str(coaching_id) + '_' + '*' + '_' + 'CoachingClassSliderfile*' + '*.jpg')
     coachingAchievementImg_list = fnmatch.filter(os.listdir(os.path.join(app.static_folder, "img/coaching_slide")), str(coaching_id) + '_' + '*' + '_' + 'CoachingClassAchievementfile*' + '*.jpg')
     coachingResultsImg_list = fnmatch.filter(os.listdir(os.path.join(app.static_folder, "img/coaching_slide")), str(coaching_id) + '_' + '*' + '_' + 'CoachingClassResultsfile*' + '*.jpg')
     if request.form.get('submit') == 'submit_images':
-        coaching_id = current_user.id
+        coaching_id = current_user.coachingclass.all()[0].coachingid
         filefield = ['CoachingClassSliderfile1', 'CoachingClassSliderfile2', 'CoachingClassSliderfile3', 'CoachingClassSliderfile4', 'CoachingClassSliderfile5', 'CoachingClassAchievementfile', 'CoachingClassResultsfile']
         for file in filefield:
             f = request.files[file]
@@ -332,43 +339,6 @@ def edit_coaching(key):
         db.session.commit()
         flash('Your changes have been saved.')
         return render_template('mycoaching.html', mycoaching=mycoaching)
-    elif request.method == 'GET':
-        Coaching = CoachingClass.query.get(key)
-        form.coachingname.data = Coaching.coachingname
-        form.coachingcontact.data = Coaching.coachingcontact
-        form.coachingemail.data = Coaching.coachingemail
-        form.coachingabout.data = Coaching.coachingabout
-        form.coachingcategory.data = Coaching.coachingcategory
-        form.coachinglocation.data = Coaching.coachinglocation
-    return render_template('edit_coaching.html', title='Edit Coaching',
-                           form=form, coachingSlideImg_list=coachingSlideImg_list, coachingAchievementImg_list=coachingAchievementImg_list, coachingResultsImg_list=coachingResultsImg_list,teachers=teachers)
-
-def edit_coaching(key):
-    form = EditCoachingForm()
-    mycoaching = CoachingClass.query.get(key)
-    coaching_id = current_user.id
-    coachingUserId = CoachingClass.query.filter_by(coachingid=str(key)).first_or_404()
-    teachers = CoachingTeachers.query.filter_by(user_id2=coachingUserId.user_id).all()
-    coachingSlideImg_list = fnmatch.filter(os.listdir(os.path.join(app.static_folder, "img/coaching_slide")), str(coaching_id) + '_' + '*' + '_' + 'CoachingClassSliderfile*' + '*.jpg')
-    coachingAchievementImg_list = fnmatch.filter(os.listdir(os.path.join(app.static_folder, "img/coaching_slide")), str(coaching_id) + '_' + '*' + '_' + 'CoachingClassAchievementfile*' + '*.jpg')
-    coachingResultsImg_list = fnmatch.filter(os.listdir(os.path.join(app.static_folder, "img/coaching_slide")), str(coaching_id) + '_' + '*' + '_' + 'CoachingClassResultsfile*' + '*.jpg')
-    if request.form.get('submit') == 'submit':
-        coaching_id = current_user.id
-        filefield = ['CoachingClassSliderfile1', 'CoachingClassSliderfile2', 'CoachingClassSliderfile3', 'CoachingClassSliderfile4', 'CoachingClassSliderfile5', 'CoachingClassAchievementfile', 'CoachingClassResultsfile']
-        for file in filefield:
-            f = request.files[file]
-            if f.filename:
-                f.filename = str(coaching_id) + "_" + str(filefield.index(file)) + "_" + file + "_" + f.filename
-                filename = secure_filename(f.filename)
-                f.save(os.path.join(app.config['UPLOAD_COACHING_FOLDER'], filename))
-        Coaching = CoachingClass.query.get(key)
-        Coaching.coachingname = form.coachingname.data
-        Coaching.coachingcontact = form.coachingcontact.data
-        Coaching.coachingemail = form.coachingemail.data
-        Coaching.coachingabout = form.coachingabout.data
-        Coaching.coachingcategory = form.coachingcategory.data 
-        Coaching.coachinglocation = form.coachinglocation.data 
-        db.session.commit()
     elif request.method == 'GET':
         Coaching = CoachingClass.query.get(key)
         form.coachingname.data = Coaching.coachingname
