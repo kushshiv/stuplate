@@ -11,8 +11,8 @@
 
   <!-- Nav tabs -->
   <ul class="nav nav-tabs nav-justified" role="tablist">
-    <li class="nav-item">
-      <a class="nav-link in fade active" data-toggle="tab" href="#RegisterDetails">Register Details</a>
+    <li class="nav-item active">
+      <a class="nav-link fade in active" data-toggle="tab" href="#RegisterDetails">Register Details</a>
     </li>
     <li class="nav-item">
       <a class="nav-link" data-toggle="tab" href="#Uploadphotos">Upload photos</a>
@@ -26,7 +26,7 @@
         enctype = "multipart/form-data">
   <!-- Tab panes -->
   <div class="tab-content">
-    <div id="RegisterDetails" class="container tab-pane in fade active"><br>
+    <div id="RegisterDetails" class="container tab-pane fade in active"><br>
    <div class="row">
       <div class="col-md-4">
         {{ form.hidden_tag() }}
@@ -53,7 +53,7 @@
         </p>
         <p>  
             {{ form.coachingabout.label }}<br>
-            {{ form.coachingabout(class_="form-control",size=120) }}<br>
+            {{ form.coachingabout(class_="form-control",rows="5",size=120) }}<br>
             {% for error in form.coachingabout.errors %}
             <span style="color: red;">[{{ error }}]</span>
             {% endfor %}

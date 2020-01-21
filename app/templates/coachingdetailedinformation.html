@@ -62,16 +62,13 @@ body {font-family: "Lato", sans-serif;}
   <button class="tablinks" onclick="openTab(event, 'Home')" id="defaultOpen">Home</button>
   <button class="tablinks" onclick="openTab(event, 'Registration')">Registration</button>
   <button class="tablinks" onclick="openTab(event, 'Student')">Student</button>
+  <button class="tablinks" onclick="openTab(event, 'Batch')">Batch</button>
 </div>
 
 <div id="Home" class="tabcontent">
-  <h3>London</h3>
-  <p>London is the capital city of England.</p>
 </div>
 
 <div id="Registration" class="tabcontent">
-  <h3>Paris</h3>
-  <p>Paris is the capital of France.</p> 
 </div>
 
 <div id="Student" class="tabcontent">
@@ -79,6 +76,11 @@ body {font-family: "Lato", sans-serif;}
     <p>Total number of Students tagged : <a href="{{ url_for('totalcoachingstudentlisttagyes', key=current_user.id) }}">{{ studTagYES }}</a></p>
     <p>Total number of Students untagged : <a href="{{ url_for('totalcoachingstudentlisttagno', key=current_user.id) }}">{{ studTagNO }}</a></p>
 </div>
+
+<div id="Batch" class="tabcontent">
+    <p>Total Batches running now : <a href="{{ url_for('coachingbatchlist') }}">{{ CountCurrBatches }}</a></p>
+</div>
+
 
 <script>
 function openTab(evt, cityName) {

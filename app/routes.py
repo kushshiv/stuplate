@@ -95,7 +95,7 @@ class CoachingRegistrationForm(FlaskForm):
     coachingname = StringField('coachingname')
     coachingcontact = StringField('Contact')
     coachingemail = StringField('Email')
-    coachingabout = StringField('About')
+    coachingabout = TextAreaField('About')
     coachingcategory = SelectField('Category', choices = [('Academic', 'Academic'), ('Entrance', 'Entrance'), ('Competition', 'Competition'), ('ComputerClasses', 'Computer Classes'), ('SpokenEnglishClasses', 'Spoken English Classes'), ('Others', 'Others')])
     coachinglocation = SelectField('Location', choices = [('Patna', 'Patna'), ('Pune', 'Pune'), ('Mumbai', 'Mumbai'), ('Bokaro', 'Bokaro')])
     teachersname = StringField('Teachers Name')
@@ -127,7 +127,7 @@ class EditCoachingForm(FlaskForm):
     coachingname = StringField('coachingname', validators=[DataRequired()])
     coachingcontact = StringField('Contact', validators=[DataRequired()])
     coachingemail = StringField('Email', validators=[DataRequired(), Email()])
-    coachingabout = StringField('About', validators=[DataRequired()])
+    coachingabout = TextAreaField('About', validators=[DataRequired()])
     coachingcategory = SelectField('Category', choices = [('Academic', 'Academic'), ('Entrance', 'Entrance'), ('Competition', 'Competition'), ('ComputerClasses', 'Computer Classes'), ('SpokenEnglishClasses', 'Spoken English Classes'), ('Others', 'Others')], validators=[DataRequired()])
     coachinglocation = SelectField('Location', choices = [('Patna', 'Patna'), ('Pune', 'Pune'), ('Mumbai', 'Mumbai'), ('Bokaro', 'Bokaro')], validators=[DataRequired()])
     submit = SubmitField('Submit')
@@ -140,7 +140,7 @@ class ContactMailForm(FlaskForm):
 
 class CoachingBatchesForm(FlaskForm):
     batchname = StringField('Batch Name', validators=[Length(min=0, max=140)])
-    batchdescription = StringField('Batch Description', validators=[Length(min=0, max=140)])
+    batchdescription = TextAreaField('Batch Description', validators=[Length(min=0, max=140)])
     batchstartdate = DateField('Start Date')
     batchenddate = DateField('End Date')
     batchfees = StringField('Batch Fees', validators=[DataRequired()])
@@ -541,7 +541,8 @@ def coachingdetailedinformation(key):
     stud = StudentCoachingRelation.query.with_entities(StudentCoachingRelation.student_id).distinct().filter_by(coaching_id=str(key)).count()
     studTagYES = StudentCoachingRelation.query.with_entities(StudentCoachingRelation.student_id.distinct()).filter_by(coaching_id=str(key),coachingTagIsActive='YES').count()
     studTagNO = StudentCoachingRelation.query.with_entities(StudentCoachingRelation.student_id.distinct()).filter_by(coaching_id=str(key),coachingTagIsActive='NO').count()
-    return render_template('coachingdetailedinformation.html', stud=stud, studTagYES=studTagYES, studTagNO=studTagNO)
+    CountCurrBatches = CoachingBatches.query.filter_by(user_idB=str(current_user.id)).count()
+    return render_template('coachingdetailedinformation.html', stud=stud, studTagYES=studTagYES, studTagNO=studTagNO, CountCurrBatches=CountCurrBatches)
 
 @app.route("/totalcoachingstudentlist/<key>", methods=['GET', 'POST'])
 def totalcoachingstudentlist(key):

@@ -23,7 +23,6 @@
    <div id="EditRegisterDetails" class="container tab-pane in fade active">
       <br>
       <div class="row">
-         <div class="col-md-4">
             <form action="" method="post">
                {{ form.hidden_tag() }}
                <p>
@@ -49,7 +48,7 @@
                </p>
                <p>
                   {{ form.coachingabout.label }}<br>
-                  {{ form.coachingabout(class_="form-control",size=120) }}<br>
+                  {{ form.coachingabout(class_="form-control",rows="5",size=120) }}<br>
                   {% for error in form.coachingabout.errors %}
                   <span style="color: red;">[{{ error }}]</span>
                   {% endfor %}
@@ -71,12 +70,10 @@
                <p>{{ form.submit(class_="form-control",size=120) }}</p>
             </form>
          </div>
-      </div>
    </div>
    <div id="EditUploadphotos" class="container tab-pane fade">
       <br>
       <div class="row">
-         <!--<div class="col-md-4">-->
             <form action = "" method = "POST"
                enctype = "multipart/form-data">
                <h1>Coaching Class Slider Images</h1>
@@ -124,13 +121,11 @@
                <br>
                <input type = "submit" value = "submit_images" name = "submit"><br>
             </form>
-         <!--</div>-->
       </div>
    </div>
    <div id="EditTeachersDetail" class="container tab-pane fade">
       <br>
       <div class="row">
-         <div class="col-md-4">
             <h3>Teachers</h3>
             {% for teacher in teachers %}
             <table>
@@ -146,7 +141,6 @@
             </table>
             <br>
             {% endfor %}
-         </div>
       </div>
    </div>
 </div>
