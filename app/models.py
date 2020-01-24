@@ -112,4 +112,5 @@ class CoachingBatches(db.Model):
     batchstartdate = db.Column(db.String(140))
     batchenddate = db.Column(db.String(140))
     batchfees = db.Column(db.Integer)
+    batchIsActive = db.Column(db.String(140))
     user_idB = db.Column(db.Integer, db.ForeignKey('user.id'))

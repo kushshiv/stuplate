@@ -589,6 +589,5 @@ def coachingbatchinactive(key):
 @app.route("/coachinginactivebatchlist", methods=['GET', 'POST'])
 def coachinginactivebatchlist():
     coachinginactivebatches = CoachingBatches.query.filter_by(user_idB=str(current_user.id),batchIsActive='NO').all()
-    CountStudDic = dict(StudentCoachingRelation.query.with_entities(StudentCoachingRelation.CoachingBatch,func.count(StudentCoachingRelation.CoachingBatch)).group_by(StudentCoachingRelation.CoachingBatch).filter_by(coaching_id=str(current_user.id)).all())
-    return render_template('coachinginactivebatchlist.html', coachinginactivebatches=coachinginactivebatches,CountStudDic=CountStudDic)
+    return render_template('coachinginactivebatchlist.html', coachinginactivebatches=coachinginactivebatches)
 
