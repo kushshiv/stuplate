@@ -22,6 +22,7 @@ from wtforms import widgets
 from wtforms.widgets import html_params, HTMLString
 import pdfkit
 from sqlalchemy import func
+from threading import Thread
 
   
  
@@ -86,6 +87,16 @@ class RegistrationForm(FlaskForm):
         user = User.query.filter_by(email=email.data).first()
         if user is not None:
             raise ValidationError('Please use a different email address.')
+
+class ResetPasswordRequestForm(FlaskForm):
+    email = StringField('Email', validators=[DataRequired(), Email()])
+    submit = SubmitField('Request Password Reset')
+
+class ResetPasswordForm(FlaskForm):
+    password = PasswordField('Password', validators=[DataRequired()])
+    password2 = PasswordField(
+        'Repeat Password', validators=[DataRequired(), EqualTo('password')])
+    submit = SubmitField('Request Password Reset')
 
 class UpdateNewsForm(FlaskForm):
     news = StringField('News', validators=[DataRequired()])
@@ -592,3 +603,49 @@ def coachinginactivebatchlist():
     CountStudDic = dict(StudentCoachingRelation.query.with_entities(StudentCoachingRelation.CoachingBatch,func.count(StudentCoachingRelation.CoachingBatch)).group_by(StudentCoachingRelation.CoachingBatch).filter_by(coaching_id=str(current_user.id)).all())
     return render_template('coachinginactivebatchlist.html', coachinginactivebatches=coachinginactivebatches,CountStudDic=CountStudDic)
 
+@app.route('/reset_password_request', methods=['GET', 'POST'])
+def reset_password_request():
+    if current_user.is_authenticated:
+        return redirect(url_for('home'))
+    form = ResetPasswordRequestForm()
+    if form.validate_on_submit():
+        user = User.query.filter_by(email=form.email.data).first()
+        if user:
+            send_password_reset_email(user)
+        flash('Check your email for the instructions to reset your password')
+        return redirect(url_for('login'))
+    return render_template('reset_password_request.html',
+                           title='Reset Password', form=form)
+def send_password_reset_email(user):
+    token = user.get_reset_password_token()
+    send_email('[Stuplate] Reset Your Password',
+               sender='shivendra.ds48@gmail.com',
+               recipients=[user.email],
+               text_body=render_template('reset_password.txt',
+                                         user=user, token=token),
+               html_body=render_template('reset_password.html',
+                                         user=user, token=token))
+
+@app.route('/reset_password/<token>', methods=['GET', 'POST'])
+def reset_password(token):
+    if current_user.is_authenticated:
+        return redirect(url_for('home'))
+    user = User.verify_reset_password_token(token)
+    if not user:
+        return redirect(url_for('home'))
+    form = ResetPasswordForm()
+    if form.validate_on_submit():
+        user.set_password(form.password.data)
+        db.session.commit()
+        flash('Your password has been reset.')
+        return redirect(url_for('login'))
+    return render_template('reset_password_form.html', form=form)
+
+def send_async_email(app, msg):
+    with app.app_context():
+        mail.send(msg)
+def send_email(subject, sender, recipients, text_body, html_body):
+    msg = Message(subject, sender=sender, recipients=recipients)
+    msg.body = text_body
+    msg.html = html_body
+    Thread(target=send_async_email, args=(app, msg)).start()
