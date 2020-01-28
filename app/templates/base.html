@@ -66,9 +66,15 @@
                 <li><a href="{{ url_for('updateNewsFeed')}}">Add News</a></li>
                 <li><a href="{{ url_for('uploadHomeImages')}}">Update Home Images</a></li>
                 <li class="disabled"><a href="#">Update Coaching</a></li>
+                <li class="disabled"><a href="{{ url_for('register') }}">Create Login</a></li>
               </ul>
             </li>
 	  </ul>
+        {% endif %}
+        {% if not current_user.is_authenticated %}
+          <ul class="nav navbar-nav navbar-center">
+            <a class="navbar-brand" style="font-size: 15px; text-decoration: none;text-align:center" href="{{ url_for('contactUs')}}"><span class="glyphicon glyphicon-list-alt"></span>List Your Business</a>
+          </ul>
         {% endif %}
 
           <ul class="nav navbar-nav navbar-right">
@@ -76,11 +82,10 @@
       	    <li><a href="{{ url_for('register') }}"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
             <li><a href="{{ url_for('login') }}"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
             {% else %}
-            <li><a href="{{ url_for('logout') }}"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
             <li class="dropdown"><a class="glyphicon glyphicon-user dropdown-toggle" data-toggle="dropdown"></a>
               <ul class="dropdown-menu">
-                <li class="disabled"><a href="#">Welcome</a></li>
-                <li class="divider"></li>
+                {#<li class="disabled"><a href="#">Welcome</a></li>
+                <li class="divider"></li>#}
                 {% if current_user.usertype == 'Coaching' %}
                   {% if current_user.coachingclass.all() != [] %}
                      <li><a href="{{ url_for('item', key=current_user.coachingclass.all()[0].coachingid ) }}">My Page</a></li>
@@ -92,6 +97,8 @@
                 {% if current_user.usertype == 'Coaching' %}
                    <li><a href="{{ url_for('coachingdetailedinformation' , key=current_user.id) }}">Detailed Information</a></li>
                 {% endif %}
+                {#<li class="disabled"><a href="{{ url_for('logout') }}">Logout</a></li>#}
+                <li><a href="{{ url_for('logout') }}"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
               </ul>
             </li>
             {% endif %}
@@ -200,7 +207,7 @@ $(document).ready(function(){
     font-family: Montserrat, sans-serif;
   }
   .container-fluid {
-    padding: 60px 50px;
+    padding: 10px 50px;
   }
   .bg-grey {
     background-color: #f6f6f6;

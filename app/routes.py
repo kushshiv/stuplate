@@ -77,6 +77,19 @@ class LoginForm(FlaskForm):
 
 class RegistrationForm(FlaskForm):
     email = StringField('Email', validators=[DataRequired(), Email()])
+    usertype = SelectField('User Type', choices = [('Student', 'Student')], validators=[DataRequired()])
+    password = PasswordField('Password', validators=[DataRequired()])
+    password2 = PasswordField(
+        'Repeat Password', validators=[DataRequired(), EqualTo('password')])
+    submit = SubmitField('Register')
+
+    def validate_email(self, email):
+        user = User.query.filter_by(email=email.data).first()
+        if user is not None:
+            raise ValidationError('Please use a different email address.')
+
+class AdminRegistrationForm(FlaskForm):
+    email = StringField('Email', validators=[DataRequired(), Email()])
     usertype = SelectField('User Type', choices = [('Admin', 'Admin'), ('Coaching', 'Coaching'), ('Student', 'Student')], validators=[DataRequired()])
     password = PasswordField('Password', validators=[DataRequired()])
     password2 = PasswordField(
@@ -259,15 +272,25 @@ def StudentDescrition():
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
+    formType = 'NonAdmin'
     if current_user.is_authenticated:
-        return redirect(url_for('home'))
-    form = RegistrationForm()
+        if current_user.usertype == 'Admin':
+            formType = 'Admin'
+        else:
+            return redirect(url_for('home'))
+    if formType == 'Admin':
+        form = AdminRegistrationForm()
+    else:
+        form = RegistrationForm()
     if form.validate_on_submit():
         #if form.usertype.data == 'Coaching':
         user = User(username=form.email.data, email=form.email.data, usertype=form.usertype.data)
         user.set_password(form.password.data)
         db.session.add(user)
         db.session.commit()
+        if formType == 'Admin':
+            flash('User Login has been created. Please logout and login with registered user to check.')
+            return redirect(url_for('login'))
         flash('Congratulations, you are now a registered user!')
         return redirect(url_for('login'))
     return render_template('register.html', title='Register', form=form)
