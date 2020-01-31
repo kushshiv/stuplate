@@ -134,6 +134,8 @@ class StudentRegistrationForm(FlaskForm):
     studentcontact = StringField('Contact', validators=[validators.required()])
     studentgender = SelectField('Gender', choices = [('Male', 'Male'), ('Female', 'Female')], validators=[validators.required()])
     studentaddress = StringField('Full Address', validators=[validators.required()])
+    studentfathersname = StringField('Fathers Name', validators=[validators.required()])
+    studentqualification = StringField('Qualification', validators=[validators.required()])
     submit = SubmitField('Submit')
 
 class StudentCoachingRelationForm(FlaskForm):
@@ -487,7 +489,7 @@ def contactMail():
 def studentregistration():
     form = StudentRegistrationForm()
     if form.validate_on_submit():
-        regStudent = StudentDetails(studentname=form.studentname.data, studentcontact=form.studentcontact.data, studentgender=form.studentgender.data, studentaddress=form.studentaddress.data, studentlink=current_user)
+        regStudent = StudentDetails(studentname=form.studentname.data, studentcontact=form.studentcontact.data, studentgender=form.studentgender.data, studentaddress=form.studentaddress.data, studentfathersname=form.studentfathersname.data, studentqualification=form.studentqualification.data, studentlink=current_user)
         db.session.add(regStudent)
         db.session.commit()
         flash('Registration Complete!')

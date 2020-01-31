@@ -103,7 +103,9 @@ class StudentDetails(db.Model):
     studentname = db.Column(db.String(140))
     studentcontact = db.Column(db.Integer)
     studentgender = db.Column(db.String(140))
-    studentaddress = db.Column(db.String(140))
+    studentaddress = db.Column(db.String(300))
+    studentfathersname = db.Column(db.String(140))
+    studentqualification = db.Column(db.String(140))
     user_idS = db.Column(db.Integer, db.ForeignKey('user.id'))
 
     def __repr__(self):
