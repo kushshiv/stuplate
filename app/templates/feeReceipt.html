@@ -16,7 +16,7 @@ th, td {
   text-align: left;    
 }
 th {
-  width: 18%;
+  width: 25%;
 }
 </style>
 </head>
@@ -28,36 +28,51 @@ th {
                   {{ current_user.coachingclass.all()[0].coachingcontact }}<br>
                   {{ current_user.coachingclass.all()[0].coachinglocation }}</p>
   {% for studDet in StudentDet %}
-    {% if studDet.studentid == StudentCoachingRel.student_id %}
+   {% for coachingbatch in coachingbatches %}
+    {% if studDet.studentid == StudentCoachingRel.student_id and coachingbatch.id == StudentCoachingRel.CoachingBatch %}
 
 <div class="center">
   <table align="center" style="width:90%">
     <tr>
       <th>Student ID :</th>
       <td>{{ StudentCoachingRel.student_id }}</td>
+    </tr>
+    <tr>
       <th>Student Name :</th>
       <td>{{ studDet.studentname }}</td>
     </tr>
     <tr>
+      <th>Student Fathers Name :</th>
+      <td>{{ studDet.studentfathersname }}</td>
+    </tr>
+    <tr>
+      <th>Student Qualification :</th>
+      <td>{{ studDet.studentqualification }}</td>
+    </tr>
+    <tr>
       <th>Student Contact:</th>
       <td>{{ studDet.studentcontact }}</td>
-      <th>Course Applied :</th>
-      <td>{{ StudentCoachingRel.CoachingSubject }}</td>
+    <tr>
+      <th>Batch ID :</th>
+      <td>{{ coachingbatch.id }}</td>
     </tr>
     <tr>
       <th>Course Start Date:</th>
-      <td>{{ StudentCoachingRel.CoachingStartDate }}</td>
+      <td>{{ coachingbatch.batchstartdate }}</td>
+    </tr>
+    <tr>
       <th>Course End Date:</th>
-      <td>{{ StudentCoachingRel.CoachingEndDate }}</td>
+      <td>{{ coachingbatch.batchenddate }}</td>
     </tr>
     <tr>
       <th>Total Amount Paid:</th>
-      <td colspan="3" style="text-align:right">{{ StudentCoachingRel.CoachingPaidAmount }}</td>
+      <td>{{ StudentCoachingRel.CoachingPaidAmount }}</td>
     </tr>
   </table>
 </div>
 
     {% endif %}
+   {% endfor %}
   {% endfor %}
 
 </body>

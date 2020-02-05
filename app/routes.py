@@ -54,6 +54,16 @@ images = UploadSet('images', IMAGES)
 configure_uploads(app, images)
 mail = Mail(app)
 
+cityList=[]
+#city_file = os.path.join(basedir, 'static/citylist.txt')
+city_file = os.path.join(app.config['FILE_FOLDER'], 'citylist.txt')
+with open(city_file) as myfile:
+   citydata = myfile.readlines()
+   for line in citydata:
+      cd = line.strip('\n')
+      cityList.append(tuple([cd,cd]))
+
+
 class ReusableForm(Form):
     name = TextField('Name:', validators=[validators.required()])
 
@@ -77,7 +87,7 @@ class LoginForm(FlaskForm):
 
 class RegistrationForm(FlaskForm):
     email = StringField('Email', validators=[DataRequired(), Email()])
-    usertype = SelectField('User Type', choices = [('Student', 'Student')], validators=[DataRequired()])
+    usertype = SelectField('User Type', choices = [('Student', 'Student'),('Admin', 'Admin')], validators=[DataRequired()])
     password = PasswordField('Password', validators=[DataRequired()])
     password2 = PasswordField(
         'Repeat Password', validators=[DataRequired(), EqualTo('password')])
@@ -121,7 +131,7 @@ class CoachingRegistrationForm(FlaskForm):
     coachingemail = StringField('Email', validators=[validators.required()])
     coachingabout = TextAreaField('About', validators=[validators.required()])
     coachingcategory = SelectField('Category', choices = [('Academic', 'Academic'), ('Entrance', 'Entrance'), ('Competition', 'Competition'), ('ComputerClasses', 'Computer Classes'), ('SpokenEnglishClasses', 'Spoken English Classes'), ('Others', 'Others')], validators=[validators.required()])
-    coachinglocation = SelectField('Location', choices = [('Patna', 'Patna'), ('Pune', 'Pune'), ('Mumbai', 'Mumbai'), ('Bokaro', 'Bokaro')], validators=[validators.required()])
+    coachinglocation = SelectField('Location', choices = cityList, validators=[validators.required()])
     teachersname = StringField('Teachers Name', validators=[validators.required()])
     teachersqualification = StringField('Teachers Qualification', validators=[validators.required()])
     teacherssubject = StringField('Teachers Subject', validators=[validators.required()])
@@ -155,7 +165,7 @@ class EditCoachingForm(FlaskForm):
     coachingemail = StringField('Email', validators=[DataRequired(), Email()])
     coachingabout = TextAreaField('About', validators=[DataRequired()])
     coachingcategory = SelectField('Category', choices = [('Academic', 'Academic'), ('Entrance', 'Entrance'), ('Competition', 'Competition'), ('ComputerClasses', 'Computer Classes'), ('SpokenEnglishClasses', 'Spoken English Classes'), ('Others', 'Others')], validators=[DataRequired()])
-    coachinglocation = SelectField('Location', choices = [('Patna', 'Patna'), ('Pune', 'Pune'), ('Mumbai', 'Mumbai'), ('Bokaro', 'Bokaro')], validators=[DataRequired()])
+    coachinglocation = SelectField('Location', choices = cityList, validators=[DataRequired()])
     submit = SubmitField('Submit')
 
 class ContactMailForm(FlaskForm):
@@ -539,8 +549,9 @@ def coachingfeesreciptlist():
 @app.route("/coachingfeesrecipt/<key>", methods=['GET', 'POST'])
 def coachingfeesrecipt(key):
     StudentDet = StudentDetails.query.all()
+    coachingbatches = CoachingBatches.query.filter_by(user_idB=str(current_user.id),batchIsActive='YES')
     StudentCoachingRel = StudentCoachingRelation.query.filter_by(id=key).first()
-    html = render_template('feeReceipt.html', StudentDet=StudentDet , StudentCoachingRel=StudentCoachingRel)
+    html = render_template('feeReceipt.html', StudentDet=StudentDet , StudentCoachingRel=StudentCoachingRel, coachingbatches=coachingbatches)
     pdf = pdfkit.from_string(html, False)
     response = make_response(pdf)
     response.headers['Content-Type'] = 'application/pdf'
