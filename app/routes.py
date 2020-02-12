@@ -268,7 +268,14 @@ def login():
                 else:
                     next_page = url_for('coachingregistration')
             elif current_user.usertype == 'Student':
-                next_page = url_for('studentregistration')
+                try:
+                    studentID = current_user.studentdetails.all()[0].studentid
+                except IndexError:
+                    studentID = ''
+                if studentID:
+                    next_page = url_for('home')
+                else:
+                    next_page = url_for('studentregistration')
         return redirect(next_page)
     return render_template('login.html', title='Sign In', form=form)
 
@@ -705,3 +712,11 @@ def admindetailedinformation():
     CountCurrBatches = CoachingBatches.query.filter_by(user_idB=str(current_user.id),batchIsActive='YES').count()
     CountInActiveBatches = CoachingBatches.query.filter_by(user_idB=str(current_user.id),batchIsActive='NO').count()
     return render_template('admindetailedinformation.html', stud=stud, studTagYES=studTagYES, studTagNO=studTagNO, CountCurrBatches=CountCurrBatches,CountInActiveBatches=CountInActiveBatches)
+
+@app.route('/studentdetailedinformation/<key>')
+def studentdetailedinformation(key):
+    studentdetail = StudentDetails.query.filter_by(user_idS=str(key)).first_or_404()
+    if not studentdetail:
+        abort(404)
+    return render_template('studentdetailedinformation.html', studentdetail=studentdetail)
+

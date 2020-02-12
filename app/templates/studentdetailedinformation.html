@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+
+{% block app_content %}
+<style>
+table, th, td {
+  border: 1px solid black;
+  border-collapse: collapse;
+}
+th, td {
+  padding: 5px;
+  text-align: left;
+}
+</style>
+    <div class="container" style="overflow: auto; max-height: 80vh">
+<h2>{{ studentdetail.studentname }} details :</h2>
+<br>
+
+        <div class="table-responsive">
+            <table class="table" style="width:100%">
+                    <tr>
+                        <th scope="col">Student id</th>
+                        <td> {{ studentdetail.studentid }} </td>
+                    </tr>
+                    <tr>
+                        <th scope="col">Student Name</th>
+                        <td> {{ studentdetail.studentname }} </td>
+                    </tr>
+                    <tr>
+                        <th scope="col">Student Gender</th>
+                        <td> {{ studentdetail.studentgender }} </td>
+                    </tr>
+                    <tr>
+                        <th scope="col">Student Fathers Name</th>
+                        <td> {{ studentdetail.studentfathersname }} </td>
+                    </tr>
+                    <tr>
+                        <th scope="col">Student Contact</th>
+                        <td> {{ studentdetail.studentcontact }} </td>
+                    </tr>
+                    <tr>
+                        <th scope="col">Student Qualification</th>
+                        <td> {{ studentdetail.studentqualification }} </td>
+                    </tr>
+            </table>
+        </div>
+{#
+	<form>
+             <button type="submit" ><a href="{{ url_for('edit_coaching', key=mycoaching.coachingid) }}">Edit</a></button>
+        </form>
+#}
+
+    </div>
+{% endblock %}
