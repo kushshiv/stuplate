@@ -356,65 +356,26 @@ def edit_news(key):
                            form=form)
 
 @app.route('/edit_coaching/<key>', methods=['GET', 'POST'])
-#def edit_coaching(key):
-#    form = EditCoachingForm()
-#    mycoaching = CoachingClass.query.get(key)
-#    coaching_id = current_user.id
-#    coachingUserId = CoachingClass.query.filter_by(coachingid=str(key)).first_or_404()
-#    teachers = CoachingTeachers.query.filter_by(user_id2=coachingUserId.user_id).all()
-#    coachingSlideImg_list = fnmatch.filter(os.listdir(os.path.join(app.static_folder, "img/coaching_slide")), str(coaching_id) + '_' + '*' + '_' + 'CoachingClassSliderfile*' + '*.jpg')
-#    coachingAchievementImg_list = fnmatch.filter(os.listdir(os.path.join(app.static_folder, "img/coaching_slide")), str(coaching_id) + '_' + '*' + '_' + 'CoachingClassAchievementfile*' + '*.jpg')
-#    coachingResultsImg_list = fnmatch.filter(os.listdir(os.path.join(app.static_folder, "img/coaching_slide")), str(coaching_id) + '_' + '*' + '_' + 'CoachingClassResultsfile*' + '*.jpg')
-#    if request.form.get('submit') == 'submit_images':
-#        coaching_id = current_user.id
-#        filefield = ['CoachingClassSliderfile1', 'CoachingClassSliderfile2', 'CoachingClassSliderfile3', 'CoachingClassSliderfile4', 'CoachingClassSliderfile5', 'CoachingClassAchievementfile', 'CoachingClassResultsfile']
-#        for file in filefield:
-#            f = request.files[file]
-#            if f.filename:
-#                f.filename = str(coaching_id) + "_" + str(filefield.index(file)) + "_" + file + "_" + f.filename
-#                filename = secure_filename(f.filename)
-#                f.save(os.path.join(app.config['UPLOAD_COACHING_FOLDER'], filename))
-#        return render_template('mycoaching.html', mycoaching=mycoaching)
-#    elif form.validate_on_submit():
-#        Coaching = CoachingClass.query.get(key)
-#        Coaching.coachingname = form.coachingname.data
-#        Coaching.coachingcontact = form.coachingcontact.data
-#        Coaching.coachingemail = form.coachingemail.data
-#        Coaching.coachingabout = form.coachingabout.data
-#        Coaching.coachingcategory = form.coachingcategory.data 
-#        Coaching.coachinglocation = form.coachinglocation.data 
-#        db.session.commit()
-#        flash('Your changes have been saved.')
-#        return render_template('mycoaching.html', mycoaching=mycoaching)
-#    elif request.method == 'GET':
-#        Coaching = CoachingClass.query.get(key)
-#        form.coachingname.data = Coaching.coachingname
-#        form.coachingcontact.data = Coaching.coachingcontact
-#        form.coachingemail.data = Coaching.coachingemail
-#        form.coachingabout.data = Coaching.coachingabout
-#        form.coachingcategory.data = Coaching.coachingcategory
-#        form.coachinglocation.data = Coaching.coachinglocation
-#    return render_template('edit_coaching.html', title='Edit Coaching',
-#                           form=form, coachingSlideImg_list=coachingSlideImg_list, coachingAchievementImg_list=coachingAchievementImg_list, coachingResultsImg_list=coachingResultsImg_list,teachers=teachers)
-#
 def edit_coaching(key):
     form = EditCoachingForm()
     mycoaching = CoachingClass.query.get(key)
     coaching_id = current_user.id
     coachingUserId = CoachingClass.query.filter_by(coachingid=str(key)).first_or_404()
     teachers = CoachingTeachers.query.filter_by(user_id2=coachingUserId.user_id).all()
-    coachingSlideImg_list = fnmatch.filter(os.listdir(os.path.join(app.static_folder, "img/coaching_slide")), str(coachingUserId.user_id) + '_' + '*' + '_' + 'CoachingClassSliderfile*' + '*.jpg')
-    coachingAchievementImg_list = fnmatch.filter(os.listdir(os.path.join(app.static_folder, "img/coaching_slide")), str(coachingUserId.user_id) + '_' + '*' + '_' + 'CoachingClassAchievementfile*' + '*.jpg')
-    coachingResultsImg_list = fnmatch.filter(os.listdir(os.path.join(app.static_folder, "img/coaching_slide")), str(coachingUserId.user_id) + '_' + '*' + '_' + 'CoachingClassResultsfile*' + '*.jpg')
-    if request.form.get('submit') == 'submit':
+    coachingSlideImg_list = fnmatch.filter(os.listdir(os.path.join(app.static_folder, "img/coaching_slide")), str(coachingUserId) + '_' + '*' + '_' + 'CoachingClassSliderfile*' + '*.jpg')
+    coachingAchievementImg_list = fnmatch.filter(os.listdir(os.path.join(app.static_folder, "img/coaching_slide")), str(coachingUserId) + '_' + '*' + '_' + 'CoachingClassAchievementfile*' + '*.jpg')
+    coachingResultsImg_list = fnmatch.filter(os.listdir(os.path.join(app.static_folder, "img/coaching_slide")), str(coachingUserId) + '_' + '*' + '_' + 'CoachingClassResultsfile*' + '*.jpg')
+    if request.form.get('submit') == 'submit_images':
         coaching_id = current_user.id
         filefield = ['CoachingClassSliderfile1', 'CoachingClassSliderfile2', 'CoachingClassSliderfile3', 'CoachingClassSliderfile4', 'CoachingClassSliderfile5', 'CoachingClassAchievementfile', 'CoachingClassResultsfile']
         for file in filefield:
             f = request.files[file]
             if f.filename:
-                f.filename = str(coachingUserId.user_id) + "_" + str(filefield.index(file)) + "_" + file + "_" + f.filename
+                f.filename = str(coachingUserId) + "_" + str(filefield.index(file)) + "_" + file + "_" + f.filename
                 filename = secure_filename(f.filename)
                 f.save(os.path.join(app.config['UPLOAD_COACHING_FOLDER'], filename))
+        return render_template('mycoaching.html', mycoaching=mycoaching)
+    elif form.validate_on_submit():
         Coaching = CoachingClass.query.get(key)
         Coaching.coachingname = form.coachingname.data
         Coaching.coachingcontact = form.coachingcontact.data
@@ -423,6 +384,8 @@ def edit_coaching(key):
         Coaching.coachingcategory = form.coachingcategory.data 
         Coaching.coachinglocation = form.coachinglocation.data 
         db.session.commit()
+        flash('Your changes have been saved.')
+        return render_template('mycoaching.html', mycoaching=mycoaching)
     elif request.method == 'GET':
         Coaching = CoachingClass.query.get(key)
         form.coachingname.data = Coaching.coachingname
@@ -433,6 +396,43 @@ def edit_coaching(key):
         form.coachinglocation.data = Coaching.coachinglocation
     return render_template('edit_coaching.html', title='Edit Coaching',
                            form=form, coachingSlideImg_list=coachingSlideImg_list, coachingAchievementImg_list=coachingAchievementImg_list, coachingResultsImg_list=coachingResultsImg_list,teachers=teachers)
+
+#def edit_coaching(key):
+#    form = EditCoachingForm()
+#    mycoaching = CoachingClass.query.get(key)
+#    coaching_id = current_user.id
+#    coachingUserId = CoachingClass.query.filter_by(coachingid=str(key)).first_or_404()
+#    teachers = CoachingTeachers.query.filter_by(user_id2=coachingUserId.user_id).all()
+#    coachingSlideImg_list = fnmatch.filter(os.listdir(os.path.join(app.static_folder, "img/coaching_slide")), str(coachingUserId.user_id) + '_' + '*' + '_' + 'CoachingClassSliderfile*' + '*.jpg')
+#    coachingAchievementImg_list = fnmatch.filter(os.listdir(os.path.join(app.static_folder, "img/coaching_slide")), str(coachingUserId.user_id) + '_' + '*' + '_' + 'CoachingClassAchievementfile*' + '*.jpg')
+#    coachingResultsImg_list = fnmatch.filter(os.listdir(os.path.join(app.static_folder, "img/coaching_slide")), str(coachingUserId.user_id) + '_' + '*' + '_' + 'CoachingClassResultsfile*' + '*.jpg')
+#    if request.form.get('submit') == 'submit':
+#        coaching_id = current_user.id
+#        filefield = ['CoachingClassSliderfile1', 'CoachingClassSliderfile2', 'CoachingClassSliderfile3', 'CoachingClassSliderfile4', 'CoachingClassSliderfile5', 'CoachingClassAchievementfile', 'CoachingClassResultsfile']
+#        for file in filefield:
+#            f = request.files[file]
+#            if f.filename:
+#                f.filename = str(coachingUserId.user_id) + "_" + str(filefield.index(file)) + "_" + file + "_" + f.filename
+#                filename = secure_filename(f.filename)
+#                f.save(os.path.join(app.config['UPLOAD_COACHING_FOLDER'], filename))
+#        Coaching = CoachingClass.query.get(key)
+#        Coaching.coachingname = form.coachingname.data
+#        Coaching.coachingcontact = form.coachingcontact.data
+#        Coaching.coachingemail = form.coachingemail.data
+#        Coaching.coachingabout = form.coachingabout.data
+#        Coaching.coachingcategory = form.coachingcategory.data 
+#        Coaching.coachinglocation = form.coachinglocation.data 
+#        db.session.commit()
+#    elif request.method == 'GET':
+#        Coaching = CoachingClass.query.get(key)
+#        form.coachingname.data = Coaching.coachingname
+#        form.coachingcontact.data = Coaching.coachingcontact
+#        form.coachingemail.data = Coaching.coachingemail
+#        form.coachingabout.data = Coaching.coachingabout
+#        form.coachingcategory.data = Coaching.coachingcategory
+#        form.coachinglocation.data = Coaching.coachinglocation
+#    return render_template('edit_coaching.html', title='Edit Coaching',
+#                           form=form, coachingSlideImg_list=coachingSlideImg_list, coachingAchievementImg_list=coachingAchievementImg_list, coachingResultsImg_list=coachingResultsImg_list,teachers=teachers)
 
 @app.route('/uploadHomeImages', methods = ['GET', 'POST'])
 def uploadHomeImages():
