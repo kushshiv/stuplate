@@ -369,9 +369,9 @@ def edit_coaching(key):
     coaching_id = current_user.id
     coachingUserId = CoachingClass.query.filter_by(coachingid=str(key)).first_or_404()
     teachers = CoachingTeachers.query.filter_by(user_id2=coachingUserId.user_id).all()
-    coachingSlideImg_list = fnmatch.filter(os.listdir(os.path.join(app.static_folder, "img/coaching_slide")), str(coachingUserId) + '_' + '*' + '_' + 'CoachingClassSliderfile*' + '*.jpg')
-    coachingAchievementImg_list = fnmatch.filter(os.listdir(os.path.join(app.static_folder, "img/coaching_slide")), str(coachingUserId) + '_' + '*' + '_' + 'CoachingClassAchievementfile*' + '*.jpg')
-    coachingResultsImg_list = fnmatch.filter(os.listdir(os.path.join(app.static_folder, "img/coaching_slide")), str(coachingUserId) + '_' + '*' + '_' + 'CoachingClassResultsfile*' + '*.jpg')
+    coachingSlideImg_list = fnmatch.filter(os.listdir(os.path.join(app.static_folder, "img/coaching_slide")), str(coachingUserId.user_id) + '_' + '*' + '_' + 'CoachingClassSliderfile*' + '*.jpg')
+    coachingAchievementImg_list = fnmatch.filter(os.listdir(os.path.join(app.static_folder, "img/coaching_slide")), str(coachingUserId.user_id) + '_' + '*' + '_' + 'CoachingClassAchievementfile*' + '*.jpg')
+    coachingResultsImg_list = fnmatch.filter(os.listdir(os.path.join(app.static_folder, "img/coaching_slide")), str(coachingUserId.user_id) + '_' + '*' + '_' + 'CoachingClassResultsfile*' + '*.jpg')
     if request.form.get('submit') == 'submit_images':
         coaching_id = current_user.id
         filefield = ['CoachingClassSliderfile1', 'CoachingClassSliderfile2', 'CoachingClassSliderfile3', 'CoachingClassSliderfile4', 'CoachingClassSliderfile5', 'CoachingClassAchievementfile', 'CoachingClassResultsfile']
