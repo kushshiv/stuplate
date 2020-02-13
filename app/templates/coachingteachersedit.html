@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+
+{% block app_content %}
+    <h1>Add Teachers</h1>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+<br>
+
+    <form action = "" method = "POST"
+        enctype = "multipart/form-data">
+     <div class="row">
+       <div class="col-md-4">
+        <p>
+            {{ form.teachersname.label }}<br>
+            {{ form.teachersname(class_="form-control",size=120) }}<br>
+            {% for error in form.teachersname.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+        </p>
+        <p>
+            {{ form.teachersqualification.label }}<br>
+            {{ form.teachersqualification(class_="form-control",size=120) }}<br>
+            {% for error in form.teachersqualification.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+        </p>
+        <p>
+            {{ form.teacherssubject.label }}<br>
+            {{ form.teacherssubject(class_="form-control",size=120) }}<br>
+            {% for error in form.teacherssubject.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+        </p>
+        <p>
+            {{ form.teachersexperience.label }}<br>
+            {{ form.teachersexperience(class_="form-control",size=120) }}<br>
+            {% for error in form.teachersexperience.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+        </p>
+        <p>
+            {{ form.teachers_image.label }}<br>
+            {{ form.teachers_image(class_="form-control") }}<br>
+        </p>
+        <p>{{ form.submit_teachers(class_="form-control") }}</p>
+      </div>
+     </div>
+    </form>
+
+
+{% endblock %}
+
+

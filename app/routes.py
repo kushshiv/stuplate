@@ -139,6 +139,14 @@ class CoachingRegistrationForm(FlaskForm):
     teachers_image = FileField('Teachers Image', validators=[validators.required()])
     submit_teachers = SubmitField('Submit')
 
+class CoachingTeachersEditForm(FlaskForm):
+    teachersname = StringField('Teachers Name', validators=[validators.required()])
+    teachersqualification = StringField('Teachers Qualification', validators=[validators.required()])
+    teacherssubject = StringField('Teachers Subject', validators=[validators.required()])
+    teachersexperience = StringField('Teachers Experience', validators=[validators.required()])
+    teachers_image = FileField('Teachers Image', validators=[validators.required()])
+    submit_teachers = SubmitField('Submit')
+
 class StudentRegistrationForm(FlaskForm):
     studentname = StringField('Full Name', validators=[validators.required()])
     studentcontact = StringField('Contact', validators=[validators.required()])
@@ -719,4 +727,17 @@ def studentdetailedinformation(key):
     if not studentdetail:
         abort(404)
     return render_template('studentdetailedinformation.html', studentdetail=studentdetail)
+
+@app.route("/coachingteachersedit", methods=['GET', 'POST'])
+def coachingteachersedit():
+    form = CoachingTeachersEditForm()
+    if request.form.get('submit_teachers') == 'Submit':
+        filename1 = secure_filename(form.teachers_image.data.filename)
+        form.teachers_image.data.save(app.config['UPLOAD_TEACHERS_FOLDER'] + filename1)
+        url = images.url(filename1)
+        coachingteachers = CoachingTeachers(teachersname=form.teachersname.data, teachersqualification=form.teachersqualification.data, teacherssubject=form.teacherssubject.data, teachersexperience=form.teachersexperience.data, image_filename=filename1, image_url=url, teacher=current_user)
+        db.session.add(coachingteachers)
+        db.session.commit()
+        return redirect(url_for('productList'))
+    return render_template('coachingteachersedit.html', title='Add Teachers', form=form )
 
