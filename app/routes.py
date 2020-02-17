@@ -176,6 +176,13 @@ class EditCoachingForm(FlaskForm):
     coachinglocation = SelectField('Location', choices = cityList, validators=[DataRequired()])
     submit = SubmitField('Submit')
 
+class UpdateCoachingFeesForm(FlaskForm):
+    student_id = StringField('Student ID', validators=[DataRequired()])
+    CoachingBatch = StringField('Batch ID', validators=[DataRequired()])
+    CoachingSubject = StringField('Subject', validators=[DataRequired()])
+    CoachingPaidAmount = StringField('Total Amount Paid', validators=[DataRequired()])
+    submit = SubmitField('Submit')
+
 class ContactMailForm(FlaskForm):
     name = StringField('Name', validators=[Length(min=0, max=140)])
     email = StringField('Email', validators=[DataRequired(), Email()])
@@ -556,7 +563,7 @@ def studentcoachinguntag(key):
 
 @app.route("/coachingfeesreciptlist", methods=['GET', 'POST'])
 def coachingfeesreciptlist():
-    studentcoachinglists = StudentCoachingRelation.query.filter_by(coaching_id=str(current_user.id))
+    studentcoachinglists = StudentCoachingRelation.query.filter_by(coaching_id=str(current_user.id),coachingTagIsActive='YES')
     coachingbatches = CoachingBatches.query.filter_by(user_idB=str(current_user.id))
     StudentDet = StudentDetails.query.all()
     return render_template('coachingfeesreciptlist.html', studentcoachinglists=studentcoachinglists, StudentDet=StudentDet, coachingbatches=coachingbatches)
@@ -740,4 +747,24 @@ def coachingteachersedit():
         db.session.commit()
         return redirect(url_for('productList'))
     return render_template('coachingteachersedit.html', title='Add Teachers', form=form )
+
+@app.route("/updatecoachingfees/<key>", methods=['GET', 'POST'])
+def updatecoachingfees(key):
+    form = UpdateCoachingFeesForm()
+    if form.validate_on_submit():
+        StudCoaRel = StudentCoachingRelation.query.get(key)
+        StudCoaRel.student_id = form.student_id.data
+        StudCoaRel.CoachingBatch = form.CoachingBatch.data
+        StudCoaRel.CoachingSubject = form.CoachingSubject.data
+        StudCoaRel.CoachingPaidAmount = form.CoachingPaidAmount.data
+        db.session.commit()
+        flash('Your changes have been saved.')
+        return redirect(url_for('coachingfeesreciptlist'))
+    elif request.method == 'GET':
+        StudCoaRel = StudentCoachingRelation.query.get(key)
+        form.student_id.data = StudCoaRel.student_id
+        form.CoachingBatch.data = StudCoaRel.student_id
+        form.CoachingSubject.data = StudCoaRel.CoachingSubject
+        form.CoachingPaidAmount.data = StudCoaRel.CoachingPaidAmount
+    return render_template('updatecoachingfees.html', title='Update Total Fees', form=form)
 

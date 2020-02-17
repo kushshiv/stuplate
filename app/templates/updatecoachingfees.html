@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+ 
+{% block app_content %}
+ <div class="row">
+  <div class="col-md-4">
+    <h1>Update Total Fees Paid</h1>
+    <form action="" method="post">
+        {{ form.hidden_tag() }}
+        <p>
+            {{ form.student_id.label }}<br>
+            {{ form.student_id(class_="form-control", size=120, readonly=true) }}<br>
+            {% for error in form.student_id.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+        </p>
+        <p>
+            {{ form.CoachingBatch.label }}<br>
+            {{ form.CoachingBatch(class_="form-control", size=120, readonly=true) }}<br>
+            {% for error in form.CoachingBatch.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+        </p>
+        <p>
+            {{ form.CoachingSubject.label }}<br>
+            {{ form.CoachingSubject(class_="form-control", size=120, readonly=true) }}<br>
+            {% for error in form.CoachingSubject.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+        </p>
+        <p>
+            {{ form.CoachingPaidAmount.label }}<br>
+            {{ form.CoachingPaidAmount(class_="form-control", size=120) }}<br>
+            {% for error in form.CoachingPaidAmount.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+        </p>
+        <p>{{ form.submit() }}</p>
+    </form>
+  </div>
+ </div>
+{% endblock %}
+

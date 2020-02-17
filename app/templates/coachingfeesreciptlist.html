@@ -28,9 +28,10 @@ th, td {
               <th>Subject</th>
               <th>Start Date</th>
               <th>End Date</th>
-              <th>Fees Paid</th>
+              <th>Total Fees Paid</th>
               <th>Tagged</th>
               <th>Print Recipt</th>
+              <th>Update Total Fees</th>
             </tr>
           </thead>
           <tbody>
@@ -50,6 +51,7 @@ th, td {
                       <td>{{ studentcoachinglist.CoachingPaidAmount }}</td>
                       <td>{{ studentcoachinglist.coachingTagIsActive }}</td>
                       <td><a href="{{ url_for('coachingfeesrecipt', key=studentcoachinglist.id) }}">Print Recipt</a></td>
+                      <td><a href="{{ url_for('updatecoachingfees', key=studentcoachinglist.id) }}">Update Fees Paid</a></td>
                     </tr>
                   {% endif %}
                 {% endfor %}
