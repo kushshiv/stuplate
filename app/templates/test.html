@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+
+{% block app_content %}
+
+<div>
+        <select class="test-default" id="testTime">
+        <option value="kjsdlkfj">today</option>
+        <option value=7>week</option>
+        <option value=14>fortnight</option>
+        <option value=30>month</option>
+        </select>
+        {{ time1 }}
+        </div>
+        <p><a href={{ url_for('testss') }}>ssss<a></p>
+
+
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+
+        <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+        <script>
+        $("#testTime").on("change",function (evt) {
+        fetch_test_data();
+        })
+        function fetch_test_data(){
+        let testp = $("#testTime").val();
+        axios({ 
+            method:"get",
+            url:"/testss",
+            params: {
+            testp
+            }
+        })
+        }
+        </script>
+
+{% endblock %}

@@ -36,7 +36,7 @@ th, td {
                       <td>{{ studDet.studentcontact }} 
                       <td>{{ coachingBatchStud.CoachingPaidAmount }}</td>
                       <td>{{ coachingBatchStud.coachingTagIsActive }}</td>
-                      <td><a href="{{ url_for('studentdetails', key=coachingBatchStud.student_id) }}">Print</a></td>
+                      <td><a href="{{ url_for('studentdetails', key=coachingBatchStud.id) }}">Print</a></td>
                     </tr>
                   {% endif %}
                 {% endfor %}

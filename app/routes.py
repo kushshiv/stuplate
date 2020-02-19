@@ -212,7 +212,7 @@ def item(key):
     item = CoachingClass.query.get(key)
     #teachers = CoachingTeachers.query.filter_by(user_id2=current_user.id).all()
     coachingUserId = CoachingClass.query.filter_by(coachingid=str(key)).first_or_404()
-    coachingbatches = CoachingBatches.query.filter_by(user_idB=str(coachingUserId.user_id))
+    coachingbatches = CoachingBatches.query.filter_by(user_idB=str(coachingUserId.user_id),batchIsActive='YES')
     teachers = CoachingTeachers.query.filter_by(user_id2=coachingUserId.user_id).all()
     CoachingClassSliderimages = fnmatch.filter(os.listdir(os.path.join(app.static_folder, "img/coaching_slide")), str(coachingUserId.user_id) + '_' + '*' + '_' +'CoachingClassSliderfile*' + '_' + '*.jpg')
     CoachingClassAchievementimages = fnmatch.filter(os.listdir(os.path.join(app.static_folder, "img/coaching_slide")), str(coachingUserId.user_id) + '_' + '*' + '_' +'CoachingClassAchievementfile' + '_' + '*.jpg')
@@ -605,8 +605,11 @@ def coachingbatchstudentlist(key):
 
 @app.route("/studentdetails/<key>", methods=['GET', 'POST'])
 def studentdetails(key):
-    StudentDet = StudentDetails.query.filter_by(studentid=key).all()
-    html = render_template('studentdetails.html', StudentDet=StudentDet)
+    StudentDet = StudentDetails.query.all()
+    coachingbatches = CoachingBatches.query.filter_by(user_idB=str(current_user.id))
+    StudentCoachingRel = StudentCoachingRelation.query.filter_by(id=key).first()
+    html = render_template('feeReceipt.html', StudentDet=StudentDet , StudentCoachingRel=StudentCoachingRel, coachingbatches=coachingbatches)
+    #html = render_template('studentdetails.html', StudentDet=StudentDet , StudentCoachingRel=StudentCoachingRel, coachingbatches=coachingbatches)
     pdf = pdfkit.from_string(html, False)
     response = make_response(pdf)
     response.headers['Content-Type'] = 'application/pdf'
@@ -768,3 +771,14 @@ def updatecoachingfees(key):
         form.CoachingPaidAmount.data = StudCoaRel.CoachingPaidAmount
     return render_template('updatecoachingfees.html', title='Update Total Fees', form=form)
 
+@app.route('/testss', methods=["GET","POST"])
+@login_required
+def testss():
+    tim = (request.args.get("testp"))
+    print(tim)  #this gives excepted output.
+    if request.method == 'POST':
+        return redirect(url_for('testss'), time1=tim)
+    if request.method == 'GET' and tim is not None:
+        print('ixxxxxxxtim')  #this gives excepted output.
+        return 'iiiiiiiiiiii'
+    return render_template("test.html", time1=tim)
