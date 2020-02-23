@@ -214,9 +214,9 @@ def item(key):
     coachingUserId = CoachingClass.query.filter_by(coachingid=str(key)).first_or_404()
     coachingbatches = CoachingBatches.query.filter_by(user_idB=str(coachingUserId.user_id),batchIsActive='YES')
     teachers = CoachingTeachers.query.filter_by(user_id2=coachingUserId.user_id).all()
-    CoachingClassSliderimages = fnmatch.filter(os.listdir(os.path.join(app.static_folder, "img/coaching_slide")), str(coachingUserId.user_id) + '_' + '*' + '_' +'CoachingClassSliderfile*' + '_' + '*.jpg')
-    CoachingClassAchievementimages = fnmatch.filter(os.listdir(os.path.join(app.static_folder, "img/coaching_slide")), str(coachingUserId.user_id) + '_' + '*' + '_' +'CoachingClassAchievementfile' + '_' + '*.jpg')
-    CoachingClassResultsimages = fnmatch.filter(os.listdir(os.path.join(app.static_folder, "img/coaching_slide")), str(coachingUserId.user_id) + '_' + '*' + '_' +'CoachingClassResultsfile' + '_' + '*.jpg')
+    CoachingClassSliderimages = fnmatch.filter(os.listdir(os.path.join(app.static_folder, "img/coaching_slide")), str(coachingUserId.user_id) + '_' + '*' + '_' +'CoachingClassSliderfile*' + '_' + '*.*')
+    CoachingClassAchievementimages = fnmatch.filter(os.listdir(os.path.join(app.static_folder, "img/coaching_slide")), str(coachingUserId.user_id) + '_' + '*' + '_' +'CoachingClassAchievementfile' + '_' + '*.*')
+    CoachingClassResultsimages = fnmatch.filter(os.listdir(os.path.join(app.static_folder, "img/coaching_slide")), str(coachingUserId.user_id) + '_' + '*' + '_' +'CoachingClassResultsfile' + '_' + '*.*')
     if not item:
         abort(404)
     return render_template('item.html', item=item, CoachingClassSliderimages=CoachingClassSliderimages, CoachingClassAchievementimages=CoachingClassAchievementimages, CoachingClassResultsimages=CoachingClassResultsimages, teachers=teachers, coachingbatches=coachingbatches)
@@ -384,16 +384,16 @@ def edit_coaching(key):
     coaching_id = current_user.id
     coachingUserId = CoachingClass.query.filter_by(coachingid=str(key)).first_or_404()
     teachers = CoachingTeachers.query.filter_by(user_id2=coachingUserId.user_id).all()
-    coachingSlideImg_list = fnmatch.filter(os.listdir(os.path.join(app.static_folder, "img/coaching_slide")), str(coachingUserId.user_id) + '_' + '*' + '_' + 'CoachingClassSliderfile*' + '*.jpg')
-    coachingAchievementImg_list = fnmatch.filter(os.listdir(os.path.join(app.static_folder, "img/coaching_slide")), str(coachingUserId.user_id) + '_' + '*' + '_' + 'CoachingClassAchievementfile*' + '*.jpg')
-    coachingResultsImg_list = fnmatch.filter(os.listdir(os.path.join(app.static_folder, "img/coaching_slide")), str(coachingUserId.user_id) + '_' + '*' + '_' + 'CoachingClassResultsfile*' + '*.jpg')
+    coachingSlideImg_list = fnmatch.filter(os.listdir(os.path.join(app.static_folder, "img/coaching_slide")), str(coachingUserId.user_id) + '_' + '*' + '_' + 'CoachingClassSliderfile*' + '*.*')
+    coachingAchievementImg_list = fnmatch.filter(os.listdir(os.path.join(app.static_folder, "img/coaching_slide")), str(coachingUserId.user_id) + '_' + '*' + '_' + 'CoachingClassAchievementfile*' + '*.*')
+    coachingResultsImg_list = fnmatch.filter(os.listdir(os.path.join(app.static_folder, "img/coaching_slide")), str(coachingUserId.user_id) + '_' + '*' + '_' + 'CoachingClassResultsfile*' + '*.*')
     if request.form.get('submit') == 'submit_images':
         coaching_id = current_user.id
         filefield = ['CoachingClassSliderfile1', 'CoachingClassSliderfile2', 'CoachingClassSliderfile3', 'CoachingClassSliderfile4', 'CoachingClassSliderfile5', 'CoachingClassAchievementfile', 'CoachingClassResultsfile']
         for file in filefield:
             f = request.files[file]
             if f.filename:
-                f.filename = str(coachingUserId) + "_" + str(filefield.index(file)) + "_" + file + "_" + f.filename
+                f.filename = str(coachingUserId.user_id) + "_" + str(filefield.index(file)) + "_" + file + "_" + f.filename
                 filename = secure_filename(f.filename)
                 f.save(os.path.join(app.config['UPLOAD_COACHING_FOLDER'], filename))
         return render_template('mycoaching.html', mycoaching=mycoaching)
