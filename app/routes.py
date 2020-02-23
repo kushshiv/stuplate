@@ -87,7 +87,7 @@ class LoginForm(FlaskForm):
 
 class RegistrationForm(FlaskForm):
     email = StringField('Email', validators=[DataRequired(), Email()])
-    usertype = SelectField('User Type', choices = [('Student', 'Student'),('Admin', 'Admin')], validators=[DataRequired()])
+    usertype = SelectField('User Type', choices = [('Student', 'Student')], validators=[DataRequired()])
     password = PasswordField('Password', validators=[DataRequired()])
     password2 = PasswordField(
         'Repeat Password', validators=[DataRequired(), EqualTo('password')])
