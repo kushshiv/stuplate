@@ -510,8 +510,8 @@ def deleteCoachingTeachers(id):
 def contactMail():
     form = ContactMailForm()
     msg = Message("Customer Enquiry!!!",
-      sender="shivendra.ds48@gmail.com",
-      recipients=["shivendrakushwaha022@gmail.com"])
+      sender="studentsplateform@gmail.com",
+      recipients=["studentsplateform@gmail.com"])
     msg.body = "A customer has enquired about Stuplate\n Please find the details below : \n Name : " + form.name.data + "\nEmail :" + form.email.data + "\nComments :" + form.comment.data + "\n\nThanks and Regards,\nStuplate Team"           
     mail.send(msg)
     flash('Thanks for enquiry. We will get back to you soon.')
@@ -680,7 +680,7 @@ def reset_password_request():
 def send_password_reset_email(user):
     token = user.get_reset_password_token()
     send_email('[Stuplate] Reset Your Password',
-               sender='shivendra.ds48@gmail.com',
+               sender='studentsplateform@gmail.com',
                recipients=[user.email],
                text_body=render_template('reset_password.txt',
                                          user=user, token=token),

@@ -18,6 +18,6 @@ class Config(object):
     MAIL_PORT=465
     MAIL_USE_TLS = False
     MAIL_USE_SSL= True
-    MAIL_USERNAME = 'shivendra.ds48@gmail.com'
-    MAIL_PASSWORD = '*******'
+    MAIL_USERNAME = 'studentsplateform@gmail.com'
+    MAIL_PASSWORD = '*********'
     SECRET_KEY = 'sjkfjlsdjflasdfjkldjflksdfjksdjlfsd'
