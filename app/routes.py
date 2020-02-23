@@ -493,18 +493,16 @@ def uploadCoachingImages():
 
 @app.route('/deleteCoachingImages/<filename>', methods = ['GET', 'POST'])
 def deleteCoachingImages(filename):
-    coaching_id = current_user.coachingclass.all()[0].coachingid
     file_name = os.path.join(app.config['UPLOAD_COACHING_FOLDER'], filename)
     os.remove(file_name)
-    return redirect(url_for('edit_coaching' , key=coaching_id))
+    return redirect(url_for('adminupdatecoaching'))
 
 @app.route('/deleteCoachingTeachers/<id>', methods = ['GET', 'POST'])
 def deleteCoachingTeachers(id):
-    coaching_id = current_user.coachingclass.all()[0].coachingid
     teacherid=CoachingTeachers.query.get(id)
     db.session.delete(teacherid)
     db.session.commit()
-    return redirect(url_for('edit_coaching' , key=coaching_id))
+    return redirect(url_for('adminupdatecoaching'))
 
 @app.route('/contactMail', methods=['GET', 'POST'])
 def contactMail():
