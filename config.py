@@ -19,5 +19,5 @@ class Config(object):
     MAIL_USE_TLS = False
     MAIL_USE_SSL= True
     MAIL_USERNAME = 'studentsplateform@gmail.com'
-    MAIL_PASSWORD = '7004099492'
+    MAIL_PASSWORD = '*********'
     SECRET_KEY = 'sjkfjlsdjflasdfjkldjflksdfjksdjlfsd'

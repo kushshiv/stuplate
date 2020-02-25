@@ -186,7 +186,7 @@ class UpdateCoachingFeesForm(FlaskForm):
 class ContactMailForm(FlaskForm):
     name = StringField('Name', validators=[Length(min=0, max=140)])
     email = StringField('Email', validators=[DataRequired(), Email()])
-    comment = StringField('Comment', validators=[DataRequired()])
+    comments = StringField('Comment', validators=[DataRequired()])
     submit = SubmitField('Submit')
 
 class CoachingBatchesForm(FlaskForm):
@@ -510,7 +510,7 @@ def contactMail():
     msg = Message("Customer Enquiry!!!",
       sender="studentsplateform@gmail.com",
       recipients=["studentsplateform@gmail.com"])
-    msg.body = "A customer has enquired about Stuplate\n Please find the details below : \n Name : " + form.name.data + "\nEmail :" + form.email.data + "\nComments :" + form.comment.data + "\n\nThanks and Regards,\nStuplate Team"           
+    msg.body = "A customer has enquired about Stuplate\n Please find the details below : \n Name : " + form.name.data + "\nEmail :" + form.email.data + "\nComments :" + form.comments.data + "\n\nThanks and Regards,\nStuplate Team"           
     mail.send(msg)
     flash('Thanks for enquiry. We will get back to you soon.')
     return redirect(url_for('home'))
