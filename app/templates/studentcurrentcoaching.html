@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Fee Receipt</title>
+<style>
+ .center {
+  text-align:center;
+ }
+table, th, td {
+  border: 1px solid black;
+  border-collapse: collapse;
+}
+th, td {
+  padding: 5px;
+  text-align: left;    
+}
+th {
+  width: 25%;
+}
+</style>
+</head>
+<body>
+
+<h1 class="center">Stuplate</h2>
+  {% for studDet in StudentDet %}
+   {% for coachingbatch in coachingbatches %}
+    {% if studDet.studentid == StudentCoachingRel.student_id and coachingbatch.id == StudentCoachingRel.CoachingBatch %}
+
+<div class="center">
+  <table align="center" style="width:90%">
+    <tr>
+      <th>Student ID :</th>
+      <td>{{ StudentCoachingRel.student_id }}</td>
+    </tr>
+    <tr>
+      <th>Student Name :</th>
+      <td>{{ studDet.studentname }}</td>
+    </tr>
+    <tr>
+      <th>Student Fathers Name :</th>
+      <td>{{ studDet.studentfathersname }}</td>
+    </tr>
+    <tr>
+      <th>Student Qualification :</th>
+      <td>{{ studDet.studentqualification }}</td>
+    </tr>
+    <tr>
+      <th>Student Contact:</th>
+      <td>{{ studDet.studentcontact }}</td>
+    </tr>
+    <tr>
+      <th>Coaching Name :</th>
+       {% for coaching in coachings %}
+        {% if coaching.user_id == StudentCoachingRel.coaching_id %}
+         <td>{{ coaching.coachingname }}</td>
+        {% else %}
+         <td>None</td>
+        {% endif %}
+       {% endfor %}
+    </tr>
+    <tr>
+      <th>Batch ID :</th>
+      <td>{{ coachingbatch.id }}</td>
+    </tr>
+    <tr>
+      <th>Course Start Date:</th>
+      <td>{{ coachingbatch.batchstartdate }}</td>
+    </tr>
+    <tr>
+      <th>Course End Date:</th>
+      <td>{{ coachingbatch.batchenddate }}</td>
+    </tr>
+    <tr>
+      <th>Total Amount Paid:</th>
+      <td>{{ StudentCoachingRel.CoachingPaidAmount }}</td>
+    </tr>
+  </table>
+</div>
+
+    {% endif %}
+   {% endfor %}
+  {% endfor %}
+
+</body>
+</html>
+
+

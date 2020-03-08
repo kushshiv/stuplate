@@ -93,6 +93,7 @@
                   {% endif %}
                 {% elif current_user.usertype == 'Student' %}
                    <li><a href="{{ url_for('studentdetailedinformation', key=current_user.id) }}">Profile</a></li>
+                   <li><a href="{{ url_for('studentcurrentcoachinglist') }}">My Coaching Information</a></li>
                 {% else %}
                    <li><a href="#">Profile</a></li>
                 {% endif %}

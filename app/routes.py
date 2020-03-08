@@ -769,14 +769,20 @@ def updatecoachingfees(key):
         form.CoachingPaidAmount.data = StudCoaRel.CoachingPaidAmount
     return render_template('updatecoachingfees.html', title='Update Total Fees', form=form)
 
-@app.route('/testss', methods=["GET","POST"])
-@login_required
-def testss():
-    tim = (request.args.get("testp"))
-    print(tim)  #this gives excepted output.
-    if request.method == 'POST':
-        return redirect(url_for('testss'), time1=tim)
-    if request.method == 'GET' and tim is not None:
-        print('ixxxxxxxtim')  #this gives excepted output.
-        return 'iiiiiiiiiiii'
-    return render_template("test.html", time1=tim)
+@app.route("/studentcurrentcoachinglist", methods=['GET', 'POST'])
+def studentcurrentcoachinglist():
+    coachings = CoachingClass.query.all()
+    StudentDet = StudentDetails.query.filter_by(user_idS=str(current_user.id)).first_or_404()
+    studentcoachinglists = StudentCoachingRelation.query.filter_by(student_id=str(StudentDet.studentid),coachingTagIsActive='YES').all()
+    print(current_user.id,studentcoachinglists)
+    coachingbatches = CoachingBatches.query.all()
+    return render_template('studentcurrentcoachinglist.html', studentcoachinglists=studentcoachinglists, StudentDet=StudentDet, coachingbatches=coachingbatches, coachings=coachings)
+
+@app.route("/studentcurrentcoaching/<key>", methods=['GET', 'POST'])
+def studentcurrentcoaching(key):
+    coachings = CoachingClass.query.all()
+    StudentDet = StudentDetails.query.all()
+    coachingbatches = CoachingBatches.query.filter_by(batchIsActive='YES')
+    StudentCoachingRel = StudentCoachingRelation.query.filter_by(id=key).first()
+    return render_template('studentcurrentcoaching.html', StudentDet=StudentDet , StudentCoachingRel=StudentCoachingRel, coachingbatches=coachingbatches, coachings=coachings)
+

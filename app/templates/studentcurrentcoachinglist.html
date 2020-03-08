@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+
+{% block app_content %}
+<style>
+table, th, td {
+  border: 1px solid black;
+  border-collapse: collapse;
+}
+th, td {
+  padding: 5px;
+  text-align: left;
+}
+</style>
+    <div class="container" style="overflow: auto; max-height: 80vh">
+      <h2>Students list:</h2>
+     <!-- <br>    coachingUserId = CoachingClass.query.filter_by(coachingid=str(key)).first_or_404()
+     -->
+
+      <div class="table-responsive">
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th>Student ID</th>
+              <th>Student Name</th>
+              <th>Coaching Name</th>
+              <th>Batch ID</th>
+              <th>Contact</th>
+              <th>Subject</th>
+              <th>Start Date</th>
+              <th>End Date</th>
+              <th>Total Fees Paid</th>
+              <th>Tagged</th>
+              <th>Open</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for studentcoachinglist in studentcoachinglists %}
+                {% for coachingbatch in coachingbatches %}
+                  {% if StudentDet.studentid == studentcoachinglist.student_id %} {#and coachingbatch.id == studentcoachinglist.CoachingBatch %}#}
+                    <tr>
+                      <td>{{ studentcoachinglist.student_id }}</td>
+                      <td>{{ StudentDet.studentname }} 
+                      {% for coaching in coachings %}
+                       {% if coaching.user_id == studentcoachinglist.coaching_id %}
+                        <td>{{ coaching.coachingname }}</td>
+                       {% else %}
+                        <td>None</td>
+                       {% endif %}
+                      {% endfor %}
+                      <td>{{ studentcoachinglist.CoachingBatch }}</td>
+                      <td>{{ StudentDet.studentcontact }} 
+                      <td>{{ studentcoachinglist.CoachingSubject }}</td>
+                      <td>{{ coachingbatch.batchstartdate }}</td>
+                      <td>{{ coachingbatch.batchenddate }}</td>
+                      <td>{{ studentcoachinglist.CoachingPaidAmount }}</td>
+                      <td>{{ studentcoachinglist.coachingTagIsActive }}</td>
+                      <td><a href="{{ url_for('studentcurrentcoaching', key=studentcoachinglist.id) }}">Open</a></td>
+                    </tr>
+                  {% endif %}
+                {% endfor %}
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+{% endblock %}
