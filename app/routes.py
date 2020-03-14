@@ -206,10 +206,10 @@ def home():
     files = fnmatch.filter(os.listdir(os.path.join(app.static_folder, "img/home")), '*.jpg')
     return render_template('home.html', items=ITEMS, news=news, files=files, coachings=coachings,coachingnames=coachingnames)
  
-@app.route('/item/<key>')
-def item(key):
-    #item = productsList.get(key)
-    item = CoachingClass.query.get(key)
+@app.route('/coachingClass/<key>')
+def coachingClass(key):
+    #coachingClass = productsList.get(key)
+    coachingClass = CoachingClass.query.get(key)
     #teachers = CoachingTeachers.query.filter_by(user_id2=current_user.id).all()
     coachingUserId = CoachingClass.query.filter_by(coachingid=str(key)).first_or_404()
     coachingbatches = CoachingBatches.query.filter_by(user_idB=str(coachingUserId.user_id),batchIsActive='YES')
@@ -217,22 +217,22 @@ def item(key):
     CoachingClassSliderimages = fnmatch.filter(os.listdir(os.path.join(app.static_folder, "img/coaching_slide")), str(coachingUserId.user_id) + '_' + '*' + '_' +'CoachingClassSliderfile*' + '_' + '*.*')
     CoachingClassAchievementimages = fnmatch.filter(os.listdir(os.path.join(app.static_folder, "img/coaching_slide")), str(coachingUserId.user_id) + '_' + '*' + '_' +'CoachingClassAchievementfile' + '_' + '*.*')
     CoachingClassResultsimages = fnmatch.filter(os.listdir(os.path.join(app.static_folder, "img/coaching_slide")), str(coachingUserId.user_id) + '_' + '*' + '_' +'CoachingClassResultsfile' + '_' + '*.*')
-    if not item:
+    if not coachingClass:
         abort(404)
-    return render_template('item.html', item=item, CoachingClassSliderimages=CoachingClassSliderimages, CoachingClassAchievementimages=CoachingClassAchievementimages, CoachingClassResultsimages=CoachingClassResultsimages, teachers=teachers, coachingbatches=coachingbatches)
+    return render_template('coachingClass.html', coachingClass=coachingClass, CoachingClassSliderimages=CoachingClassSliderimages, CoachingClassAchievementimages=CoachingClassAchievementimages, CoachingClassResultsimages=CoachingClassResultsimages, teachers=teachers, coachingbatches=coachingbatches)
 
-@app.route('/productList')
-def productList():
+@app.route('/coachingList')
+def coachingList():
     page = request.args.get('page', 1, type=int)
     productsList = CoachingClass.query.paginate(
         page, app.config['POSTS_PER_PAGE'], False)
-    next_url = url_for('productList', page=productsList.next_num) \
+    next_url = url_for('coachingList', page=productsList.next_num) \
         if productsList.has_next else None
-    prev_url = url_for('productList', page=productsList.prev_num) \
+    prev_url = url_for('coachingList', page=productsList.prev_num) \
         if productsList.has_prev else None
-    return render_template('productList.html', productList=productsList.items, next_url=next_url, prev_url=prev_url)
+    return render_template('coachingList.html', coachingList=productsList.items, next_url=next_url, prev_url=prev_url)
     #productsList = CoachingClass.query.all()
-    #return render_template('productList.html', productList=productsList)
+    #return render_template('coachingList.html', coachingList=productsList)
 
 @app.route("/coachingregistration", methods=['GET', 'POST'])
 def coachingregistration():
@@ -254,7 +254,7 @@ def coachingregistration():
         regCoaching = CoachingClass(coachingname=form.coachingname.data, coachingcontact=form.coachingcontact.data, coachingemail=form.coachingemail.data, coachingpassword_hash='sjkfjlsdjflasdfjkldjflksdfjksdjlfsd', coachingabout=form.coachingabout.data, coachingcategory=form.coachingcategory.data, coachinglocation=form.coachinglocation.data, author=current_user)
         db.session.add(regCoaching)
         db.session.commit()
-        return redirect(url_for('productList'))
+        return redirect(url_for('coachingList'))
     return render_template('coachingregistration.html', title='Register Coaching', form=form )
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -279,7 +279,7 @@ def login():
                 except IndexError:
                     coachingID = ''
                 if coachingID:
-                    next_page = url_for('item' , key=coachingID)
+                    next_page = url_for('coachingClass' , key=coachingID)
                 else:
                     next_page = url_for('coachingregistration')
             elif current_user.usertype == 'Student':
@@ -355,9 +355,9 @@ def updateNewsFeed():
 
 @app.route('/mycoaching/<key>')
 def mycoaching(key):
-    #item = productsList.get(key)
+    #coachingClass = productsList.get(key)
     mycoaching = CoachingClass.query.get(key)
-    #images = fnmatch.filter(os.listdir(os.path.join(app.static_folder, "img/coaching_slide")), str(item.coachingid) + '_' + '*.jpg')
+    #images = fnmatch.filter(os.listdir(os.path.join(app.static_folder, "img/coaching_slide")), str(coachingClass.coachingid) + '_' + '*.jpg')
     if not mycoaching:
         abort(404)
     return render_template('mycoaching.html', mycoaching=mycoaching)
@@ -746,7 +746,7 @@ def coachingteachersedit():
         coachingteachers = CoachingTeachers(teachersname=form.teachersname.data, teachersqualification=form.teachersqualification.data, teacherssubject=form.teacherssubject.data, teachersexperience=form.teachersexperience.data, image_filename=filename1, image_url=url, teacher=current_user)
         db.session.add(coachingteachers)
         db.session.commit()
-        return redirect(url_for('productList'))
+        return redirect(url_for('coachingList'))
     return render_template('coachingteachersedit.html', title='Add Teachers', form=form )
 
 @app.route("/updatecoachingfees/<key>", methods=['GET', 'POST'])

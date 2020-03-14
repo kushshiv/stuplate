@@ -18,7 +18,7 @@
     <div class="carousel-inner">
 
      {% for image in CoachingClassSliderimages %}
-      <div class="item{% if loop.index == 1 %} active{% endif %}">
+      <div class="coachingClass{% if loop.index == 1 %} active{% endif %}">
         <img src="{{ url_for('static', filename = 'img/coaching_slide/' + image) }}" style="max-height:500px;height:auto;width:100%;">
       </div>
      {% endfor %}
@@ -63,7 +63,7 @@
     <div id="Overview" class="container tab-pane in fade active"><br>
       <div class="row">
         <div class="col-md-12">
-          <p>{{ item.coachingabout }}</p>
+          <p>{{ coachingClass.coachingabout }}</p>
         </div>
       </div>
     </div>
@@ -132,7 +132,7 @@
       <div class="col-md-12">
        <div class="carousel-inner">
            {% for image in CoachingClassAchievementimages %}
-            <div class="item{% if loop.index == 1 %} active{% endif %}">
+            <div class="coachingClass{% if loop.index == 1 %} active{% endif %}">
              <img src="{{ url_for('static', filename = 'img/coaching_slide/' + image) }}"  style="max-height:400px;height=auto;width=100%;margin-left: auto;margin-right: auto;display: block;">
             </div>
               </br>
@@ -146,7 +146,7 @@
       <div class="col-md-12">
        <div class="carousel-inner">
          {% for image in CoachingClassResultsimages %}
-          <div class="item{% if loop.index == 1 %} active{% endif %}">
+          <div class="coachingClass{% if loop.index == 1 %} active{% endif %}">
            <img src="{{ url_for('static', filename = 'img/coaching_slide/' + image) }}" style="max-height:400px;height=auto;width=100%;margin-left: auto;margin-right: auto;display: block;">
           </div>
            </br>

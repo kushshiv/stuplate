@@ -55,7 +55,7 @@
 {#
 <!-- Container (search) -->
 <div id="search" class="container-fluid">
-     <form class="search" autocomplete="off" action="{{ url_for('productList') }}">
+     <form class="search" autocomplete="off" action="{{ url_for('coachingList') }}">
        <div class="autocomplete" style="width:100%">
          <input id="myInput" type="text" name="mySearch" placeholder="Search">
          <button type="submit"><i class="fa fa-search"></i></button>
@@ -68,7 +68,7 @@
 <div id="about" class="container-fluid">
   <div class="row">
     <div class="col-sm-8">
-      <h2><a href="{{ url_for('productList') }}">Coachings</a></h2>
+      <h2><a href="{{ url_for('coachingList') }}">Coachings</a></h2>
       <h4>Choose the best coaching for you.<br>
       Find the list of all types of coaching classes at your place. Select your coaching to check out its results and achievements. Look at the faculty and their experience.</h4><br>
     </div>
@@ -109,7 +109,7 @@
           <span class="glyphicon glyphicon-list-alt logo"></span>
         </div>
         <div class="row">
-          <h3 class="text-center"><a href="{{ url_for('item', key=coaching.coachingid) }}">{{ coaching.coachingname }}</a></h3>
+          <h3 class="text-center"><a href="{{ url_for('coachingClass', key=coaching.coachingid) }}">{{ coaching.coachingname }}</a></h3>
         </div>
       </div>
    {% endfor %}

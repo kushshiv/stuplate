@@ -18,10 +18,10 @@
 </div>
 
   <br>
-    {% for coaching in productList %}
+    {% for coaching in coachingList %}
           <div class="well">
             <h2>
-              <a href="{{ url_for('item', key=coaching.coachingid) }}">{{ coaching.coachingname }}</a>
+              <a href="{{ url_for('coachingClass', key=coaching.coachingid) }}">{{ coaching.coachingname }}</a>
               <ul id="coachingList"><small>
 	    	<li>{{ coaching.coachingcategory }}</li>
               	<li>{{ coaching.coachinglocation }}</li>
